@@ -1,13 +1,11 @@
-![simplinnovation](https://4.bp.blogspot.com/-f7YxPyqHAzY/WJ6VnkvE0SI/AAAAAAAADTQ/0tDQPTrVrtMAFT-q-1-3ktUQT5Il9FGdQCLcB/s350/simpLINnovation1a.png)
+# React QR Code Product Scanner and Code Verification
 
-# React QR Code Scanner & Generator
-
-A simple React application to generate & scan Quick Response code (QR code). 
+A simple React application to scan Quick Response code (QR code)  and input. 
 
 - __Clone this repo__:
 
   ```bash
-  $ git clone https://github.com/LintangWisesa/React-QR-Scanner-Generator.git
+  $ git clone https://github.com/LintangWisesa/React-verification-system.git
   $ npm i
   $ npm start
   ```
@@ -34,13 +32,6 @@ A simple React application to generate & scan Quick Response code (QR code).
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     ```
 
-- __QR Generator: [qrcode.react](https://www.npmjs.com/package/qrcode.react)__
-
-    Install `qrcode.react`:
-    ```bash
-    $ npm i qrcode.react
-    ```
-
 - __QR Scanner: [react-qr-reader](https://www.npmjs.com/package/react-qr-reader)__
 
     Install `react-qr-reader`:
@@ -53,10 +44,6 @@ A simple React application to generate & scan Quick Response code (QR code).
   Home Page
 
   ![./img/Home.png](./img/Home.png)
-
-  QR Generator Page
-  
-  ![./img/QRgenerator.png](./img/QRgenerator.png)
 
   QR Scanner Page
   
