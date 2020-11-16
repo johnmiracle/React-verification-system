@@ -6,7 +6,12 @@ import {
   userHistoryReducer,
 } from "./reducers/userReducers";
 import { productVerifyReducer } from "./reducers/productReducers";
-import { productAddReducer } from "./reducers/adminReducers";
+import {
+  productAddReducer,
+  productCreateReducer,
+  productListReducer,
+  usersListReducer,
+} from "./reducers/adminReducers";
 import Cookie from "js-cookie";
 
 const userInfo = Cookie.getJSON("userInfo") || null;
@@ -20,6 +25,9 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   adminAddProduct: productAddReducer,
   userHistory: userHistoryReducer,
+  adminProductList: productListReducer,
+  productCreate: productCreateReducer,
+  adminUserList: usersListReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

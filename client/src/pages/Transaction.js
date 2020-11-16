@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listHistoryMine } from "../actions/userActions";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 
 function Transaction(props) {
   const userHistory = useSelector((state) => state.userHistory);
   const { loading, error, histories } = userHistory;
+
+  console.log(histories);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -14,9 +18,9 @@ function Transaction(props) {
   return (
     <div>
       {loading ? (
-        <div>Loading...</div>
+        <LoadingBox></LoadingBox>
       ) : error ? (
-        <div>{error}</div>
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <div className="container mt-5">
           <h2 className="">Transaction</h2>

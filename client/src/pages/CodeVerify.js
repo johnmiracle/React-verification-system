@@ -25,7 +25,6 @@ function CodeVerify(props) {
       let redirect = "/result_fail";
       props.history.push(redirect);
     }
-
     return () => {
       //
     };
@@ -33,39 +32,44 @@ function CodeVerify(props) {
   return (
     <div>
       <div className="container mt-5">
-        {loading && <LoadingBox></LoadingBox>}
-        <div className="mt-4">
-          <Link to="/product_verify">
-            <Fab style={{ marginRight: 10 }} color="primary">
-              <ArrowBack />
-            </Fab>
-          </Link>
-        </div>
-        <div className="row mt-3">
-          <div className="col-md-3"></div>
-          <div className="col-md-6">
-            <form onSubmit={submitHandler}>
-              <div className="md-form">
-                <input
-                  type="text"
-                  id="form1"
-                  className="form-control"
-                  id="exampleInputNumber"
-                  onChange={(e) => setCode(e.target.value)}
-                />
-                <label for="form1">Product Code</label>
+        {loading ? (
+          <LoadingBox></LoadingBox>
+        ) : (
+          <div>
+            <div className="mt-4">
+              <Link to="/product_verify">
+                <Fab style={{ marginRight: 10 }} color="primary">
+                  <ArrowBack />
+                </Fab>
+              </Link>
+            </div>
+            <div className="row mt-3">
+              <div className="col-md-3"></div>
+              <div className="col-md-6">
+                <form onSubmit={submitHandler}>
+                  <div className="md-form">
+                    <input
+                      type="text"
+                      id="form1"
+                      className="form-control"
+                      id="exampleInputNumber"
+                      onChange={(e) => setCode(e.target.value)}
+                    />
+                    <label for="form1">Product Code</label>
+                  </div>
+                  <button
+                    onSubmit={submitHandler}
+                    type="submit"
+                    className="btn btn-block btn-primary"
+                  >
+                    Verify
+                  </button>
+                </form>
               </div>
-              <button
-                onSubmit={submitHandler}
-                type="submit"
-                className="btn btn-block btn-primary"
-              >
-                Verify
-              </button>
-            </form>
+              <div className="col-md-3"></div>
+            </div>
           </div>
-          <div className="col-md-3"></div>
-        </div>
+        )}
       </div>
     </div>
   );

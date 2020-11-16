@@ -42,7 +42,7 @@ function Result(props) {
                       Hello {userInfo.firstName} <br />
                       <div className="">
                         Your Product {verified.product} is Authentic with serial
-                        number {verified.serial}, batch number
+                        number {verified.serial}, batch number{" "}
                         {verified.batch_no} and product code {verified.pin_code}
                       </div>
                       <button

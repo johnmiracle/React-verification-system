@@ -1,13 +1,13 @@
 import express from "express";
+import expressAsyncHandler from "express-async-handler";
 import passport from "passport";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
-import History from "../models/History";
-import { getToken, isAuth, isUser } from "../config";
+import { getToken } from "../config";
 
 const router = express.Router();
 
-router.post("/login", function (req, res, next) {
+router.post("/login", expressAsyncHandler(function (req, res, next) {
   passport.authenticate("local", function (err, user, info) {
     if (err) {
       return next(err);
@@ -37,9 +37,9 @@ router.post("/login", function (req, res, next) {
       }
     });
   })(req, res, next);
-});
+}));
 
-router.post("/register", async function (req, res, next) {
+router.post("/register", expressAsyncHandler(async function (req, res, next) {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const phone = req.body.phone;
@@ -72,13 +72,13 @@ router.post("/register", async function (req, res, next) {
       });
     });
   }
-});
+}));
 
-router.get("/logout", function (req, res, next) {
+router.get("/logout", expressAsyncHandler(function (req, res, next) {
   req.logout();
   req.flash("alert alert-success", "You've successfully logged out");
   res.redirect("/");
-});
+}));
 
 
 // router.post("/code-generate", isAuthenticated, isAdmin, async function (

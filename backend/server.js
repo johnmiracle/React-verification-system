@@ -37,12 +37,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-app.use(express.static(path.join(__dirname, "/client/build")));
-app.get("*", (req, res) =>
-  res.sendFile(path.join(__dirname, "/frontend/build/index.html"))
-);
+// const __dirname = path.resolve();
+// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+// app.use(express.static(path.join(__dirname, "/client/build")));
+// app.get("*", (req, res) =>
+//   res.sendFile(path.join(__dirname, "/frontend/build/index.html"))
+// );
 
 
 app.use(function (req, res, next) {
@@ -63,9 +63,9 @@ app.use("/api", indexRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/user", userRouter);
 
-// app.use((err, req, res, next) => {
-//   res.status(500).send({ message: err.message });
-// });
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
 app.listen(port || process.env.PORT, () => {
   console.log(`Serve at http://localhost:${port}`);

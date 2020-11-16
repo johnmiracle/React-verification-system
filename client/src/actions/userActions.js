@@ -71,7 +71,11 @@ const listHistoryMine = () => async (dispatch, getState) => {
     });
     dispatch({ type: USER_HISTORY_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: USER_HISTORY_FAIL, payload: error.message });
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: USER_HISTORY_FAIL, payload: message });
   }
 };
 

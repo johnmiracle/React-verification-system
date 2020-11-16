@@ -41,17 +41,17 @@ function ProductVerifyFail(props) {
                     <h4>Bad!!!</h4>
                     <p className="model-text">
                       Hello {userInfo.firstName} <br />
-                      { error }
-                      <button
-                        className="btn btn-success"
-                        to="/product_verify"
-                        data-dismiss="modal"
-                        onClick={resetHandler}
-                      >
-                        Continue
-                        <i className="material-icons"></i>
-                      </button>
+                      {error}
                     </p>
+                    <button
+                      className="btn btn-success"
+                      to="/product_verify"
+                      data-dismiss="modal"
+                      onClick={resetHandler}
+                    >
+                      Continue
+                      <i className="material-icons"></i>
+                    </button>
                   </div>
                 </div>
               </div>

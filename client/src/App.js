@@ -14,6 +14,8 @@ import Transaction from "./pages/Transaction";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/userActions";
 import PrivateRoute from "./components/PrivateRoute";
+import ProductList from "./pages/ProductList";
+import AdminUserView from "./pages/AdminUserView";
 
 function App(props) {
   const userSignin = useSelector((state) => state.userSignin);
@@ -49,11 +51,23 @@ function App(props) {
             id="navbarSupportedContent-4"
           >
             <ul className="navbar-nav mc-auto">
-              <li className="nav-item">
-                <Link className="nav-link " id="navbarItem">
-                  Verify product
-                </Link>
-              </li>
+              {userInfo ? (
+                <li className="nav-item">
+                  <Link
+                    className="nav-link "
+                    id="navbarItem"
+                    to="/product_verify"
+                  >
+                    Verify product
+                  </Link>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <Link className="nav-link " id="navbarItem" to="/">
+                    Verify product
+                  </Link>
+                </li>
+              )}
             </ul>
             <ul className="navbar-nav ml-auto">
               {userInfo ? (
@@ -74,9 +88,9 @@ function App(props) {
                     <Link className="dropdown-item" to="/transaction">
                       Transaction
                     </Link>
-                    <button className="dropdown-item" onClick={signoutHandler}>
+                    <Link className="dropdown-item" onClick={signoutHandler}>
                       Log out
-                    </button>
+                    </Link>
                   </div>
                 </li>
               ) : (
@@ -84,6 +98,35 @@ function App(props) {
                   <Link to="/" className="nav-link " id="navbarItem">
                     Sign In
                   </Link>
+                </li>
+              )}
+            </ul>
+            <ul className="navbar-nav">
+              {userInfo && userInfo.account === "admin" && (
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle"
+                    id="navbarDropdownMenuLink-4"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i className="fas fa-user"></i> Admin
+                  </Link>
+                  <div
+                    className="dropdown-menu dropdown-menu-right dropdown-info"
+                    aria-labelledby="navbarDropdownMenuLink-4"
+                  >
+                    <Link className="dropdown-item" to="/products">
+                      Products
+                    </Link>
+                    <Link className="dropdown-item" to="/users">
+                      Products Used
+                    </Link>
+                    <Link className="dropdown-item" to="/users">
+                      Users
+                    </Link>
+                  </div>
                 </li>
               )}
             </ul>
@@ -95,12 +138,13 @@ function App(props) {
             <Route exact path="/register" component={Register} />
             <Route path="/qr_generator" component={QRgen} />
             <PrivateRoute path="/qr_scanner" component={QRscan} />
-            <PrivateRoute path="/product_verify" component={ProductVerify} />
+            <Route path="/product_verify" component={ProductVerify} />
             <PrivateRoute path="/code_verify" component={CodeVerify} />
             <PrivateRoute path="/result" component={Result} />
-            <Route path="/add_product" component={AddProduct} />
             <PrivateRoute path="/result_fail" component={ProductVerifyFail} />
             <PrivateRoute path="/transaction" component={Transaction} />
+            <Route path="/products" component={ProductList} />
+            <Route path="/users" component={AdminUserView} />
           </Switch>
         </main>
       </div>

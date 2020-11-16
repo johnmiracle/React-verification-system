@@ -20,6 +20,9 @@ function Login(props) {
   };
 
   useEffect(() => {
+    if (userInfo && userInfo.account === "admin") {
+      props.history.push("/products");
+    }
     if (userInfo) {
       props.history.push(redirect);
     }
@@ -33,50 +36,53 @@ function Login(props) {
         <div className="row">
           <div className="col-md-3"></div>
           <div className="col-md-6">
-            {loading && <LoadingBox></LoadingBox>}
-            <form className="log-blk" onSubmit={submitHandler}>
-              <h2 className="text m-2">Login</h2>
-              {error && <MessageBox variant="danger">{error}</MessageBox>}
+            {loading ? (
+              <LoadingBox></LoadingBox>
+            ) : (
+              <form className="log-blk" onSubmit={submitHandler}>
+                <h2 className="text m-2">Login</h2>
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
 
-              <div className="form-group">
-                <label htmlFor="exampleInputNumber">Phone Number</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="exampleInputNumber"
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Enter Phone Number"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                onClick={submitHandler}
-                className="btn btn-primary btn-block"
-              >
-                SIGN IN
-              </button>
-              <center className="mt-5 mb-2">
-                <Link to="#" className="log-ml ml-r">
-                  Forgotten Password
-                </Link>
-              </center>
-              <center className="log-top">
-                Dont have an account?
-                <Link to="/register">Sign Up</Link>
-              </center>
-            </form>
+                <div className="form-group">
+                  <label htmlFor="exampleInputNumber">Phone Number</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="exampleInputNumber"
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter Phone Number"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="exampleInputPassword1"
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  onClick={submitHandler}
+                  className="btn btn-primary btn-block"
+                >
+                  SIGN IN
+                </button>
+                <center className="mt-5 mb-2">
+                  <Link to="#" className="log-ml ml-r">
+                    Forgotten Password
+                  </Link>
+                </center>
+                <center className="log-top">
+                  Dont have an account?
+                  <Link to="/register">Sign Up</Link>
+                </center>
+              </form>
+            )}
           </div>
           <div className="col-md-3"></div>
         </div>
