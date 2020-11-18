@@ -1,8 +1,10 @@
+/** @format */
+
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import dotenv from "dotenv"
+import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 
@@ -12,9 +14,9 @@ const port = 4000;
 dotenv.config();
 
 // index
-const indexRouter = require('./routes/index');
-const adminRouter = require('./routes/admin');
-const userRouter = require('./routes/users');
+import indexRouter from './routes/index';
+import adminRouter from './routes/admin';
+import userRouter from './routes/users';
 
 // mongoDb setup
 mongoose.set('useCreateIndex', true);
