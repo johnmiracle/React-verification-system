@@ -1,5 +1,5 @@
 import User from "../models/User";
-const localStrategy = require("passport-local").Strategy;
+import localStrategy from ("passport-local").Strategy;
 import bcrypt from "bcryptjs"
 // const { Strategy } = require("passport-twitter");
 
@@ -31,32 +31,6 @@ module.exports = (passport) => {
     )
   );
 
-  // passport.use(
-  //   new Strategy(
-  //     {
-  //       consumerKey: process.env.TWITTER_CONSUMER_KEY,
-  //       consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-  //       callbackURL: "/return",
-  //     },
-  //     (accessToken, refreshToken, profile, cb) => {
-  //       return cb(null, profile);
-  //     }
-  //   )
-  // );
-
-  // passport.use(
-  //   new Strategy(
-  //     {
-  //       clientID: process.env.GOOGLE_CLIENT_ID,
-  //       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  //       callbackURL: "/return",
-  //     },
-  //     (accessToken, refreshToken, profile, cb) => {
-  //       return cb(null, profile);
-  //     }
-  //   )
-  // );
-
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
@@ -67,11 +41,3 @@ module.exports = (passport) => {
     });
   });
 };
-
-// passport.serializeUser((user, cb) => {
-//   cb(null, user);
-// });
-
-// passport.deserializeUser((obj, cb) => {
-//   cb(null, obj);
-// });
