@@ -1,19 +1,15 @@
-/** @format */
-
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import dotenv from "dotenv"
 import cors from 'cors';
 import path from 'path';
 
 const port = 4000;
 
 // .env setup
-require('dotenv').config();
-require('./models/User');
-require('./models/Products');
-require('./models/History');
+dotenv.config();
 
 // index
 const indexRouter = require('./routes/index');
