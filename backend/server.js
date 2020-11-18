@@ -68,5 +68,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port || process.env.PORT, () => {
-  console.log(`Serve at http://localhost:${port}`);
+  console.log(`Server at http://localhost:${port}`);
 });

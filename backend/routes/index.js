@@ -80,45 +80,4 @@ router.get("/logout", expressAsyncHandler(function (req, res, next) {
   res.redirect("/");
 }));
 
-
-// router.post("/code-generate", isAuthenticated, isAdmin, async function (
-//   req,
-//   res,
-//   next
-// ) {
-//   const product = req.body.productName;
-//   const serial = req.body.serial;
-//   const batch_no = req.body.batch;
-//   const pin_code = req.body.code;
-
-//   const points = req.body.point;
-
-//   let temp = [];
-
-//   temp.push(product, serial, batch_no, pin_code);
-
-//   const url = await qrcode.toDataURL(temp, { errorCorrectionLevel: "H" });
-
-//   const productCode = new Product({
-//     product,
-//     serial,
-//     batch_no,
-//     pin_code,
-//     QRcode: url,
-//     points,
-//   });
-//   productCode
-//     .save()
-//     .then(() => {
-//       req.flash("alert alert-success", "Product Added Successfully!!!");
-//       res.redirect("serial_code_generator");
-//     })
-//     .catch((err) => {
-//       req.flash("alert alert-danger", "Error Adding Product!!!");
-//       console.log(err);
-//       res.render("serial_code_generator");
-//     });
-// });
-
-
 module.exports = router;

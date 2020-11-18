@@ -8,6 +8,7 @@ import {
   USER_HISTORY_REQUEST,
   USER_HISTORY_SUCCESS,
   USER_HISTORY_FAIL,
+  USER_SIGNOUT,
 } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
@@ -18,6 +19,8 @@ function userSigninReducer(state = {}, action) {
       return { loading: false, userInfo: action.payload };
     case USER_SIGNIN_FAIL:
       return { loading: false, error: action.payload };
+    case USER_SIGNOUT:
+      return {}
     default:
       return state;
   }

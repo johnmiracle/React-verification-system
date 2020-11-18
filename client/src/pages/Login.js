@@ -20,16 +20,13 @@ function Login(props) {
   };
 
   useEffect(() => {
-    if (userInfo && userInfo.account === "admin") {
-      props.history.push("/products");
-    }
     if (userInfo) {
       props.history.push(redirect);
     }
     return () => {
       //
     };
-  }, [userInfo]);
+  }, [userInfo, props.history]);
   return (
     <div>
       <div className="container mt-5">

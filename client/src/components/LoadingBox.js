@@ -1,15 +1,13 @@
-import React from 'react'
+/** @format */
+
+import React from 'react';
 
 function LoadingBox() {
-  return (
-    <div className="text-center h-100 container">
-      <img
-        src="https://loading.io/asset/425887"
-        className="loader"
-        alt="loader"
-      />
-    </div>
-  );
+	return (
+		<div className="text-center h-100 container">
+			<link href="%PUBLIC_URL%/Spin-1s-200px.svg" className="loader" alt="loader" />
+		</div>
+	);
 }
 
-export default LoadingBox
+export default LoadingBox;

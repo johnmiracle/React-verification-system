@@ -27,7 +27,7 @@ function Register(props) {
     return () => {
       //
     };
-  }, [userInfo]);
+  }, [userInfo, props.history]);
 
   return (
     <div className="container">
@@ -40,7 +40,6 @@ function Register(props) {
                 <LoadingBox></LoadingBox>
               ) : (
                 <div>
-                  {" "}
                   {error && <MessageBox variant="danger">{error}</MessageBox>}
                   {userInfo && (
                     <MessageBox variant="success">

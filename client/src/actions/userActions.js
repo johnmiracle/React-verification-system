@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import {
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
@@ -18,7 +17,7 @@ const signin = (phone, password) => async (dispatch) => {
   try {
     const { data } = await axios.post("/api/login", { phone, password });
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-    Cookies.set("userInfo", JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_SIGNIN_FAIL,
@@ -31,7 +30,7 @@ const signin = (phone, password) => async (dispatch) => {
 };
 
 const logout = () => (dispatch) => {
-  Cookies.remove("userInfo");
+  localStorage.removeItem("userInfo");
   dispatch({ type: USER_SIGNOUT });
 };
 
@@ -48,7 +47,7 @@ const register = (firstName, lastName, phone, password) => async (dispatch) => {
       password,
     });
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    Cookies.set("userInfo", JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
