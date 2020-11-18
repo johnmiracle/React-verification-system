@@ -1,10 +1,11 @@
 {
   "name": "react-qr-generator-scanner-master",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "start": "nodemon --watch backend --exec babel-node backend/server.js"
+    "build": "cd client && npm install && npm run build",
+    "start": "nodemon --watch backend --exec  node --experimental-modules backend/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -31,5 +32,6 @@
     "path": "^0.12.7",
     "qrcode": "^1.4.4"
   },
-  "description": ""
+  "engines": {"node": "12.4.0", "npm": "6.9.0" },
+  "description": "A Product Verififcation Sysyem"
 }
