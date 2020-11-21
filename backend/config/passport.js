@@ -2,7 +2,7 @@
 
 import User from '../models/User.js';
 import passport from 'passport';
-import { Strategy as localStrategy } from 'passport-local';
+import localStrategy  from 'passport-local';
 import bcrypt from 'bcryptjs';
 
 passport.use(
