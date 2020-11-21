@@ -7,6 +7,9 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import indexRouter from './routes/index.js';
+import adminRouter from './routes/admin.js';
+import userRouter from './routes/users.js';
 
 const port = 4000;
 
@@ -14,9 +17,7 @@ const port = 4000;
 dotenv.config();
 
 // index
-import indexRouter from './routes/index';
-import adminRouter from './routes/admin';
-import userRouter from './routes/users';
+import './config/passport.js';
 
 // mongoDb setup
 mongoose.set('useCreateIndex', true);
@@ -38,8 +39,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/build')));
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/client/build/index.html')));
+// app.use(express.static(path.join(__dirname, '/client/build')));
+// app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/client/build/index.html')));
 
 app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -48,7 +49,7 @@ app.use(function (req, res, next) {
 });
 
 // passport
-require('./config/passport')(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 

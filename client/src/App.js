@@ -34,34 +34,92 @@ function App(props) {
 		<Router>
 			<div>
 				<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
-					<Link className="navbar-brand" to="#">
-						Navbar
-					</Link>
-					<button
-						className="navbar-toggler"
-						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent-4"
-						aria-controls="navbarSupportedContent-4"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-					>
-						<span className="navbar-toggler-icon"></span>
-					</button>
-					<div className="collapse navbar-collapse" id="navbarSupportedContent-4">
-						<ul className="navbar-nav mc-auto">
-							{userInfo ? (
-								<li className="nav-item">
-									<Link className="nav-link " id="navbarItem" to="/product_verify">
-										Verify product
-									</Link>
-								</li>
-							) : (
-								<li className="nav-item">
-									<Link className="nav-link " id="navbarItem" to="/">
-										Verify product
-									</Link>
-								</li>
+					{userInfo ? (
+						<div className="navbar-nav ">
+							<Link className="navbar-brand" to="/product_verify">
+								Navbar
+							</Link>
+							<button
+								className="navbar-toggler"
+								type="button"
+								data-toggle="collapse"
+								data-target="#navbarSupportedContent-1"
+								aria-controls="navbarSupportedContent-1"
+								aria-expanded="false"
+								aria-label="Toggle navigation"
+							>
+								<span className="navbar-toggler-icon"></span>
+							</button>
+						</div>
+					) : (
+						<div className="navbar-nav">
+							<Link className="navbar-brand" to="/">
+								Navbar
+							</Link>
+							<button
+								className="navbar-toggler"
+								type="button"
+								data-toggle="collapse"
+								data-target="#navbarSupportedContent-2"
+								aria-controls="navbarSupportedContent-2"
+								aria-expanded="false"
+								aria-label="Toggle navigation"
+							>
+								<span className="navbar-toggler-icon"></span>
+							</button>
+						</div>
+					)}
+					<div className="collapse navbar-collapse" id="navbarSupportedContent-3">
+						<ul className="navbar-nav mr-auto">
+							{userInfo && userInfo.account === 'admin' && (
+								<div>
+									<li className="nav-item dropdown">
+										<Link
+											className="nav-link dropdown-toggle"
+											id="navbarDropdownMenuLink-3"
+											data-toggle="dropdown"
+											aria-haspopup="true"
+											aria-expanded="false"
+										>
+											<i className="fas fa-list"></i> Products
+										</Link>
+										<div
+											className="dropdown-menu dropdown-menu-right dropdown-info"
+											aria-labelledby="navbarDropdownMenuLink-3"
+										>
+											<Link className="dropdown-item" to="/products">
+												Products
+											</Link>
+											<Link className="dropdown-item" to="/add_product">
+												Add Products
+											</Link>
+											<Link className="dropdown-item" to="/used_product">
+												Used Products
+											</Link>
+										</div>
+									</li>
+									<li className="nav-item dropdown">
+										<div className="nav-item dropdown">
+											<Link
+												className="nav-link dropdown-toggle"
+												id="navbarDropdownMenuLink-4"
+												data-toggle="dropdown"
+												aria-haspopup="true"
+												aria-expanded="false"
+											>
+												<i className="fas fa-user"></i> Users
+											</Link>
+											<div
+												className="dropdown-menu dropdown-menu-right dropdown-info"
+												aria-labelledby="navbarDropdownMenuLink-4"
+											>
+												<Link className="dropdown-item" to="/users">
+													All Users
+												</Link>
+											</div>
+										</div>
+									</li>
+								</div>
 							)}
 						</ul>
 						<ul className="navbar-nav ml-auto">
@@ -69,7 +127,7 @@ function App(props) {
 								<li className="nav-item dropdown">
 									<Link
 										className="nav-link dropdown-toggle"
-										id="navbarDropdownMenuLink-3"
+										id="navbarDropdownMenuLink-5"
 										data-toggle="dropdown"
 										aria-haspopup="true"
 										aria-expanded="false"
@@ -78,16 +136,12 @@ function App(props) {
 									</Link>
 									<div
 										className="dropdown-menu dropdown-menu-right dropdown-info"
-										aria-labelledby="navbarDropdownMenuLink-3"
+										aria-labelledby="navbarDropdownMenuLink-5"
 									>
 										<Link className="dropdown-item" to="/transaction">
 											Transaction
 										</Link>
-										<Link
-											className="dropdown-item"
-											to="#signout"
-											onClick={signoutHandler}
-										>
+										<Link className="dropdown-item" onClick={signoutHandler}>
 											Log out
 										</Link>
 									</div>
@@ -102,33 +156,10 @@ function App(props) {
 						</ul>
 						<ul className="navbar-nav">
 							{userInfo && userInfo.account === 'admin' && (
-								<li className="nav-item dropdown">
-									<Link
-										className="nav-link dropdown-toggle"
-										id="navbarDropdownMenuLink-4"
-										data-toggle="dropdown"
-										aria-haspopup="true"
-										aria-expanded="false"
-									>
+								<li className="nav-item">
+									<Link className="nav-link">
 										<i className="fas fa-user"></i> Admin
 									</Link>
-									<div
-										className="dropdown-menu dropdown-menu-right dropdown-info"
-										aria-labelledby="navbarDropdownMenuLink-4"
-									>
-										<Link className="dropdown-item" to="/add_product">
-											Add Products
-										</Link>
-										<Link className="dropdown-item" to="/products">
-											Products
-										</Link>
-										<Link className="dropdown-item" to="/used_product">
-											Products Used
-										</Link>
-										<Link className="dropdown-item" to="/users">
-											Users
-										</Link>
-									</div>
 								</li>
 							)}
 						</ul>
@@ -136,10 +167,6 @@ function App(props) {
 				</nav>
 				<main>
 					<Switch>
-						<Route exact path="/" component={Login} />
-						<Route exact path="/register" component={Register} />
-						<Route path="/qr_generator" component={QRgen} />
-						<Route path="/product_verify" component={ProductVerify} />
 						<PrivateRoute path="/qr_scanner" component={QRscan} />
 						<PrivateRoute path="/code_verify" component={CodeVerify} />
 						<PrivateRoute path="/result" component={Result} />
@@ -150,6 +177,10 @@ function App(props) {
 						<AdminRoute path="/users" component={AdminUserView} />
 						<AdminRoute path="/user/:id" component={AdminUserDetail} />
 						<AdminRoute path="/used_product" component={ProductUsed} />
+						<Route exact path="/register" component={Register} />
+						<Route path="/qr_generator" component={QRgen} />
+						<Route path="/product_verify" component={ProductVerify} />
+						<Route exact path="/" exact={true} component={Login} />
 					</Switch>
 				</main>
 			</div>

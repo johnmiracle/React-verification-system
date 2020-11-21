@@ -1,5 +1,3 @@
-import User from "../models/User";
-
 module.exports = {
   isAuthenticated: (req, res, next) => {
     if (req.isAuthenticated()) {

@@ -2,15 +2,15 @@
 
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import User from '../models/User';
-import History from '../models/History';
-import Product from '../models/Products';
-import { isAdmin, isAuth } from '../config';
+import User from '../models/User.js';
+import History from '../models/History.js';
+import Product from '../models/Products.js';
+import { isAdmin, isAuth } from '../config.js';
 import qrcode from 'qrcode';
 
-const router = express.Router();
+const adminRouter = express.Router();
 
-router.post(
+adminRouter.post(
 	'/code-generator',
 	expressAsyncHandler(async function (req, res, next) {
 		try {
@@ -23,6 +23,7 @@ router.post(
 
 			let max = 10000;
 			let min = 1000;
+			let serialNum = serial;
 
 			const array_length = 2;
 
@@ -35,7 +36,7 @@ router.post(
 
 				const productCode = new Product({
 					product,
-					serial,
+					serial: serialNum++,
 					batch_no,
 					pin_code: uniquePin,
 					QRcode: url,
@@ -51,7 +52,7 @@ router.post(
 	})
 );
 
-router.get(
+adminRouter.get(
 	'/users',
 	isAuth,
 	isAdmin,
@@ -61,7 +62,7 @@ router.get(
 	})
 );
 
-router.get(
+adminRouter.get(
 	'/user/:id',
 	isAuth,
 	isAdmin,
@@ -76,7 +77,7 @@ router.get(
 	})
 );
 
-router.get(
+adminRouter.get(
 	'/used_product',
 	isAuth,
 	isAdmin,
@@ -91,7 +92,7 @@ router.get(
 	})
 );
 
-router.get(
+adminRouter.get(
 	'/admin-dashboard',
 	isAuth,
 	isAdmin,
@@ -103,7 +104,7 @@ router.get(
 	})
 );
 
-router.get(
+adminRouter.get(
 	'/products',
 	isAuth,
 	isAdmin,
@@ -117,4 +118,4 @@ router.get(
 	})
 );
 
-module.exports = router;
+export default adminRouter

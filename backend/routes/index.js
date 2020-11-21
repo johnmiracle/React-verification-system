@@ -1,83 +1,93 @@
-import express from "express";
-import expressAsyncHandler from "express-async-handler";
-import passport from "passport";
-import bcrypt from "bcryptjs";
-import User from "../models/User";
-import { getToken } from "../config";
+/** @format */
 
-const router = express.Router();
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import passport from '../config/passport.js';
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js';
+import { getToken } from '../config.js';
 
-router.post("/login", expressAsyncHandler(function (req, res, next) {
-  passport.authenticate("local", function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-    if (!user.password) {
-      return res.status(404).send({ message: "Invalided User ID or Password!!!" });
-    }
-    if (!user) {
-      return res.status(404).send({
-        message:
-          "User ID & Password combination doesn't match any of our records, Kindly register!!!",
-      });
-    }
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      } else {
-        return res.send({
-          _id: user.id,
-          phone: user.phone,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          account: user.account,
-          points: user.points,
-          token: getToken(user),
-        });
-      }
-    });
-  })(req, res, next);
-}));
 
-router.post("/register", expressAsyncHandler(async function (req, res, next) {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const phone = req.body.phone;
-  const password = req.body.password;
+const indexRouter = express.Router();
 
-  console.log(firstName);
+indexRouter.post(
+	'/login',
+	expressAsyncHandler(function (req, res, next) {
+		passport.authenticate('local', function (err, user, info) {
+			if (err) {
+				return next(err);
+			}
+			if (!user.password) {
+				return res.status(404).send({ message: 'Invalided User ID or Password!!!' });
+			}
+			if (!user) {
+				return res.status(404).send({
+					message:
+						"User ID & Password combination doesn't match any of our records, Kindly register!!!"
+				});
+			}
+			req.logIn(user, function (err) {
+				if (err) {
+					return next(err);
+				} else {
+					return res.send({
+						_id: user.id,
+						phone: user.phone,
+						firstName: user.firstName,
+						lastName: user.lastName,
+						account: user.account,
+						points: user.points,
+						token: getToken(user)
+					});
+				}
+			});
+		})(req, res, next);
+	})
+);
 
-  let user = await User.findOne({ phone: req.body.phone });
-  if (user) {
-    res.status(404).send({
-      message: "Phone Number is already registered, Please login",
-    });
-  } else {
-    const user = new User({
-      firstName,
-      lastName,
-      phone,
-      password,
-    });
-    bcrypt.hash(user.password, 10, (err, hash) => {
-      user.password = hash;
-      user.save(function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res
-            .status(200)
-            .send({ message: "Registration is successfull, Please Login" });
-        }
-      });
-    });
-  }
-}));
+indexRouter.post(
+	'/register',
+	expressAsyncHandler(async function (req, res, next) {
+		const firstName = req.body.firstName;
+		const lastName = req.body.lastName;
+		const phone = req.body.phone;
+		const password = req.body.password;
 
-router.get("/logout", expressAsyncHandler(function (req, res, next) {
-  req.logout();
-  req.flash("alert alert-success", "You've successfully logged out");
-  res.redirect("/");
-}));
+		console.log(firstName);
 
-module.exports = router;
+		let user = await User.findOne({ phone: req.body.phone });
+		if (user) {
+			res.status(404).send({
+				message: 'Phone Number is already registered, Please login'
+			});
+		} else {
+			const user = new User({
+				firstName,
+				lastName,
+				phone,
+				password
+			});
+			bcrypt.hash(user.password, 10, (err, hash) => {
+				user.password = hash;
+				user.save(function (err) {
+					if (err) {
+						console.log(err);
+					} else {
+						res.status(200).send({ message: 'Registration is successfull, Please Login' });
+					}
+				});
+			});
+		}
+	})
+);
+
+indexRouter.get(
+	'/logout',
+	expressAsyncHandler(function (req, res, next) {
+		req.logout();
+		req.flash('alert alert-success', "You've successfully logged out");
+		res.redirect('/');
+	})
+);
+
+export default indexRouter;

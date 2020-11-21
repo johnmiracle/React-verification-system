@@ -1,13 +1,13 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import User from "../models/User";
-import History from "../models/History";
-import Product from "../models/Products";
-import { isUser, isAuth } from "../config";
+import User from "../models/User.js";
+import History from "../models/History.js";
+import Product from "../models/Products.js";
+import { isUser, isAuth } from "../config.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.post(
+userRouter.post(
   "/verify-product",
   isAuth,
   isUser,
@@ -63,7 +63,7 @@ router.post(
   })
 );
 
-router.get(
+userRouter.get(
   "/product-verify",
   expressAsyncHandler(async function (req, res, next) {
     const scanCount = await History.countDocuments({ user: req.user });
@@ -71,7 +71,7 @@ router.get(
   })
 );
 
-router.get(
+userRouter.get(
   "/history",
   isAuth,
   isUser,
@@ -81,4 +81,4 @@ router.get(
   })
 );
 
-module.exports = router;
+export default userRouter;
