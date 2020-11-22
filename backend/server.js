@@ -61,6 +61,6 @@ app.use((err, req, res, next) => {
 	res.status(500).send({ message: err.message });
 });
 
-app.listen(port || process.env.PORT, () => {
+app.listen(process.env.PORT || port, () => {
 	console.log(`Server at http://127.0.0.1:${port}`);
 });
