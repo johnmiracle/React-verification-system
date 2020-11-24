@@ -1,3 +1,5 @@
+/** @format */
+
 import mongoose from 'mongoose';
 
 const Historyschema = new mongoose.Schema({
@@ -15,13 +17,13 @@ const Historyschema = new mongoose.Schema({
 	batch: {
 		type: Number
 	},
-	usedSerial_Prouct_Name: {
+	usedSerial_Product_Name: {
 		type: String,
 		required: [true, 'please this field is required'],
 		trim: true
 	},
 	code: {
-		type: Number,
+		type: String,
 		unique: true
 	},
 	point: {
@@ -31,4 +33,4 @@ const Historyschema = new mongoose.Schema({
 
 const History = mongoose.model('History', Historyschema);
 
-export default History
+export default History;

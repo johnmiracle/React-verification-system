@@ -11,10 +11,24 @@
   display: inline-block ;
 }
 
+.loader{
+  height: 50;
+  align-items: center;
+  width: 50%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.sign-color{
+  color: #fff
+}
+
+.sign-color:hover{
+  color: #fff
 }
 
 .App-header {
@@ -32,11 +46,10 @@
   color: #61dafb;
 }
 
-
 /* Result Modal */
 .modal-confirm {
   color: #434e65;
-  width: 525px;
+  max-width: 100%;
 }
 
 .modal-confirm .modal-content {

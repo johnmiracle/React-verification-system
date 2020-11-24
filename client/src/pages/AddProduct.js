@@ -7,14 +7,15 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { PRODUCT_ADD_RESET } from '../constants/adminConstants';
 
-function AddProduct(props) {
+function AddProduct() {
 	const [productName, setProductName] = useState('');
 	const [batchNumber, setBatchNumber] = useState('');
 	const [serialNumber, setSerialNumber] = useState('');
 	const [point, setPoint] = useState(10);
+	const [numberOfProducts, setNumberOfProducts] = useState('');
 
 	const adminAddProduct = useSelector((state) => state.adminAddProduct);
-	const { loading, success: successSave, error, product } = adminAddProduct;
+	const { loading, success: successSave, error } = adminAddProduct;
 
 	const dispatch = useDispatch();
 
@@ -28,7 +29,7 @@ function AddProduct(props) {
 			alert('All field must be filled');
 			return false;
 		}
-		dispatch(addProduct(productName, batchNumber, serialNumber, point));
+		dispatch(addProduct(productName, batchNumber, serialNumber, point, numberOfProducts));
 	};
 
 	useEffect(() => {
@@ -68,7 +69,6 @@ function AddProduct(props) {
 											/>
 											<label htmlFor="materialLoginFormText">Product Name</label>
 										</div>
-
 										<div className="md-form">
 											<input
 												type="number"
@@ -79,7 +79,6 @@ function AddProduct(props) {
 											/>
 											<label htmlFor="materialLoginFormNumber">Batch Number</label>
 										</div>
-
 										<div className="md-form">
 											<input
 												type="number"
@@ -90,7 +89,6 @@ function AddProduct(props) {
 											/>
 											<label htmlFor="materialLoginFormNumber">Serial Number</label>
 										</div>
-
 										<div className="md-form">
 											<input
 												type="number"
@@ -101,7 +99,16 @@ function AddProduct(props) {
 											/>
 											<label htmlFor="materialLoginFormNumber">Point</label>
 										</div>
-
+										<div className="md-form">
+											<input
+												type="number"
+												id="materialLoginFormNumber"
+												className="form-control"
+												onChange={(e) => setNumberOfProducts(e.target.value)}
+												required
+											/>
+											<label htmlFor="materialLoginFormNumber">Number of Products</label>
+										</div>
 										<button
 											className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
 											type="submit"

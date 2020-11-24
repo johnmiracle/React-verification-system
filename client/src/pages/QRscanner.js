@@ -70,7 +70,7 @@ function QRscanner(props) {
 								<div style={{ marginTop: 30 }}>
 									<QrScan
 										delay={300}
-										// facingMode={cameraButton}
+										facingMode="user"
 										onError={handleError}
 										onScan={handleScan}
 										style={{ height: 240, width: 320 }}

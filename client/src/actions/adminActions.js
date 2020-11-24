@@ -19,10 +19,13 @@ import {
 	USER_DETAILS_FAIL
 } from '../constants/adminConstants';
 
-const addProduct = (productName, batchNumber, serialNumber, point) => async (dispatch, getState) => {
+const addProduct = (productName, batchNumber, serialNumber, point, numberOfProducts) => async (
+	dispatch,
+	getState
+) => {
 	dispatch({
 		type: PRODUCT_ADD_REQUEST,
-		payload: { productName, batchNumber, serialNumber, point }
+		payload: { productName, batchNumber, serialNumber, point, numberOfProducts }
 	});
 	const {
 		userSignin: { userInfo }
@@ -30,7 +33,7 @@ const addProduct = (productName, batchNumber, serialNumber, point) => async (dis
 	try {
 		const { data } = await Axios.post(
 			'/api/admin/code-generator',
-			{ productName, batchNumber, serialNumber, point },
+			{ productName, batchNumber, serialNumber, point, numberOfProducts },
 			{
 				headers: {
 					Authorization: 'Bearer ' + userInfo.token
@@ -54,7 +57,8 @@ const listProducts = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
 	} catch (error) {
-		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: PRODUCT_LIST_FAIL, payload: message });
 	}
 };
@@ -70,7 +74,8 @@ const listUsedProducts = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USED_PRODUCT_LIST_SUCCESS, payload: data });
 	} catch (error) {
-		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USED_PRODUCT_LIST_FAIL, payload: message });
 	}
 };
@@ -86,7 +91,8 @@ const listUsers = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USERS_LIST_SUCCESS, payload: data });
 	} catch (error) {
-		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USERS_LIST_FAIL, payload: message });
 	}
 };

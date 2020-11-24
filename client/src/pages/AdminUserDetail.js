@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { userDetails } from '../actions/adminActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -26,6 +27,11 @@ function AdminUserDetail(props) {
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
 				<div className="">
+					<div className="mt-4 mb-4">
+						<Link className="btn btn-primary btn-sm" to="/users">
+							Back
+						</Link>
+					</div>
 					<div className="mb-4 mt-4">
 						<h2>User Activites</h2>
 					</div>

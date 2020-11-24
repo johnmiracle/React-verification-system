@@ -18,33 +18,58 @@ adminRouter.post(
 			const serial = req.body.serialNumber;
 			const batch_no = req.body.batchNumber;
 			const points = req.body.point;
+			const array_length = req.body.numberOfProducts;
 
-			console.log(product, serial, batch_no, points);
+			console.log(product, serial, batch_no, points, array_length);
 
 			let max = 10000;
 			let min = 1000;
 			let serialNum = serial;
 
-			const array_length = 2;
-
 			for (let i = 0; i < array_length; i++) {
-				// create the unique number
-				const uniquePin = Math.floor(Math.random() * (max - min + 1));
+				function GenerateRandomNumber(min, max) {
+					return Math.floor(Math.random() * (max - min + 1)) + min;
+				}
+
+				// Generates a random alphanumberic character
+				function GenerateRandomChar() {
+					var chars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ';
+					var randomNumber = GenerateRandomNumber(0, chars.length - 1);
+
+					return chars[randomNumber];
+				}
+
+				// Generates a Serial Number, based on a certain mask
+				function GenerateSerialNumber(mask) {
+					var serialNumber = '';
+
+					if (mask != null) {
+						for (var i = 0; i < mask.length; i++) {
+							var maskChar = mask[i];
+
+							serialNumber += maskChar == '0' ? GenerateRandomChar() : maskChar;
+						}
+					}
+					return serialNumber;
+				}
+
+				// Generate a new Serial Number for a given mask
+				let UniquePin = GenerateSerialNumber('00000-00000-00000-00000-00000');
 
 				// create the QRcode for each generated code
-				let url = await new qrcode.toDataURL(`${uniquePin}`, { errorCorrectionLevel: 'H' });
+				let url = await new qrcode.toDataURL(`${UniquePin}`, { errorCorrectionLevel: 'H' });
 
 				const productCode = new Product({
 					product,
 					serial: serialNum++,
 					batch_no,
-					pin_code: uniquePin,
+					pin_code: UniquePin,
 					QRcode: url,
 					points
 				});
 				const newProduct = await productCode.save();
 			}
-			res.status(201).send({ message: 'Product Added Successfully!!!'});
+			res.status(201).send({ message: 'Product Added Successfully!!!' });
 		} catch (err) {
 			console.log(err);
 			return res.status(404).send({ message: 'Error Adding Product!!!' });
@@ -118,4 +143,4 @@ adminRouter.get(
 	})
 );
 
-export default adminRouter
+export default adminRouter;
