@@ -38,6 +38,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use('/api', indexRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/user', userRouter);
+
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/client/build')));
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '/client/build', 'index.html')));
@@ -47,15 +56,6 @@ app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 	next();
 });
-
-// passport
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use('/api', indexRouter);
-app.use('/api/admin', adminRouter);
-app.use('/api/user', userRouter);
 
 app.use((err, req, res, next) => {
 	res.status(500).send({ message: err.message });

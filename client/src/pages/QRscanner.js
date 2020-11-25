@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Fab } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
@@ -10,20 +10,9 @@ import { verify } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 
 function QRscanner(props) {
+	const [faceMode, setFaceMode] = useState('environment');
 	const productVerify = useSelector((state) => state.productVerify);
 	const { loading, success: successfulVerify, error } = productVerify;
-
-	const cameraButton = (facingMode) => {
-		if (facingMode === 'environment') {
-			this.setState({
-				facingMode: 'user'
-			});
-		} else {
-			this.setState({
-				facingMode: 'environment'
-			});
-		}
-	};
 
 	const dispatch = useDispatch();
 	const handleScan = (code) => {
@@ -63,14 +52,22 @@ function QRscanner(props) {
 						</Link>
 					</div>
 					<div className="row">
-						<div className="col-md-3"></div>
+						<div className="col-md-3">
+							{/* <input
+								type="button"
+								value="Camera..."
+								className="btn btn-primary btn-sm"
+								onClick={cameraButton}
+							/> */}
+						</div>
 						<div className="col-md-6">
 							<center>
 								<span>QR Scanner</span>
+
 								<div style={{ marginTop: 30 }}>
 									<QrScan
 										delay={300}
-										facingMode="user"
+										facingMode={'user'}
 										onError={handleError}
 										onScan={handleScan}
 										style={{ height: 240, width: 320 }}

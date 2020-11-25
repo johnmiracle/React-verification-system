@@ -1,7 +1,7 @@
 {
   "name": "react_qrcode",
   "proxy": "http://localhost:4000",
-  "homepage": ".",
+  "homepage": "./",
   "secure": false,
   "version": "0.1.0",
   "private": true,
