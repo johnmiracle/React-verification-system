@@ -20,14 +20,14 @@ userRouter.post(
 
 		let historyResult = await History.findOne({ pin_code: codeNumber });
 
+		if (historyResult) {
+			return res.status(404).send({
+				message: 'Your Product key has been used, Kindly make a report'
+			});
+		}
 		if (!verifyProduct) {
 			return res.status(404).send({
 				message: 'Your Product is Fake, Kindly make a report'
-			});
-		}
-		if (verifyProduct && historyResult) {
-			return res.status(404).send({
-				message: 'Your Product key has been used, Kindly make a report'
 			});
 		} else {
 			const newHistory = new History({

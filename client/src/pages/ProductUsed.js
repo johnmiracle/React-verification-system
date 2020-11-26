@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listUsedProducts } from '../actions/adminActions';
+import { CSVLink } from 'react-csv';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
@@ -10,7 +11,20 @@ function ProductUsed() {
 	const adminProductUsedList = useSelector((state) => state.adminProductUsedList);
 	const { loading, error, products } = adminProductUsedList;
 
-	console.log(products);
+	const headers = [
+		{ label: 'Product Name', key: 'product' },
+		{ label: 'Serial Number', key: 'serial' },
+		{ label: 'Batch No', key: 'batch_no' },
+		{ label: 'Pin Code', key: 'pin_code' },
+		{ label: 'User ID', key: `${product.user.phone}` },
+		{ label: 'Date', key: "Date" }
+	];
+
+	const csvReport = {
+		data: products,
+		headers: headers,
+		filename: 'Used-Products.csv'
+	};
 
 	const dispatch = useDispatch();
 
@@ -30,10 +44,20 @@ function ProductUsed() {
 				<MessageBox>{error}</MessageBox>
 			) : (
 				<div className="">
-					<div className="pb-4 pt-4">
-						<h2 className="">Products</h2>
+					<div className="row">
+						<div className="col-ml-6 pb-4 pt-4">
+							<h2 className="">Products</h2>
+						</div>
+						<div className="col-ml-6 ml-auto">
+							{products.length > 0 ? (
+								<CSVLink {...csvReport} className="btn btn-primary btn-sm">
+									Download CSV
+								</CSVLink>
+							) : (
+								<div className="btn btn-danger btn-sm">Unavailable</div>
+							)}
+						</div>
 					</div>
-
 					<div className="product-list mt-4">
 						{products.length > 0 ? (
 							<table className="table">

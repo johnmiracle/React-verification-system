@@ -32,7 +32,6 @@ function App(props) {
 		<Router>
 			<div className="grid-container">
 				<div className="header">
-					{' '}
 					<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
 						{userInfo ? (
 							<div>
@@ -163,7 +162,7 @@ function App(props) {
 						<Route path="/" exact={true} component={Login} />
 					</Switch>
 				</main>
-				<footer className="footer">All right reserved. Powered by AgDyna, Miracle Anaje</footer>
+				<footer className="footer">All right reserved. Powered by AgDyna</footer>
 			</div>
 		</Router>
 	);
