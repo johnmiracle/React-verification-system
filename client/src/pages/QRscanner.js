@@ -10,8 +10,8 @@ import { verify } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 
 function QRscanner(props) {
-	const [faceMode, setFaceMode] = useState('environment');
 	const productVerify = useSelector((state) => state.productVerify);
+	const [facingMode, setFacingMode] = useState('environment');
 	const { loading, success: successfulVerify, error } = productVerify;
 
 	const dispatch = useDispatch();
@@ -43,23 +43,30 @@ function QRscanner(props) {
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : (
-				<div className="">
-					<div className="mt-4">
-						<Link to="/product_verify">
-							<Fab style={{ marginRight: 10 }} color="primary">
-								<ArrowBack />
-							</Fab>
-						</Link>
-					</div>
+				<div className="container">
 					<div className="row">
-						<div className="col-md-3">
-							{/* <input
-								type="button"
-								value="Camera..."
-								className="btn btn-primary btn-sm"
-								onClick={cameraButton}
-							/> */}
+						<div className="col-md-6 mt-4">
+							<Link to="/product_verify">
+								<Fab style={{ marginRight: 10 }} color="primary">
+									<ArrowBack />
+								</Fab>
+							</Link>
 						</div>
+						<div className="col-md-6 mt-4">
+							<center>
+								<button
+									className="btn btn-primary"
+									onClick={() =>
+										setFacingMode(facingMode === 'environment' ? 'user' : 'environment')
+									}
+								>
+									current camera: {facingMode} switch camera
+								</button>
+							</center>
+						</div>
+					</div>
+					<div className="row mt-5">
+						<div className="col-md-3"></div>
 						<div className="col-md-6">
 							<center>
 								<span>QR Scanner</span>
@@ -67,7 +74,7 @@ function QRscanner(props) {
 								<div style={{ marginTop: 30 }}>
 									<QrScan
 										delay={300}
-										facingMode={'user'}
+										facingMode={facingMode}
 										onError={handleError}
 										onScan={handleScan}
 										style={{ height: 240, width: 320 }}

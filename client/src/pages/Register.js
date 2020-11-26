@@ -24,7 +24,9 @@ function Register(props) {
 
 	useEffect(() => {
 		if (userInfo) {
-			props.history.push(redirect);
+			setTimeout(() => {
+				props.history.push(redirect);
+			},4000);
 		}
 		return () => {
 			//

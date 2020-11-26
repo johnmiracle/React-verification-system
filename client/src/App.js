@@ -117,7 +117,7 @@ function App(props) {
 											data-toggle="dropdown"
 											aria-haspopup="true"
 											aria-expanded="false"
-											href=""
+											href="#"
 										>
 											<i className="fas fa-user"></i>
 										</a>
@@ -128,7 +128,7 @@ function App(props) {
 											<Link className="dropdown-item" to="/transaction">
 												Transaction
 											</Link>
-											<a className="dropdown-item" href="" onClick={signoutHandler}>
+											<a className="dropdown-item" href="#" onClick={signoutHandler}>
 												Log out
 											</a>
 										</div>
