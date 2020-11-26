@@ -52,10 +52,10 @@ function ProductUsed() {
 									{products.map((product) => (
 										<tr key={product._id}>
 											<td>{product._id}</td>
-											<td>{product.usedSerial_Product_Name}</td>
-											<td>{product.usedSerial}</td>
+											<td>{product.product}</td>
+											<td>{product.serial}</td>
 											<td>{product.batch}</td>
-											<td>{product.code}</td>
+											<td>{product.pin_code}</td>
 											<td>{product.point}</td>
 											<td>0{product.user.phone}</td>
 										</tr>

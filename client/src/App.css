@@ -46,6 +46,21 @@
   color: #61dafb;
 }
 
+.footer {
+
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  grid-area: footer;
+  background-color: #203040;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem
+}
+
 /* Result Modal */
 .modal-confirm {
   color: #434e65;

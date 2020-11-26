@@ -80,7 +80,15 @@ function ProductList(props) {
 											<td>{product.batch_no}</td>
 											<td>{product.pin_code}</td>
 											<td>{product.points}</td>
-											<td>QRcode</td>
+											<td>
+												<a
+													className="btn btn-primary btn-sm"
+													href={product.QRcode}
+													download
+												>
+													Download
+												</a>
+											</td>
 										</tr>
 									))}
 								</tbody>

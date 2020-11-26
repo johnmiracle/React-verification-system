@@ -1,5 +1,3 @@
-/** @format */
-
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -32,118 +30,121 @@ function App(props) {
 	};
 	return (
 		<Router>
-			<div>
-				<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
-					{userInfo ? (
-						<div>
-							<Link className="navbar-brand" to="/product_verify">
-								Navbar
-							</Link>
-						</div>
-					) : (
-						<div>
-							<Link className="navbar-brand" to="/">
-								Navbar
-							</Link>
-						</div>
-					)}
-					<button
-						className="navbar-toggler"
-						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent-4"
-						aria-controls="navbarSupportedContent-4"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-					>
-						<span className="navbar-toggler-icon"></span>
-					</button>
-					<div className="collapse navbar-collapse" id="navbarSupportedContent-4">
-						<ul className="navbar-nav mr-auto">
-							{userInfo && userInfo.account === 'admin' && (
-								<div>
+			<div className="grid-container">
+				<div className="header">
+					{' '}
+					<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
+						{userInfo ? (
+							<div>
+								<Link className="navbar-brand" to="/product_verify">
+									Navbar
+								</Link>
+							</div>
+						) : (
+							<div>
+								<Link className="navbar-brand" to="/">
+									Navbar
+								</Link>
+							</div>
+						)}
+						<button
+							className="navbar-toggler"
+							type="button"
+							data-toggle="collapse"
+							data-target="#navbarSupportedContent-4"
+							aria-controls="navbarSupportedContent-4"
+							aria-expanded="false"
+							aria-label="Toggle navigation"
+						>
+							<span className="navbar-toggler-icon"></span>
+						</button>
+						<div className="collapse navbar-collapse" id="navbarSupportedContent-4">
+							<ul className="navbar-nav mr-auto">
+								{userInfo && userInfo.account === 'admin' && (
+									<div>
+										<li className="nav-item dropdown">
+											<Link
+												className="nav-link dropdown-toggle"
+												id="navbarDropdownMenuLink-4"
+												data-toggle="dropdown"
+												aria-haspopup="true"
+												aria-expanded="false"
+											>
+												<i className="fas fa-list"></i> Products
+											</Link>
+											<div
+												className="dropdown-menu dropdown-menu-left dropdown-info"
+												aria-labelledby="navbarDropdownMenuLink-4"
+											>
+												<Link className="dropdown-item" to="/add_product">
+													New Product
+												</Link>
+												<Link className="dropdown-item" to="/products">
+													All Products
+												</Link>
+												<Link className="dropdown-item" to="/used_products">
+													Used Products
+												</Link>
+											</div>
+										</li>
+										<li className="nav-item dropdown">
+											<Link
+												className="nav-link dropdown-toggle"
+												id="navbarDropdownMenuLink-4"
+												data-toggle="dropdown"
+												aria-haspopup="true"
+												aria-expanded="false"
+											>
+												<i className="fas fa-user"></i> Users
+											</Link>
+											<div
+												className="dropdown-menu dropdown-menu-right dropdown-info"
+												aria-labelledby="navbarDropdownMenuLink-4"
+											>
+												<Link className="dropdown-item" to="/users">
+													All Users
+												</Link>
+											</div>
+										</li>
+									</div>
+								)}
+							</ul>
+							<ul className="navbar-nav ml-auto">
+								{userInfo ? (
 									<li className="nav-item dropdown">
-										<Link
+										<a
 											className="nav-link dropdown-toggle"
 											id="navbarDropdownMenuLink-4"
 											data-toggle="dropdown"
 											aria-haspopup="true"
 											aria-expanded="false"
+											href=""
 										>
-											<i className="fas fa-list"></i> Products
-										</Link>
-										<div
-											className="dropdown-menu dropdown-menu-left dropdown-info"
-											aria-labelledby="navbarDropdownMenuLink-4"
-										>
-											<Link className="dropdown-item" to="/add_product">
-												New Product
-											</Link>
-											<Link className="dropdown-item" to="/products">
-												All Products
-											</Link>
-											<Link className="dropdown-item" to="/used_products">
-												Used Products
-											</Link>
-										</div>
-									</li>
-									<li className="nav-item dropdown">
-										<Link
-											className="nav-link dropdown-toggle"
-											id="navbarDropdownMenuLink-4"
-											data-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-										>
-											<i className="fas fa-user"></i> Users
-										</Link>
+											<i className="fas fa-user"></i>
+										</a>
 										<div
 											className="dropdown-menu dropdown-menu-right dropdown-info"
 											aria-labelledby="navbarDropdownMenuLink-4"
 										>
-											<Link className="dropdown-item" to="/users">
-												All Users
+											<Link className="dropdown-item" to="/transaction">
+												Transaction
 											</Link>
+											<a className="dropdown-item" href="" onClick={signoutHandler}>
+												Log out
+											</a>
 										</div>
 									</li>
-								</div>
-							)}
-						</ul>
-						<ul className="navbar-nav ml-auto">
-							{userInfo ? (
-								<li className="nav-item dropdown">
-									<a
-										className="nav-link dropdown-toggle"
-										id="navbarDropdownMenuLink-4"
-										data-toggle="dropdown"
-										aria-haspopup="true"
-										aria-expanded="false"
-										href=""
-									>
-										<i className="fas fa-user"></i>
-									</a>
-									<div
-										className="dropdown-menu dropdown-menu-right dropdown-info"
-										aria-labelledby="navbarDropdownMenuLink-4"
-									>
-										<Link className="dropdown-item" to="/transaction">
-											Transaction
+								) : (
+									<li className="nav-item">
+										<Link to="/" className="sign-color">
+											Sign In
 										</Link>
-										<a className="dropdown-item" href="" onClick={signoutHandler}>
-											Log out
-										</a>
-									</div>
-								</li>
-							) : (
-								<li className="nav-item">
-									<Link to="/" className="sign-color">
-										Sign In
-									</Link>
-								</li>
-							)}
-						</ul>
-					</div>
-				</nav>
+									</li>
+								)}
+							</ul>
+						</div>
+					</nav>
+				</div>
 				<main>
 					<Switch>
 						<PrivateRoute path="/qr_scanner" component={QRscan} />
@@ -162,6 +163,7 @@ function App(props) {
 						<Route path="/" exact={true} component={Login} />
 					</Switch>
 				</main>
+				<footer className="footer">All right reserved. Powered by AgDyna, Miracle Anaje</footer>
 			</div>
 		</Router>
 	);

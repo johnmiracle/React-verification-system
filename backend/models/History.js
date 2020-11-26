@@ -11,18 +11,18 @@ const Historyschema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	usedSerial: {
+	serial: {
 		type: Number
 	},
-	batch: {
+	batch_no: {
 		type: Number
 	},
-	usedSerial_Product_Name: {
+	product: {
 		type: String,
 		required: [true, 'please this field is required'],
 		trim: true
 	},
-	code: {
+	pin_code: {
 		type: String,
 		unique: true
 	},

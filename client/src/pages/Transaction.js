@@ -41,10 +41,10 @@ function Transaction(props) {
 								{histories.map((history) => (
 									<tr>
 										<td>0{history.user.phone}</td>
-										<td>{history.usedSerial_Product_Name}</td>
-										<td>{history.usedSerial}</td>
+										<td>{history.product}</td>
+										<td>{history.serial}</td>
 										<td>{history.point}</td>
-										<td>{history.code}</td>
+										<td>{history.pin_code}</td>
 									</tr>
 								))}
 							</tbody>

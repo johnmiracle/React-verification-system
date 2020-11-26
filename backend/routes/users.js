@@ -18,7 +18,7 @@ userRouter.post(
 
 		let verifyProduct = await Product.findOne({ pin_code: codeNumber });
 
-		let historyResult = await History.findOne({ code: codeNumber });
+		let historyResult = await History.findOne({ pin_code: codeNumber });
 
 		if (!verifyProduct) {
 			return res.status(404).send({
@@ -33,10 +33,10 @@ userRouter.post(
 			const newHistory = new History({
 				user: req.user,
 				Date: new Date(),
-				usedSerial: verifyProduct.serial,
-				batch: verifyProduct.batch_no,
-				code: verifyProduct.pin_code,
-				usedSerial_Product_Name: verifyProduct.product,
+				serial: verifyProduct.serial,
+				batch_no: verifyProduct.batch_no,
+				pin_code: verifyProduct.pin_code,
+				product: verifyProduct.product,
 				point: verifyProduct.points
 			});
 
@@ -58,6 +58,8 @@ userRouter.post(
 			await newHistory.save();
 
 			res.status(201).send(verifyProduct);
+
+			await Product.findByIdAndDelete({ _id: verifyProduct._id });
 		}
 	})
 );
