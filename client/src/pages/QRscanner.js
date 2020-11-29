@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Fab } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import QrScan from 'react-qr-scanner';
+import QrScan from 'react-qr-reader';
 import { verify } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 
 function QRscanner(props) {
 	const productVerify = useSelector((state) => state.productVerify);
-	const [facingMode, setFacingMode] = useState('rear');
+	const [facingMode, setFacingMode] = useState('environment');
 	const { loading, success: successfulVerify, error } = productVerify;
 
 	const dispatch = useDispatch();
@@ -53,16 +53,23 @@ function QRscanner(props) {
 							</Link>
 						</div>
 						<div className="col-md-6 mt-4">
-							<center>
+							{/* <center>
 								<button
 									className="btn btn-primary"
-									onClick={() =>
-										setFacingMode(facingMode === 'rear' ? 'front' : 'rear')
-									}
+									onClick={() => setFacingMode(facingMode === 'rear' ? 'front' : 'rear')}
 								>
 									current camera: {facingMode} switch camera
 								</button>
-							</center>
+							</center> */}
+
+							<select
+								className="custom-select"
+								id="inputGroupSelect01"
+								onChange={(e) => setFacingMode({ facingMode: e.target.value })}
+							>
+								<option value="user">User</option>
+								<option value="environment">Environment</option>
+							</select>
 						</div>
 					</div>
 					<div className="row mt-5">
@@ -72,13 +79,16 @@ function QRscanner(props) {
 								<span>QR Scanner</span>
 
 								<div style={{ marginTop: 30, marginBottom: 40 }}>
-									<QrScan
-										delay={300}
-										facingMode={facingMode}
-										onError={handleError}
-										onScan={handleScan}
-										style={{ height: 240, width: 320 }}
-									/>
+									{
+										<QrScan
+											delay={300}
+											// facingMode={facingMode === 'environment' ? 'user' : 'environment'}
+											facingMode={facingMode}
+											onError={handleError}
+											onScan={handleScan}
+											style={{ height: 240, width: 320 }}
+										/>
+									}
 								</div>
 							</center>
 						</div>
