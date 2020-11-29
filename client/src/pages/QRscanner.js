@@ -11,7 +11,7 @@ import LoadingBox from '../components/LoadingBox';
 
 function QRscanner(props) {
 	const productVerify = useSelector((state) => state.productVerify);
-	const [facingMode, setFacingMode] = useState('environment');
+	const [facingMode, setFacingMode] = useState('rear');
 	const { loading, success: successfulVerify, error } = productVerify;
 
 	const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function QRscanner(props) {
 								<button
 									className="btn btn-primary"
 									onClick={() =>
-										setFacingMode(facingMode === 'environment' ? 'user' : 'environment')
+										setFacingMode(facingMode === 'rear' ? 'front' : 'rear')
 									}
 								>
 									current camera: {facingMode} switch camera
@@ -71,7 +71,7 @@ function QRscanner(props) {
 							<center>
 								<span>QR Scanner</span>
 
-								<div style={{ marginTop: 30 }}>
+								<div style={{ marginTop: 30, marginBottom: 40 }}>
 									<QrScan
 										delay={300}
 										facingMode={facingMode}
