@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Fab } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import QrScan from 'react-qr-reader';
+import QrScan from 'react-qr-scanner';
 import { verify } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 
