@@ -8,8 +8,10 @@ import { Link } from 'react-router-dom';
 import QrScan from 'react-qr-reader';
 import { verify } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
+import CodeScanner from 'react-code-scanner';
 
 function QRscanner(props) {
+	const [result, setResult] = useState('');
 	const productVerify = useSelector((state) => state.productVerify);
 	const [facingMode, setFacingMode] = useState('environment');
 	const { loading, success: successfulVerify, error } = productVerify;
@@ -43,58 +45,79 @@ function QRscanner(props) {
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : (
-				<div className="container">
-					<div className="row">
-						<div className="col-md-6 mt-4">
-							<Link to="/product_verify">
-								<Fab style={{ marginRight: 10 }} color="primary">
-									<ArrowBack />
-								</Fab>
-							</Link>
-						</div>
-						<div className="col-md-6 mt-4">
-							{/* <center>
-								<button
-									className="btn btn-primary"
-									onClick={() => setFacingMode(facingMode === 'rear' ? 'front' : 'rear')}
-								>
-									current camera: {facingMode} switch camera
-								</button>
-							</center> */}
-
-							<select
-								className="custom-select"
-								id="inputGroupSelect01"
-								onChange={(e) => setFacingMode({ facingMode: e.target.value })}
-							>
-								<option value="user">User</option>
-								<option value="environment">Environment</option>
-							</select>
-						</div>
+				<div>
+					<h1>Code Scanner</h1>
+					<div>Result: {result}</div>
+					<div>
+						<button onClick={() => setResult('')}>reset</button>
 					</div>
-					<div className="row mt-5">
-						<div className="col-md-3"></div>
-						<div className="col-md-6">
-							<center>
-								<span>QR Scanner</span>
-
-								<div style={{ marginTop: 30, marginBottom: 40 }}>
-									{
-										<QrScan
-											delay={300}
-											// facingMode={facingMode === 'environment' ? 'user' : 'environment'}
-											facingMode={facingMode}
-											onError={handleError}
-											onScan={handleScan}
-											style={{ height: 240, width: 320 }}
-										/>
-									}
-								</div>
-							</center>
-						</div>
-						<div className="col-md-3"></div>
+					<div>
+						<button
+							onClick={() =>
+								setFacingMode(facingMode === 'environment' ? 'user' : 'environment')
+							}
+						>
+							current camera: {facingMode} switch camera
+						</button>
 					</div>
+					<CodeScanner
+						onResult={(res) => setResult(res.map(({ value }) => value).join(', '))}
+						onError={setResult}
+						facingMode={facingMode}
+					/>
 				</div>
+				// <div className="container">
+				// 	<div className="row">
+				// 		<div className="col-md-6 mt-4">
+				// 			<Link to="/product_verify">
+				// 				<Fab style={{ marginRight: 10 }} color="primary">
+				// 					<ArrowBack />
+				// 				</Fab>
+				// 			</Link>
+				// 		</div>
+				// 		<div className="col-md-6 mt-4">
+				// 			{/* <center>
+				// 				<button
+				// 					className="btn btn-primary"
+				// 					onClick={() => setFacingMode(facingMode === 'rear' ? 'front' : 'rear')}
+				// 				>
+				// 					current camera: {facingMode} switch camera
+				// 				</button>
+				// 			</center> */}
+
+				// 			<select
+				// 				className="custom-select"
+				// 				id="inputGroupSelect01"
+				// 				onChange={(e) => setFacingMode({ facingMode: e.target.value })}
+				// 			>
+				// 				<option value="user">User</option>
+				// 				<option value="environment">Environment</option>
+				// 			</select>
+				// 		</div>
+				// 	</div>
+				// 	<div className="row mt-5">
+				// 		<div className="col-md-3"></div>
+				// 		<div className="col-md-6">
+				// 			<center>
+				// 				<span>QR Scanner</span>
+
+				// 				<div style={{ marginTop: 30, marginBottom: 40 }}>
+				// 					{
+				// 						<QrScan
+				// 							delay={300}
+				// 							// facingMode={facingMode === 'environment' ? 'user' : 'environment'}
+				// 							facingMode={facingMode}
+				// 							onError={handleError}
+				// 							onScan={handleScan}
+				// 							style={{ height: 240, width: 320 }}
+				// 						/>
+				// 					}
+				// 				</div>
+				// 			</center>
+				// 		</div>
+				// 		<div className="col-md-3"></div>
+				// 	</div>
+				// </div>
 			)}
 		</div>
 	);

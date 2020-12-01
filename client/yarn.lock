@@ -9632,6 +9632,13 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
+"react-code-scanner@^1.0.1":
+  "integrity" "sha512-EnQ/fQVDb7s1WN+msVjrwCKDeb1MVAXRiYz55umcv3jwlK0Jis7JVBNHkhOoVvKJ6NassCHW/yPYCDVOhpcJLQ=="
+  "resolved" "https://registry.npmjs.org/react-code-scanner/-/react-code-scanner-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "zbar.wasm" "^2.0.3"
+
 "react-csv@^2.0.3":
   "integrity" "sha512-exyAdFLAxtuM4wNwLYrlKyPYLiJ7e0mv9tqPAd3kq+k1CiJFtznevR3yP0icv5q/y200w+lzNgi7TQn1Wrhu0w=="
   "resolved" "https://registry.npmjs.org/react-csv/-/react-csv-2.0.3.tgz"
@@ -12589,3 +12596,8 @@
     "which-module" "^2.0.0"
     "y18n" "^4.0.0"
     "yargs-parser" "^18.1.2"
+
+"zbar.wasm@^2.0.3":
+  "integrity" "sha512-kpdc9S4rSO9fxtuShJQMNFYDcT+sA399oXBoWfPtUvfl1ytxrVs/2aklfrBsxmFPcvrFejLb3ZlwrubTNb17xg=="
+  "resolved" "https://registry.npmjs.org/zbar.wasm/-/zbar.wasm-2.0.3.tgz"
+  "version" "2.0.3"

@@ -50,9 +50,9 @@ function AdminUserDetail(props) {
 								{histories.map((history) => (
 									<tr key={history._id}>
 										<td>0{history.user.phone}</td>
-										<td>{history.usedSerial_Product_Name}</td>
-										<td>{history.batch}</td>
-										<td>{history.code}</td>
+										<td>{history.product}</td>
+										<td>{history.batch_no}</td>
+										<td>{history.pin_code}</td>
 										<td>{history.point}</td>
 									</tr>
 								))}
