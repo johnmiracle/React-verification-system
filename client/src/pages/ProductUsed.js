@@ -46,9 +46,9 @@ function ProductUsed() {
 				<div className="">
 					<div className="row">
 						<div className="col-ml-6 pb-4 pt-4">
-							<h2 className="">Products</h2>
+							<h4 className="">Products</h4>
 						</div>
-						<div className="col-ml-6 ml-auto">
+						<div className="col-ml-6 pb-4 pt-4 ml-auto">
 							{products.length > 0 ? (
 								<CSVLink {...csvReport} className="btn btn-primary btn-sm">
 									Download CSV
@@ -58,9 +58,9 @@ function ProductUsed() {
 							)}
 						</div>
 					</div>
-					<div className="product-list mt-4">
+					<div className="mt-4 table-responsive">
 						{products.length > 0 ? (
-							<table className="table">
+							<table className="table table-fixed w-auto">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -78,7 +78,7 @@ function ProductUsed() {
 											<td>{product._id}</td>
 											<td>{product.product}</td>
 											<td>{product.serial}</td>
-											<td>{product.batch}</td>
+											<td>{product.batch_no}</td>
 											<td>{product.pin_code}</td>
 											<td>{product.point}</td>
 											<td>0{product.user.phone}</td>

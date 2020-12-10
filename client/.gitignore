@@ -10,6 +10,9 @@ package-lock.json
 # testing
 /coverage
 
+# work-flow
+WorkPlan.md
+
 # production
 /build
 

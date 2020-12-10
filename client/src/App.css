@@ -12,9 +12,13 @@
 }
 
 .loader{
-  height: 50;
-  align-items: center;
-  width: 50%;
+  max-width: 100%;
+  height: 50px;
+  /* Center vertically and horizontally */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -46,6 +50,19 @@
   color: #61dafb;
 }
 
+.btn-primary-outline{
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.btn-primary-outline:hover{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
 .footer {
   position: fixed;
   left: 0;
@@ -58,7 +75,6 @@
   justify-content: center;
   align-items: center;
   padding: .5rem;
-  margin-top: 5rem
 }
 
 /* Result Modal */
@@ -149,7 +165,7 @@
   line-height: normal;
   border-radius: 30px;
   margin-top: 10px;
-  padding: 6px 20px;
+  /* padding: 6px 20px; */
   border: none;
 }
 
@@ -254,6 +270,49 @@
 .alert-success {
   color: #20a020;
   background-color: #eeffe0;
+}
+
+.report{
+  background: rgb(255, 78, 47);
+  color: rgb(241, 238, 238);
+  padding: .4rem;
+  border-radius: .4rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+}
+
+  .verify-text{
+    font-size: 2.5rem;
+    margin: 2rem;
+    font-weight: 400
+  }
+
+
+.report:hover{
+  color: rgb(254, 254, 254);
+  background: rgba(203, 46, 18, 0.918)
+}
+
+
+@media (max-width: 425px) {
+
+  .Code-Input{
+    width: 50%;
+    height: 50%
+  }
+  .QR-Scanner{
+    width: 50%;
+    height: 50%
+  }
+
+  .verify{
+    padding: 2px;
+  }
+
+  .verify-text{
+    font-size: 1.4rem
+  }
 }
 
 @keyframes App-logo-spin {

@@ -1,7 +1,8 @@
+/** @format */
+
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import QRgen from './pages/QRgenerator';
 import QRscan from './pages/QRscanner';
 import Login from './pages/Login';
 import ProductVerify from './pages/ProductVerify';
@@ -36,13 +37,23 @@ function App(props) {
 						{userInfo ? (
 							<div>
 								<Link className="navbar-brand" to="/product_verify">
-									Navbar
+									<img
+										src="./farmsured!.png"
+										alt="FarmSured"
+										className=""
+										style={{ width: 120 }}
+									/>
 								</Link>
 							</div>
 						) : (
 							<div>
 								<Link className="navbar-brand" to="/">
-									Navbar
+									<img
+										src="./farmsured!.png"
+										alt="FarmSured"
+										className=""
+										style={{ width: 120 }}
+									/>
 								</Link>
 							</div>
 						)}
@@ -66,7 +77,6 @@ function App(props) {
 												className="nav-link dropdown-toggle"
 												id="navbarDropdownMenuLink-4"
 												data-toggle="dropdown"
-												aria-haspopup="true"
 												aria-expanded="false"
 											>
 												<i className="fas fa-list"></i> Products
@@ -91,7 +101,6 @@ function App(props) {
 												className="nav-link dropdown-toggle"
 												id="navbarDropdownMenuLink-4"
 												data-toggle="dropdown"
-												aria-haspopup="true"
 												aria-expanded="false"
 											>
 												<i className="fas fa-user"></i> Users
@@ -111,16 +120,14 @@ function App(props) {
 							<ul className="navbar-nav ml-auto">
 								{userInfo ? (
 									<li className="nav-item dropdown">
-										<a
-											className="nav-link dropdown-toggle"
+										<button
+											className="nav-link dropdown-toggle btn-primary-outline"
 											id="navbarDropdownMenuLink-4"
 											data-toggle="dropdown"
-											aria-haspopup="true"
 											aria-expanded="false"
-											href="#"
 										>
-											<i className="fas fa-user"></i>
-										</a>
+											<i className="fa fa-user"></i>
+										</button>
 										<div
 											className="dropdown-menu dropdown-menu-right dropdown-info"
 											aria-labelledby="navbarDropdownMenuLink-4"
@@ -128,7 +135,11 @@ function App(props) {
 											<Link className="dropdown-item" to="/transaction">
 												Transaction
 											</Link>
-											<a className="dropdown-item" href="#" onClick={signoutHandler}>
+											<a
+												className="dropdown-item"
+												href={signoutHandler}
+												onClick={signoutHandler}
+											>
 												Log out
 											</a>
 										</div>
@@ -157,12 +168,14 @@ function App(props) {
 						<AdminRoute path="/user/:id" component={AdminUserDetail} />
 						<AdminRoute path="/used_products" component={ProductUsed} />
 						<Route exact path="/register" component={Register} />
-						<Route path="/qr_generator" component={QRgen} />
 						<Route path="/product_verify" component={ProductVerify} />
 						<Route path="/" exact={true} component={Login} />
 					</Switch>
 				</main>
-				<footer className="footer">All right reserved. Powered by AgDyna</footer>
+
+				<footer className="footer mt-5">
+					<div className="">All right reserved. Powered by AgDyna</div>
+				</footer>
 			</div>
 		</Router>
 	);

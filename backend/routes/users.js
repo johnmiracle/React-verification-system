@@ -41,7 +41,6 @@ userRouter.post(
 			});
 
 			// Point calculator
-
 			// user point
 			let userPoint = req.user.points;
 

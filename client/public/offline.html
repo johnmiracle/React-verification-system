@@ -4,13 +4,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%PUBLIC_URL%/logo.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#000000" />
-		<meta name="description" content="FarmSured Product Verification System" />
-		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
-
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
 		<link
 			rel="stylesheet"
@@ -47,35 +41,41 @@
 			integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
 			crossorigin="anonymous"
 		></script>
+		<style type="text/css">
+			html {
+				height: 100%;
+			}
+			body {
+				height: 100%;
+				margin: 0;
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+			}
+			span {
+				background: rgb(110, 191, 110);
+				padding: 1.5rem;
+				border-radius: 0.7rem;
+				font-size: 0.9rem;
+        color: #fff;
+        
+			}
+			/* Smartphones (portrait and landscape) ----------- */
+			@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+				span {
+					padding: 1.3rem;
+					font-size: 0.6rem;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
-		<div id="root"></div>
-		<script type="text/javascript">
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					console.log('CLIENT: service worker registration in progress.');
-					navigator.serviceWorker.register('./serviceworker.js').then(
-						function (registration) {
-							console.log('CLIENT: service worker registration complete.');
-							button.onclick = function () {
-								registration.update();
-							};
-						},
-						function () {
-							console.log('CLIENT: service worker registration failure.');
-						}
-					);
-				});
-			} else {
-				console.log('CLIENT: service worker is not supported.');
-			}
-		</script>
-		<!-- JQuery -->
-		<script
-			type="text/javascript"
-			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-		></script>
+		<div class="container">
+			<div class="mb-4">FarmSured</div>
+			<span>You are offline, please connect to the internet to use.</span>
+		</div>
+
 		<!-- Bootstrap core JavaScript -->
 		<script
 			type="text/javascript"

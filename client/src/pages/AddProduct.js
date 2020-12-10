@@ -63,7 +63,7 @@ function AddProduct() {
 											<input
 												type="text"
 												id="materialLoginFormText"
-												className="form-control"
+												className="form-control mt-2"
 												onChange={(e) => setProductName(e.target.value)}
 												required
 											/>

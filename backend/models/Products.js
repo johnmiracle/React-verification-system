@@ -16,16 +16,22 @@ const Productschema = new mongoose.Schema({
 		type: String,
 		required: [true, 'please this field is required']
 	},
+	barcode: {
+		type: String,
+		required: [true, 'please this field is required']
+	},
 	pin_code: {
 		type: String,
 		required: [true, 'please this field is required'],
 		unique: true
 	},
 	QRcode: {
-		type: String
+		type: String,
+		required: [true, 'please this field is required']
 	},
 	points: {
-		type: Number
+		type: Number,
+		required: [true, 'please this field is required']
 	}
 });
 

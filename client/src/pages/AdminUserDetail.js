@@ -33,34 +33,36 @@ function AdminUserDetail(props) {
 						</Link>
 					</div>
 					<div className="mb-4 mt-4">
-						<h2>User Activites</h2>
+						<h4>User Activites</h4>
 					</div>
-					{histories.length > 0 ? (
-						<table className="table table-hover table-fixed">
-							<thead>
-								<tr>
-									<th>User ID</th>
-									<th>Product Name</th>
-									<th>Product Batch</th>
-									<th>Pin Code</th>
-									<th>Point</th>
-								</tr>
-							</thead>
-							<tbody>
-								{histories.map((history) => (
-									<tr key={history._id}>
-										<td>0{history.user.phone}</td>
-										<td>{history.product}</td>
-										<td>{history.batch_no}</td>
-										<td>{history.pin_code}</td>
-										<td>{history.point}</td>
+					<div className="table-responsive">
+						{histories.length > 0 ? (
+							<table className="table table-hover table-fixed  w-auto">
+								<thead>
+									<tr>
+										<th>User ID</th>
+										<th>Product Name</th>
+										<th>Product Batch</th>
+										<th>Pin Code</th>
+										<th>Point</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
-					) : (
-						<div className="">No Activites</div>
-					)}
+								</thead>
+								<tbody>
+									{histories.map((history) => (
+										<tr key={history._id}>
+											<td>0{history.user.phone}</td>
+											<td>{history.product}</td>
+											<td>{history.batch_no}</td>
+											<td>{history.pin_code}</td>
+											<td>{history.point}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						) : (
+							<div className="">No Activites</div>
+						)}
+					</div>
 				</div>
 			)}
 		</div>

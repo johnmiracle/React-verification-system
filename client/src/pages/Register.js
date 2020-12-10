@@ -26,7 +26,7 @@ function Register(props) {
 		if (userInfo) {
 			setTimeout(() => {
 				props.history.push(redirect);
-			},4000);
+			}, 3000);
 		}
 		return () => {
 			//
@@ -38,7 +38,7 @@ function Register(props) {
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : (
-				<div className="row mt-5">
+				<div className="row mt-5 mb-5">
 					<div className="col-md-3"></div>
 					<div className="col-md-6">
 						<div className="container card ">
@@ -86,7 +86,7 @@ function Register(props) {
 										<div className="form-group input-group" id="mobileNumber">
 											<div className="input-group-prepend">
 												<span className="input-group-text">
-													<i className="fa fa-phone"></i>
+													<i className="fa fa-phone fa-flip-horizontal"></i>
 												</span>
 											</div>
 											<input
@@ -122,8 +122,7 @@ function Register(props) {
 											</button>
 										</div>
 										<p className="text-center">
-											Have an account?
-											<Link to="/">Log in</Link>
+											Have an account? <Link to="/">Log in</Link>
 										</p>
 									</form>
 								</div>

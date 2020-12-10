@@ -24,37 +24,39 @@ function AdminUserView(props) {
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
 				<div className="container mt-5">
-					<h2 className="">User List</h2>
-					{users.length > 0 ? (
-						<table className="table table-hover table-fixed">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>User ID</th>
-									<th>First Name</th>
-									<th>Last Number</th>
-									<th>Point</th>
-									<th>Activites</th>
-								</tr>
-							</thead>
-							<tbody>
-								{users.map((user) => (
-									<tr key={user._id}>
-										<td>1</td>
-										<td>0{user.phone}</td>
-										<td>{user.firstName}</td>
-										<td>{user.lastName}</td>
-										<td>{user.points}</td>
-										<td>
-											<Link to={'/user/' + user._id}>View user</Link>
-										</td>
+					<h4 className="">User List</h4>
+					<div className="table-responsive">
+						{users.length > 0 ? (
+							<table className="table table-hover ">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>User ID</th>
+										<th>First Name</th>
+										<th>Last Number</th>
+										<th>Point</th>
+										<th>Activites</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
-					) : (
-						<div className="center">User List Empty</div>
-					)}
+								</thead>
+								<tbody>
+									{users.map((user) => (
+										<tr key={user._id}>
+											<td>1</td>
+											<td>0{user.phone}</td>
+											<td>{user.firstName}</td>
+											<td>{user.lastName}</td>
+											<td>{user.points}</td>
+											<td>
+												<Link to={'/user/' + user._id}>View user</Link>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						) : (
+							<div className="center">User List Empty</div>
+						)}
+					</div>
 				</div>
 			)}
 		</div>

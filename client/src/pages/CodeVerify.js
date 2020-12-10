@@ -52,7 +52,6 @@ function CodeVerify(props) {
 									<div className="md-form">
 										<input
 											type="text"
-											id="form1"
 											className="form-control"
 											id="exampleInputNumber"
 											onChange={(e) => setCode(e.target.value)}

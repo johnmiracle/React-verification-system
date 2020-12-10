@@ -7,6 +7,8 @@ import History from '../models/History.js';
 import Product from '../models/Products.js';
 import { isAdmin, isAuth } from '../config.js';
 import qrcode from 'qrcode';
+import securePin from 'secure-pin';
+import bwipjs from 'bwip-js';
 
 const adminRouter = express.Router();
 
@@ -19,42 +21,25 @@ adminRouter.post(
 			const batch_no = req.body.batchNumber;
 			const points = req.body.point;
 			const array_length = req.body.numberOfProducts;
-
-			console.log(product, serial, batch_no, points, array_length);
-
-			let max = 10000;
-			let min = 1000;
 			let serialNum = serial;
 
+			// Create Barcode for Batch Number
+			const data = await new bwipjs.toBuffer({
+				bcid: 'code128',
+				text: batch_no,
+				scale: 4,
+				height: 10,
+				includetext: true,
+				textxalign: 'center',
+				backgroundcolor: 'FFFFFF',
+				textfont: 'Inconsolata',
+				textsize: 13,
+				padding: 10
+			});
+			let dataUrl = `data:image/png;base64,` + data.toString('base64');
+
 			for (let i = 0; i < array_length; i++) {
-				function GenerateRandomNumber(min, max) {
-					return Math.floor(Math.random() * (max - min + 1)) + min;
-				}
-
-				// Generates a random alphanumberic character
-				function GenerateRandomChar() {
-					var chars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGIJKLMNOPQRSTUVWXYZ';
-					var randomNumber = GenerateRandomNumber(0, chars.length - 1);
-
-					return chars[randomNumber];
-				}
-
-				// Generates a Serial Number, based on a certain mask
-				function GenerateSerialNumber(mask) {
-					var serialNumber = '';
-
-					if (mask != null) {
-						for (var i = 0; i < mask.length; i++) {
-							var maskChar = mask[i];
-
-							serialNumber += maskChar == '0' ? GenerateRandomChar() : maskChar;
-						}
-					}
-					return serialNumber;
-				}
-
-				// Generate a new Serial Number for a given mask
-				let UniquePin = GenerateSerialNumber('00000-00000-00000-00000-00000');
+				const UniquePin = securePin.generatePinSync(16);
 
 				// create the QRcode for each generated code
 				let url = await new qrcode.toDataURL(`${UniquePin}`, { errorCorrectionLevel: 'H' });
@@ -63,6 +48,7 @@ adminRouter.post(
 					product,
 					serial: serialNum++,
 					batch_no,
+					barcode: dataUrl,
 					pin_code: UniquePin,
 					QRcode: url,
 					points
@@ -97,7 +83,8 @@ adminRouter.get(
 			const histories = await History.find({ user: req.params.id }).populate('user');
 			res.status(200).send(histories);
 		} catch (error) {
-			res.status(300).send({ msg: 'Error getting User' });
+			console.log(error);
+			res.status(300).send({ message: 'Error getting User' });
 		}
 	})
 );

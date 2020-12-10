@@ -63,15 +63,6 @@ function QRscanner(props) {
 									switch camera
 								</button>
 							</center>
-
-							{/* <select
-								className="custom-select"
-								id="inputGroupSelect01"
-								onChange={(e) => setFacingMode({ facingMode: e.target.value })}
-							>
-								<option value="user">User</option>
-								<option value="environment">Environment</option>
-							</select> */}
 						</div>
 					</div>
 					<div className="row mt-5">

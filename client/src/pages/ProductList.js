@@ -16,6 +16,7 @@ function ProductList(props) {
 		{ label: 'Serial Number', key: 'serial' },
 		{ label: 'Batch No', key: 'batch_no' },
 		{ label: 'Pin Code', key: 'pin_code' },
+		{ label: 'Barcode', key: 'barcode' },
 		{ label: 'QR Code', key: 'QRcode' }
 	];
 
@@ -44,7 +45,7 @@ function ProductList(props) {
 				<div className="mt-5">
 					<div className="row">
 						<div className="col-ml-6 pb-4">
-							<h2 className="">Products</h2>
+							<h4 className="">Products</h4>
 						</div>
 						<div className="col-ml-6 ml-auto">
 							{products.length > 0 ? (
@@ -57,9 +58,9 @@ function ProductList(props) {
 						</div>
 					</div>
 
-					<div className="product-list mt-4">
+					<div className="product-list mt-4 mb-5 table-responsive">
 						{products.length > 0 ? (
-							<table className="table">
+							<table className="table text-nowrap">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -68,6 +69,7 @@ function ProductList(props) {
 										<th>Batch No</th>
 										<th>Pin Code</th>
 										<th>Point</th>
+										<th>Barcode</th>
 										<th>QRcode</th>
 									</tr>
 								</thead>
@@ -83,10 +85,19 @@ function ProductList(props) {
 											<td>
 												<a
 													className="btn btn-primary btn-sm"
+													href={product.barcode}
+													download
+												>
+													Barcode
+												</a>
+											</td>
+											<td>
+												<a
+													className="btn btn-primary btn-sm"
 													href={product.QRcode}
 													download
 												>
-													Download
+													QR Code
 												</a>
 											</td>
 										</tr>
