@@ -51,7 +51,7 @@ function ProductVerifyFail(props) {
 											Hello {userInfo.firstName} <br />
 											{error}
 										</p>
-										<a href="tel:08131179082" className="btn btn-danger">
+										<a href="tel:+2349040000770" className="btn btn-danger">
 											<span>
 												<i className="fa fa-phone fa-flip-horizontal pl-2"></i>
 											</span>
