@@ -12,9 +12,12 @@ function AdminUserView(props) {
 	const { loading, error, users } = adminUserList;
 
 	const dispatch = useDispatch();
-	// Use Effect
+
 	useEffect(() => {
 		dispatch(listUsers());
+		return () => {
+			//
+		};
 	}, [dispatch]);
 	return (
 		<div>
@@ -30,7 +33,6 @@ function AdminUserView(props) {
 							<table className="table table-hover ">
 								<thead>
 									<tr>
-										<th>#</th>
 										<th>User ID</th>
 										<th>First Name</th>
 										<th>Last Number</th>
@@ -41,7 +43,6 @@ function AdminUserView(props) {
 								<tbody>
 									{users.map((user) => (
 										<tr key={user._id}>
-											<td>1</td>
 											<td>0{user.phone}</td>
 											<td>{user.firstName}</td>
 											<td>{user.lastName}</td>

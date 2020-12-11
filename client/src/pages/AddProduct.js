@@ -43,14 +43,14 @@ function AddProduct() {
 
 	return (
 		<div className="container">
-			<div className="row mt-5 h-100">
-				<div className="col-md-3"></div>
-				<div className="col-md-6">
-					{loading ? (
-						<LoadingBox></LoadingBox>
-					) : error ? (
-						<MessageBox variant="danger">{error}</MessageBox>
-					) : (
+			{loading ? (
+				<LoadingBox></LoadingBox>
+			) : error ? (
+				<MessageBox variant="danger">{error}</MessageBox>
+			) : (
+				<div className="row mt-5 h-100">
+					<div className="col-md-3"></div>
+					<div className="col-md-6">
 						<div>
 							{successSave && <MessageBox>Product Created Successfully</MessageBox>}
 							<div className="card">
@@ -107,7 +107,9 @@ function AddProduct() {
 												onChange={(e) => setNumberOfProducts(e.target.value)}
 												required
 											/>
-											<label htmlFor="materialLoginFormNumber">Number of Products</label>
+											<label htmlFor="materialLoginFormNumber">
+												Number of Products
+											</label>
 										</div>
 										<button
 											className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
@@ -120,10 +122,10 @@ function AddProduct() {
 								</div>
 							</div>
 						</div>
-					)}
+					</div>
+					<div className="col-md-3"></div>
 				</div>
-				<div className="col-md-3"></div>
-			</div>
+			)}
 		</div>
 	);
 }

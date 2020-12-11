@@ -29,37 +29,46 @@ userRouter.post(
 			return res.status(404).send({
 				message: 'Your Product is Fake, Kindly make a report'
 			});
-		} else {
-			const newHistory = new History({
-				user: req.user,
-				Date: new Date(),
-				serial: verifyProduct.serial,
-				batch_no: verifyProduct.batch_no,
-				pin_code: verifyProduct.pin_code,
-				product: verifyProduct.product,
-				point: verifyProduct.points
-			});
-
-			// Point calculator
-			// user point
-			let userPoint = req.user.points;
-
-			// product point
-			let productpoint = verifyProduct.points;
-
-			// sum of prouct point and userpoint
-			let updatedPoint = userPoint + productpoint;
-
-			// Update User Point
-			await User.updateOne({ _id: req.user }, { $set: { points: updatedPoint } });
-
-			// Save New History
-			await newHistory.save();
-
-			res.status(201).send(verifyProduct);
-
-			await Product.findByIdAndDelete({ _id: verifyProduct._id });
 		}
+		const newHistory = new History({
+			user: req.user,
+			Date: new Date(),
+			serial: verifyProduct.serial,
+			batch_no: verifyProduct.batch_no,
+			pin_code: verifyProduct.pin_code,
+			product: verifyProduct.product,
+			point: verifyProduct.points
+		});
+
+		// Point calculator
+		const user = await User.findOne({ _id: req.user });
+
+		// user point
+		let userPoint = user.points;
+
+		// product point
+		let productpoint = verifyProduct.points;
+
+		// sum of prouct point and userpoint
+		const updatedPoint = await (userPoint + productpoint);
+
+		// Update User Point
+		await User.updateOne({ _id: req.user }, { $set: { points: updatedPoint } });
+		console.log(
+			`user point = ` +
+				userPoint +
+				`, product point = ` +
+				productpoint +
+				`, the total point = ` +
+				updatedPoint
+		);
+
+		// Save New History
+		await newHistory.save();
+
+		res.status(201).send(verifyProduct);
+
+		await Product.findByIdAndDelete({ _id: verifyProduct._id });
 	})
 );
 

@@ -37,7 +37,7 @@ function AdminUserDetail(props) {
 					</div>
 					<div className="table-responsive">
 						{histories.length > 0 ? (
-							<table className="table table-hover table-fixed  w-auto">
+							<table className="table table-hover">
 								<thead>
 									<tr>
 										<th>User ID</th>

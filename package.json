@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build",
     "build": "cd client && npm install && npm run build",
     "start": "nodemon --watch backend --exec  node --experimental-modules backend/server.js"
   },

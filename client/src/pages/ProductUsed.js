@@ -60,7 +60,7 @@ function ProductUsed() {
 					</div>
 					<div className="mt-4 table-responsive">
 						{products.length > 0 ? (
-							<table className="table table-fixed w-auto">
+							<table className="table text-nowrap">
 								<thead>
 									<tr>
 										<th>ID</th>

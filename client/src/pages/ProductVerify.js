@@ -1,7 +1,9 @@
-import { Button } from "@material-ui/core";
-import Icon from "@mdi/react";
-import { mdiKeyboard, mdiQrcodeScan } from "@mdi/js";
-import { Link } from "react-router-dom";
+/** @format */
+
+import { Button } from '@material-ui/core';
+import Icon from '@mdi/react';
+import { mdiKeyboard, mdiQrcodeScan } from '@mdi/js';
+import { Link } from 'react-router-dom';
 
 function ProductVerify() {
   return (
@@ -42,7 +44,7 @@ function ProductVerify() {
 				</div>
 			</div>
 		</div>
-  );
+	);
 }
 
 export default ProductVerify;
