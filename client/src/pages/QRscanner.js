@@ -11,7 +11,7 @@ import LoadingBox from '../components/LoadingBox';
 
 function QRscanner(props) {
 	const productVerify = useSelector((state) => state.productVerify);
-	const [facingMode, setFacingMode] = useState('');
+	const [facingMode, setFacingMode] = useState('environment');
 	const { loading, success: successfulVerify, error } = productVerify;
 
 	const dispatch = useDispatch();
