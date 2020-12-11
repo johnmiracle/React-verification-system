@@ -27,18 +27,10 @@ function Transaction(props) {
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
 				<div className="container mt-5">
-					<div className="row">
-						<div className="col-md-6">
-							<h4 className="">Transaction</h4>
-						</div>
-						<div className="col-md-6">
-							<div className="ml-auto">
-								<Link to="/product_verify" className="btn btn-primary btn-sm">
-									Back
-								</Link>
-							</div>
-						</div>
-					</div>
+					<Link to="/product_verify" className="btn btn-primary btn-sm">
+						Back
+					</Link>
+					<h4 className="mt-3">Transaction</h4>
 					<div className="table-responsive">
 						{histories.length > 0 ? (
 							<table className="table table-hover">
