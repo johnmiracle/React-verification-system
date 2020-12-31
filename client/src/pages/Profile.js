@@ -36,7 +36,7 @@ function Profile(props) {
 							<div className="row my-2">
 								<div className="col-lg-4 order-lg-1 text-center">
 									<img
-										src="https://miro.medium.com/max/1187/1*0FqDC0_r1f5xFz3IywLYRA.jpeg"
+										src="//placehold.it/150"
 										className="mx-auto img-fluid img-circle d-block"
 										alt="avatar"
 									/>
