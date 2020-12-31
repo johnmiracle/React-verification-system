@@ -15,7 +15,6 @@ function Register(props) {
 	const userRegister = useSelector((state) => state.userRegister);
 	const { loading, userInfo, error } = userRegister;
 	const dispatch = useDispatch();
-	const redirect = '/';
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -25,8 +24,8 @@ function Register(props) {
 	useEffect(() => {
 		if (userInfo) {
 			setTimeout(() => {
-				props.history.push(redirect);
-			}, 3000);
+				props.history.push("/location");
+			}, 2000);
 		}
 		return () => {
 			//
@@ -47,7 +46,7 @@ function Register(props) {
 									{error && <MessageBox variant="danger">{error}</MessageBox>}
 									{userInfo && (
 										<MessageBox variant="success">
-											Registration is successfull, Please Login
+											Registration is successful, Please fill in your Location.
 										</MessageBox>
 									)}
 									<h4 className="card-title mt-3 text-center">Create Account</h4>

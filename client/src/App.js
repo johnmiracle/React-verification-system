@@ -9,7 +9,6 @@ import ProductVerify from './pages/ProductVerify';
 import Register from './pages/Register';
 import CodeVerify from './pages/CodeVerify';
 import Result from './pages/Result';
-import ProductVerifyFail from './pages/ProductVerifyFail';
 import Transaction from './pages/Transaction';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './actions/userActions';
@@ -20,6 +19,13 @@ import AdminRoute from './components/AdminRoute';
 import ProductUsed from './pages/ProductUsed';
 import AdminUserDetail from './pages/AdminUserDetail';
 import AddProduct from './pages/AddProduct';
+import UserLocation from './pages/UserLocation';
+import Profile from './pages/Profile';
+import Package from './pages/Package';
+import AddFarm from './pages/AddFarm';
+import MyFarms from './pages/MyFarms';
+import NewFarm from './pages/NewFarm';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App(props) {
 	const userSignin = useSelector((state) => state.userSignin);
@@ -34,11 +40,22 @@ function App(props) {
 			<div className="grid-container">
 				<div className="header">
 					<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
-						{userInfo ? (
+						{userInfo && userInfo.account === 'user' ? (
 							<div>
-								<Link className="navbar-brand" to="/product_verify">
+								<Link className="navbar-brand" to="/my_farms">
 									<img
-										src="./farmsured!.png"
+										src="/farmsured!.png"
+										alt="FarmSured"
+										className=""
+										style={{ width: 120 }}
+									/>
+								</Link>
+							</div>
+						) : userInfo && userInfo.account === 'admin' ? (
+							<div>
+								<Link className="navbar-brand" to="/admin_dashboard">
+									<img
+										src="/farmsured!.png"
 										alt="FarmSured"
 										className=""
 										style={{ width: 120 }}
@@ -49,7 +66,7 @@ function App(props) {
 							<div>
 								<Link className="navbar-brand" to="/">
 									<img
-										src="./farmsured!.png"
+										src="/farmsured!.png"
 										alt="FarmSured"
 										className=""
 										style={{ width: 120 }}
@@ -132,16 +149,36 @@ function App(props) {
 											className="dropdown-menu dropdown-menu-right dropdown-info"
 											aria-labelledby="navbarDropdownMenuLink-4"
 										>
-											<Link className="dropdown-item" to="/transaction">
-												Transaction
-											</Link>
-											<a
-												className="dropdown-item"
-												href={signoutHandler}
-												onClick={signoutHandler}
-											>
-												Log out
-											</a>
+											{userInfo.account === 'user' ? (
+												<div>
+													<Link className="dropdown-item" to="/profile">
+														Profile
+													</Link>
+													<Link className="dropdown-item" to="/my_farms">
+														My Farms
+													</Link>
+													<Link className="dropdown-item" to="/transaction">
+														Transaction
+													</Link>
+													<a
+														className="dropdown-item"
+														href={signoutHandler}
+														onClick={signoutHandler}
+													>
+														Log out
+													</a>
+												</div>
+											) : (
+												<div>
+													<a
+														className="dropdown-item"
+														href={signoutHandler}
+														onClick={signoutHandler}
+													>
+														Log out
+													</a>
+												</div>
+											)}
 										</div>
 									</li>
 								) : (
@@ -160,16 +197,22 @@ function App(props) {
 						<PrivateRoute path="/qr_scanner" component={QRscan} />
 						<PrivateRoute path="/code_verify" component={CodeVerify} />
 						<PrivateRoute path="/result" component={Result} />
-						<PrivateRoute path="/result_fail" component={ProductVerifyFail} />
 						<PrivateRoute path="/transaction" component={Transaction} />
+						<PrivateRoute path="/profile" component={Profile} />
+						<PrivateRoute path="/product_verify" component={ProductVerify} />
+						<PrivateRoute path="/new_farm" component={NewFarm} />
+						<PrivateRoute path="/farm_package/:id" component={Package} />
+						<PrivateRoute path="/my_farms" component={MyFarms} />
+						<PrivateRoute path="/add_package/:id" component={AddFarm} />
 						<AdminRoute path="/products" component={ProductList} />
 						<AdminRoute path="/add_product" component={AddProduct} />
 						<AdminRoute path="/users" component={AdminUserView} />
 						<AdminRoute path="/user/:id" component={AdminUserDetail} />
 						<AdminRoute path="/used_products" component={ProductUsed} />
-						<Route exact path="/register" component={Register} />
-						<Route path="/product_verify" component={ProductVerify} />
+						<AdminRoute path="/admin_dashboard" component={AdminDashboard} />
+						<Route path="/register" component={Register} />
 						<Route path="/" exact={true} component={Login} />
+						<Route path="/location" component={UserLocation} />
 					</Switch>
 				</main>
 

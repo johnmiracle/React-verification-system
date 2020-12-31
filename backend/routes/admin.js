@@ -4,6 +4,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/User.js';
 import History from '../models/History.js';
+import Farm from '../models/Farm.js';
 import Product from '../models/Products.js';
 import { isAdmin, isAuth } from '../config.js';
 import qrcode from 'qrcode';
@@ -79,12 +80,11 @@ adminRouter.get(
 	isAdmin,
 	expressAsyncHandler(async function (req, res, next) {
 		try {
-			let id = req.params.id;
-			const histories = await History.find({ user: req.params.id }).populate('user');
+			const histories = await Farm.find({ user: req.params.id }).populate('user');
 			res.status(200).send(histories);
 		} catch (error) {
 			console.log(error);
-			res.status(300).send({ message: 'Error getting User' });
+			res.status(300).send({ message: 'Error getting User Activities' });
 		}
 	})
 );
@@ -112,7 +112,50 @@ adminRouter.get(
 		const registeredUsers = await User.countDocuments({ account: 'user' });
 		const products = await Product.countDocuments({});
 		const usedPin = await History.countDocuments({});
-		res.status(200).send(registeredUsers, products, usedPin);
+		const registeredFarms = await Farm.countDocuments({});
+		const registeredFarmsToday = await Farm.countDocuments({
+			createdAt: { $gt: new Date(Date.now() - 1000 * 60 * 60 * 24) }
+		});
+		const registeredUsersToday = await User.countDocuments({
+			account: 'user',
+			createdAt: { $gt: new Date(Date.now() - 1000 * 60 * 60 * 24) }
+		});
+
+		const groupData = await Farm.aggregate([
+			{
+				$project: {
+					day: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }
+				}
+			},
+			{
+				$group: {
+					_id: { createdAt: '$day' },
+					counts: { $sum: 1 }
+				}
+			},
+
+			{
+				$addFields: {
+					createdAt: '$_id.Date'
+				}
+			},
+			{ $sort: { _id: -1 } },
+			{ $limit: 5 },
+			{
+				$project: {
+					_id: false
+				}
+			}
+		]);
+		res.status(200).send({
+			registeredUsers,
+			products,
+			usedPin,
+			registeredFarms,
+			registeredFarmsToday,
+			registeredUsersToday,
+			groupData
+		});
 	})
 );
 

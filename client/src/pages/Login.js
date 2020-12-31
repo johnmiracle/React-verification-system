@@ -11,10 +11,8 @@ function Login(props) {
 	const [phone, setPhone] = useState('');
 	const [password, setPassword] = useState('');
 	const userSignin = useSelector((state) => state.userSignin);
-	const { loading, userInfo, error } = userSignin;
+	const { loading, error, userInfo } = userSignin;
 	const dispatch = useDispatch();
-
-	const redirect = '/product_verify';
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -22,8 +20,11 @@ function Login(props) {
 	};
 
 	useEffect(() => {
-		if (userInfo) {
-			props.history.push(redirect);
+		if (userInfo && userInfo.account === 'admin') {
+			props.history.push('/admin_dashboard');
+		}
+		if (userInfo && userInfo.account === 'user') {
+			props.history.push('/my_farms');
 		}
 		return () => {
 			//

@@ -1,5 +1,3 @@
-/** @format */
-
 import mongoose from 'mongoose';
 
 const Historyschema = new mongoose.Schema({
@@ -7,7 +5,7 @@ const Historyschema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	Date: {
+	createdAt: {
 		type: Date,
 		default: Date.now
 	},

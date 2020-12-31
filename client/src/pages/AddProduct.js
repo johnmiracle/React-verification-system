@@ -36,7 +36,7 @@ function AddProduct() {
 		if (successSave) {
 			const timer = setTimeout(() => {
 				dispatch({ type: PRODUCT_ADD_RESET });
-			}, 3000);
+			}, 2000);
 			return () => clearTimeout(timer);
 		}
 	}, [dispatch, successSave]);

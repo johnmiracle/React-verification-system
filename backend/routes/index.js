@@ -5,8 +5,7 @@ import expressAsyncHandler from 'express-async-handler';
 import passport from '../config/passport.js';
 import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
-import { getToken } from '../config.js';
-
+import { getToken, isUser, isAuth } from '../config.js';
 
 const indexRouter = express.Router();
 
@@ -37,6 +36,9 @@ indexRouter.post(
 						lastName: user.lastName,
 						account: user.account,
 						points: user.points,
+						state: user.state,
+						city: user.city,
+						cluster: user.cluster,
 						token: getToken(user)
 					});
 				}
@@ -53,27 +55,33 @@ indexRouter.post(
 		const phone = req.body.phone;
 		const password = req.body.password;
 
-		console.log(firstName);
-
 		let user = await User.findOne({ phone: req.body.phone });
 		if (user) {
 			res.status(404).send({
 				message: 'Phone Number is already registered, Please login'
 			});
 		} else {
-			const user = new User({
+			const newUser = new User({
 				firstName,
 				lastName,
 				phone,
 				password
 			});
-			bcrypt.hash(user.password, 10, (err, hash) => {
-				user.password = hash;
-				user.save(function (err) {
+			bcrypt.hash(newUser.password, 10, (err, hash) => {
+				newUser.password = hash;
+				newUser.save(function (err) {
 					if (err) {
 						console.log(err);
 					} else {
-						res.status(200).send({ message: 'Registration is successfull, Please Login' });
+						res.status(200).send({
+							_id: newUser.id,
+							phone: newUser.phone,
+							firstName: newUser.firstName,
+							lastName: newUser.lastName,
+							account: newUser.account,
+							points: newUser.points,
+							token: getToken(newUser)
+						});
 					}
 				});
 			});
@@ -81,12 +89,22 @@ indexRouter.post(
 	})
 );
 
-indexRouter.get(
-	'/logout',
-	expressAsyncHandler(function (req, res, next) {
-		req.logout();
-		req.flash('alert alert-success', "You've successfully logged out");
-		res.redirect('/');
+indexRouter.post(
+	'/location',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const state = req.body.state;
+		const city = req.body.city;
+		const cluster = req.body.cluster;
+
+		// Update User Location
+		await User.updateOne({ _id: req.user }, { $set: { state: state, city: city, cluster: cluster } })
+			.then(res.status(200).send({ message: 'Location Added Successful' }))
+			.catch((err) => {
+				console.log(err);
+				res.status(404).send({ message: 'Error saving your Location' });
+			});
 	})
 );
 

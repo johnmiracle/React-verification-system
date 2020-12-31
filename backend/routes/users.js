@@ -2,9 +2,9 @@
 
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import User from '../models/User.js';
 import History from '../models/History.js';
 import Product from '../models/Products.js';
+import Farm from '../models/Farm.js';
 import { isUser, isAuth } from '../config.js';
 
 const userRouter = express.Router();
@@ -15,6 +15,7 @@ userRouter.post(
 	isUser,
 	expressAsyncHandler(async function (req, res, next) {
 		const codeNumber = req.body.code;
+		const farmId = req.body.farmInfo;
 
 		let verifyProduct = await Product.findOne({ pin_code: codeNumber });
 
@@ -22,12 +23,12 @@ userRouter.post(
 
 		if (historyResult) {
 			return res.status(404).send({
-				message: 'Your Product key has been used, Kindly make a report'
+				message: 'YOUR PRODUCT HAS BEEN USED!'
 			});
 		}
 		if (!verifyProduct) {
 			return res.status(404).send({
-				message: 'Your Product is Fake, Kindly make a report'
+				message: 'DO NOT BUY!'
 			});
 		}
 		const newHistory = new History({
@@ -40,23 +41,23 @@ userRouter.post(
 			point: verifyProduct.points
 		});
 
-		// Point calculator
-		const user = await User.findOne({ _id: req.user });
+		// Farm ID
+		const farm = await Farm.findOne({ _id: farmId });
 
-		// user point
-		let userPoint = user.points;
+		// Farm Point
+		let farmPoint = farm.accured_points;
 
 		// product point
 		let productpoint = verifyProduct.points;
 
 		// sum of prouct point and userpoint
-		const updatedPoint = await (userPoint + productpoint);
+		const updatedPoint = await (farmPoint + productpoint);
 
-		// Update User Point
-		await User.updateOne({ _id: req.user }, { $set: { points: updatedPoint } });
+		// Update Farm Point
+		await Farm.updateOne({ _id: farmId }, { $set: { accured_points: updatedPoint } });
 		console.log(
-			`user point = ` +
-				userPoint +
+			`farm point = ` +
+				farmPoint +
 				`, product point = ` +
 				productpoint +
 				`, the total point = ` +
@@ -72,11 +73,93 @@ userRouter.post(
 	})
 );
 
-userRouter.get(
-	'/product-verify',
+userRouter.post(
+	'/add_farm/',
+	isAuth,
+	isUser,
 	expressAsyncHandler(async function (req, res, next) {
-		const scanCount = await History.countDocuments({ user: req.user });
-		res.status(200).send(scanCount);
+		const farm_name = req.body.farmName;
+		const farm_size = req.body.farmSize;
+		const farm_capacity = req.body.farmCapacity;
+
+		const newFarm = new Farm({
+			user: req.user,
+			farm_name,
+			farm_size,
+			farm_capacity
+		});
+
+		// Save New History
+		await newFarm.save();
+		res.status(201).send({ message: 'Farm Successfully Created', newFarm });
+	})
+);
+
+userRouter.post(
+	'/add_farm/:id',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const num_bird_stocked = req.body.numOfStock;
+		const stocking_date = req.body.stockingDate;
+		const stock_due_date = req.body.farmDueDay;
+		const farm_type = req.body.farmType;
+		const poultry_type = req.body.poultryType;
+		const num_of_feeds = req.body.numOfFeed;
+		const expected_points = req.body.expectedPoints;
+		const duration = req.body.farmDays;
+		const num_of_DOC = req.body.numOfDOC;
+
+		console.log(req.params.id);
+
+		await Farm.updateOne(
+			{ _id: req.params.id },
+			{
+				$set: {
+					num_bird_stocked,
+					stocking_date,
+					stock_due_date,
+					expected_points,
+					farm_type,
+					poultry_type,
+					num_of_DOC,
+					duration,
+					num_of_feeds
+				}
+			}
+		);
+
+		res.status(200).send({ message: 'Farm Successfully Updated' });
+	})
+);
+
+userRouter.get(
+	'/all-farms',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const farms = await Farm.find({ user: req.user });
+		if (farms) {
+			res.status(200).send(farms);
+		} else {
+			console.log(err);
+			res.status(404).send({ message: 'Error getting farms' });
+		}
+	})
+);
+
+userRouter.get(
+	'/farm/:id',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const farm = await Farm.findOne({ _id: req.params.id });
+		if (farm) {
+			res.status(200).send(farm);
+		} else {
+			console.log(err);
+			res.status(404).send({ message: 'Error getting farm detail' });
+		}
 	})
 );
 

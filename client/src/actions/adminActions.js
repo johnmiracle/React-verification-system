@@ -16,7 +16,10 @@ import {
 	USED_PRODUCT_LIST_FAIL,
 	USER_DETAILS_REQUEST,
 	USER_DETAILS_SUCCESS,
-	USER_DETAILS_FAIL
+	USER_DETAILS_FAIL,
+	ADMIN_DASHBOARD_REQUEST,
+	ADMIN_DASHBOARD_SUCCESS,
+	ADMIN_DASHBOARD_FAIL
 } from '../constants/adminConstants';
 
 const addProduct = (productName, batchNumber, serialNumber, point, numberOfProducts) => async (
@@ -108,8 +111,27 @@ const userDetails = (userId) => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
 	} catch (error) {
-		dispatch({ type: USER_DETAILS_FAIL, payload: error.message });
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_DETAILS_FAIL, payload: message });
 	}
 };
 
-export { addProduct, listProducts, listUsers, userDetails, listUsedProducts };
+const dashboardForAdmin = () => async (dispatch, getState) => {
+	dispatch({ type: ADMIN_DASHBOARD_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await Axios.get('/api/admin/admin-dashboard', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: ADMIN_DASHBOARD_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: ADMIN_DASHBOARD_FAIL, payload: message });
+	}
+};
+
+export { addProduct, listProducts, listUsers, userDetails, listUsedProducts, dashboardForAdmin };

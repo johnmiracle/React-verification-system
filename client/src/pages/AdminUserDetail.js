@@ -26,7 +26,7 @@ function AdminUserDetail(props) {
 			) : error ? (
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
-				<div className="">
+				<div className="mb-5">
 					<div className="mt-4 mb-4">
 						<Link className="btn btn-primary btn-sm" to="/users">
 							Back
@@ -41,20 +41,22 @@ function AdminUserDetail(props) {
 								<thead>
 									<tr>
 										<th>User ID</th>
-										<th>Product Name</th>
-										<th>Product Batch</th>
-										<th>Pin Code</th>
-										<th>Point</th>
+										<th>Farm Name</th>
+										<th>Farm Size</th>
+										<th>Farm Capacity</th>
+										<th>Expected Point</th>
+										<th>Accured Point</th>
 									</tr>
 								</thead>
 								<tbody>
 									{histories.map((history) => (
 										<tr key={history._id}>
 											<td>0{history.user.phone}</td>
-											<td>{history.product}</td>
-											<td>{history.batch_no}</td>
-											<td>{history.pin_code}</td>
-											<td>{history.point}</td>
+											<td>{history.farm_name}</td>
+											<td>{history.farm_size}</td>
+											<td>{history.farm_capacity}</td>
+											<td>{history.expected_points}</td>
+											<td>{history.accured_points}</td>
 										</tr>
 									))}
 								</tbody>

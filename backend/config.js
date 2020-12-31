@@ -10,7 +10,10 @@ const getToken = (user) => {
 			lastName: user.lastName,
 			phone: user.phone,
 			account: user.account,
-			points: user.points
+			points: user.points,
+			state: user.state,
+			city: user.city,
+			cluster: user.cluster
 		},
 		process.env.JWT_SECRET,
 		{

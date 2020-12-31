@@ -1,81 +1,265 @@
-import axios from "axios";
+/** @format */
+
+import axios from 'axios';
 import {
-  USER_SIGNIN_REQUEST,
-  USER_SIGNIN_SUCCESS,
-  USER_SIGNIN_FAIL,
-  USER_SIGNOUT,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_FAIL,
-  USER_HISTORY_REQUEST,
-  USER_HISTORY_SUCCESS,
-  USER_HISTORY_FAIL,
-} from "../constants/userConstants";
+	USER_SIGNIN_REQUEST,
+	USER_SIGNIN_SUCCESS,
+	USER_SIGNIN_FAIL,
+	USER_SIGNOUT,
+	USER_REGISTER_REQUEST,
+	USER_REGISTER_SUCCESS,
+	USER_REGISTER_FAIL,
+	USER_HISTORY_REQUEST,
+	USER_HISTORY_SUCCESS,
+	USER_HISTORY_FAIL,
+	USER_LOCATION_REQUEST,
+	USER_LOCATION_SUCCESS,
+	USER_LOCATION_FAIL,
+	USER_ADDFARM_REQUEST,
+	USER_ADDFARM_SUCCESS,
+	USER_ADDFARM_FAIL,
+	USER_FARMS_REQUEST,
+	USER_FARMS_SUCCESS,
+	USER_FARMS_FAIL,
+	USER_FARM_DETAIL_REQUEST,
+	USER_FARM_DETAIL_SUCCESS,
+	USER_FARM_DETAIL_FAIL,
+	USER_ADDFARM_DETAILS_REQUEST,
+	USER_ADDFARM_DETAILS_SUCCESS,
+	USER_ADDFARM_DETAILS_FAIL
+} from '../constants/userConstants';
 
 const signin = (phone, password) => async (dispatch) => {
-  dispatch({ type: USER_SIGNIN_REQUEST, payload: { phone, password } });
-  try {
-    const { data } = await axios.post("/api/login", { phone, password });
-    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: USER_SIGNIN_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+	dispatch({ type: USER_SIGNIN_REQUEST, payload: { phone, password } });
+	try {
+		const { data } = await axios.post('/api/login', { phone, password });
+		dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+		localStorage.setItem('userInfo', JSON.stringify(data));
+	} catch (error) {
+		dispatch({
+			type: USER_SIGNIN_FAIL,
+			payload:
+				error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
 };
 
 const logout = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
-  dispatch({ type: USER_SIGNOUT });
+	localStorage.removeItem('userInfo');
+	localStorage.removeItem('farmInfo');
+	dispatch({ type: USER_SIGNOUT });
 };
 
 const register = (firstName, lastName, phone, password) => async (dispatch) => {
-  dispatch({
-    type: USER_REGISTER_REQUEST,
-    payload: { firstName, lastName, phone, password },
-  });
-  try {
-    const { data } = await axios.post("/api/register", {
-      firstName,
-      lastName,
-      phone,
-      password,
-    });
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: USER_REGISTER_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+	dispatch({
+		type: USER_REGISTER_REQUEST,
+		payload: { firstName, lastName, phone, password }
+	});
+	try {
+		const { data } = await axios.post('/api/register', {
+			firstName,
+			lastName,
+			phone,
+			password
+		});
+		dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
+		localStorage.setItem('userInfo', JSON.stringify(data));
+	} catch (error) {
+		dispatch({
+			type: USER_REGISTER_FAIL,
+			payload:
+				error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const location = (state, city, cluster) => async (dispatch, getState) => {
+	dispatch({
+		type: USER_LOCATION_REQUEST,
+		payload: { state, city, cluster }
+	});
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.post(
+			'/api/location',
+			{
+				state,
+				city,
+				cluster
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + userInfo.token
+				}
+			}
+		);
+		dispatch({ type: USER_LOCATION_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_LOCATION_FAIL,
+			payload:
+				error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const newFarm = (farmName, farmSize, farmCapacity) => async (dispatch, getState) => {
+	dispatch({
+		type: USER_ADDFARM_REQUEST,
+		payload: {
+			farmName,
+			farmSize,
+			farmCapacity
+		}
+	});
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.post(
+			'/api/user/add_farm',
+			{
+				farmName,
+				farmSize,
+				farmCapacity
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + userInfo.token
+				}
+			}
+		);
+		dispatch({ type: USER_ADDFARM_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_ADDFARM_FAIL,
+			payload:
+				error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const newFarmDetails = (
+	farmId,
+	farmType,
+	poultryType,
+	numOfStock,
+	farmDays,
+	farmDueDay,
+	numOfDOC,
+	numOfFeed,
+	stockingDate,
+	expectedPoints
+) => async (dispatch, getState) => {
+	dispatch({
+		type: USER_ADDFARM_DETAILS_REQUEST,
+		payload: {
+			farmId,
+			farmType,
+			poultryType,
+			numOfStock,
+			farmDays,
+			farmDueDay,
+			numOfDOC,
+			numOfFeed,
+			stockingDate,
+			expectedPoints
+		}
+	});
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.post(
+			'/api/user/add_farm/' + farmId,
+			{
+				farmType,
+				poultryType,
+				numOfStock,
+				farmDays,
+				farmDueDay,
+				numOfDOC,
+				numOfFeed,
+				stockingDate,
+				expectedPoints
+			},
+			{
+				headers: {
+					Authorization: 'Bearer ' + userInfo.token
+				}
+			}
+		);
+		dispatch({ type: USER_ADDFARM_DETAILS_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_ADDFARM_DETAILS_FAIL,
+			payload:
+				error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
 };
 
 const listHistoryMine = () => async (dispatch, getState) => {
-  dispatch({ type: USER_HISTORY_REQUEST });
-  const {
-    userSignin: { userInfo },
-  } = getState();
-  try {
-    const { data } = await axios.get("/api/user/history", {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    });
-    dispatch({ type: USER_HISTORY_SUCCESS, payload: data });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch({ type: USER_HISTORY_FAIL, payload: message });
-  }
+	dispatch({ type: USER_HISTORY_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.get('/api/user/history', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_HISTORY_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_HISTORY_FAIL, payload: message });
+	}
 };
 
-export { signin, register, logout, listHistoryMine };
+const listAllFarms = () => async (dispatch, getState) => {
+	dispatch({ type: USER_FARMS_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.get('/api/user/all-farms', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_FARMS_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_FARMS_FAIL, payload: message });
+	}
+};
+
+const userFarmDetail = (farmId) => async (dispatch, getState) => {
+	dispatch({ type: USER_FARM_DETAIL_REQUEST, payload: farmId });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.get('/api/user/farm/' + farmId, {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_FARM_DETAIL_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_FARM_DETAIL_FAIL, payload: message });
+	}
+};
+
+export {
+	signin,
+	register,
+	location,
+	newFarm,
+	newFarmDetails,
+	logout,
+	listHistoryMine,
+	listAllFarms,
+	userFarmDetail
+};

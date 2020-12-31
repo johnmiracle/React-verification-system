@@ -28,14 +28,6 @@ self.addEventListener('install', function (event) {
 	);
 });
 
-//Listen for requests
-// self.addEventListener('fetch', (event) => {
-// 	event.respondWith(
-// 		caches.match(event.request).then(() => {
-// 			return fetch(event.request).catch(() => caches.match('offline.html'));
-// 		})
-// 	);
-// });
 self.addEventListener('fetch', function (event) {
 	console.log('WORKER: fetch event in progress.');
 	if (event.request.method !== 'GET') {
@@ -78,23 +70,6 @@ self.addEventListener('fetch', function (event) {
 	);
 });
 
-// Activiate the SW
-// self.addEventListener('activiate', (event) => {
-// 	const cacheWhiteList = [];
-// 	cacheWhiteList.push(CACHE_NAME);
-
-// 	event.waitUntil(
-// 		caches.keys().theh((cacheNames) =>
-// 			Promise.all(
-// 				cacheNames.map((cacheName) => {
-// 					if (!cacheWhiteList.includes(cacheName)) {
-// 						return caches.delete(cacheName);
-// 					}
-// 				})
-// 			)
-// 		)
-// 	);
-// });
 
 self.addEventListener('activate', function (event) {
 	console.log('WORKER: activate event in progress.');
@@ -119,4 +94,5 @@ self.addEventListener('activate', function (event) {
 			})
 	);
 });
+
 

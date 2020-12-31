@@ -35,6 +35,21 @@
   color: #fff
 }
 
+.detail{
+  background: #20a020;
+  color: #ffff;
+  padding: 2rem;
+  border-radius: .3rem;
+  margin: .5rem
+}
+
+.dashboard-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
 .App-header {
   background-color: #ffffff;
   min-height: 100vh;
@@ -221,9 +236,180 @@
   text-align: center;
 }
 
+.color{
+  color: red
+}
+
+.modal-body h4, h5{
+  color: green;
+  font-weight: 300
+}
 
 .center{
-  text-align: center;
+  /* Center vertically and horizontally */
+  text-align:center
+}
+
+.fa-map-marker{
+  font-size: 2rem
+}
+
+
+/* Add Farm Package */
+.farm-form{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.comply-box{
+  background: green;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: sans-serif;
+  color: #ffff;
+  padding: .6rem;
+}
+
+
+.note-container{
+  background: grey;
+  color:#ffff;
+  padding: .7rem;
+  margin-bottom: 2rem;
+}
+
+/* Profile */
+.user-img{
+  width: 70%
+}
+
+.packages-row{
+  margin-top: 3rem;
+}
+
+.packages-row ul {
+  list-style: none;
+  padding: 0;
+}
+
+.packages-row ul li {
+  margin-top: 1rem;
+  padding-bottom: .3rem;
+  padding-right: .4rem
+}
+
+.packages-row .icon{
+  background: green;
+  color: #ffff;
+  padding: .2rem;
+  border-radius: 1rem;
+  font-size: .3rem
+}
+
+.point-text{
+  color: #ffff;
+  background: green;
+  padding: .6rem;
+  border-radius: .4rem 0 0 .4rem;
+}
+
+.point-color{
+  color: #ffff;
+  background: green;
+  padding: .6rem;
+  border-radius: .4rem;
+  width: 30%;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.insu-info .fa-check {
+  font-size: .2rem;
+  padding-bottom: 5;
+}
+
+.fa-circle {
+  font-size: .1rem;
+}
+.box-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-container div {
+  width: 100%;
+  height: 100%;
+}
+
+.circular-bar{
+  width:10% !important
+}
+/* Progress Bar */
+.containerStyles{
+		width: 100%;
+		background: #e0e0de;
+		border-radius: 2rem;
+		margin-bottom: 40px
+}
+
+.labelStyles{
+  padding: 1.5rem;
+	color: white;
+	font-weight: bold ;
+}
+
+/* Profile */
+.border-bottom h5{
+  margin-top: 11px;
+  font-size: .9rem;
+}
+
+.contain-box ul{ 
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+}
+
+.info-container{
+  background: grey;
+  color: #ffff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: .5rem;
+  justify-content: center;
+  font-family: sans-serif;
+
+}
+
+.info-contain{
+  background: rgb(60, 226, 102);
+  color: #ffff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: .5rem;
+  justify-content: center;
+  font-family: sans-serif;
+}
+
+.expected-points{
+  color: green;
+}
+
+.standard{
+  background: rgb(60, 226, 198);
+  color: #ffff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: .5rem;
+  justify-content: center;
+  font-family: sans-serif;
+  padding-left: .6rem; 
+  margin-bottom: 6rem
+}
+
+.standard h4{
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 /* Login */
@@ -293,8 +479,82 @@
   color: rgb(254, 254, 254);
   background: rgba(203, 46, 18, 0.918)
 }
+/* New Farm */
+.image-max-width{
+  width: 100;
+  height: 100%
+}
 
+/* Admin Dashboard */
+.text-box{
+  background: grey;
+  text-align: center;
+  padding: 2rem 2rem 2rem 2rem;
+  font-size: 1rem;
+  color: #ffff;
+  margin-top: 1.5rem
+}
 
+.col-box{
+  background: grey;
+  text-align: center;
+  padding: 4rem;
+  color: #ffff;
+
+}
+
+.info_box_var_1.box_bg_a {
+    background: #37BC9B;
+}
+
+.info_box_var_1 {
+    color: #fff;
+}
+
+.info_box_var_1 .info_box_body {
+    padding: 10px 20px;
+    height: 60px;
+    font: 300 32px/38px "Open Sans",Arial,sans-serif;
+    position: relative;
+}
+.info_box_var_1 .info_box_body_bg {
+    padding: 10px 20px;
+    height: 140px;
+    font: 300 40px/46px "Open Sans",Arial,sans-serif;
+    position: relative;
+}
+
+.info_box_var_1 .info_box_body .info_box_icon {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    font-size: 32px;
+    color: #fff;
+}
+
+.info_box_var_1 .info_box_footer {
+    padding: 4px 20px;
+    background: rgba(0,0,0,.2);
+}
+
+.info_box_var_1.box_bg_b {
+    background: #DA4453;
+}
+
+.info_box_var_1.box_bg_c {
+    background: #F6BB42;
+}
+
+.info_box_var_1.box_bg_d {
+    background: #4A89DC;
+}
+.info_box_var_1.box_bg_e {
+    background: #3c526f;
+}
+
+.info_box_var_1.box_bg_f {
+    background: #4adcae;
+}
 @media (max-width: 425px) {
 
   .Code-Input{
@@ -313,6 +573,22 @@
   .verify-text{
     font-size: 1.4rem
   }
+  .info-container{
+  font-size: .9rem;
+  font-weight: 400;
+}
+
+.today-date{
+  font-size: .8rem;
+}
+.info-contain{
+  margin-top: .9rem
+}
+
+.comply-box{
+  font-size: 1rem;
+  font-weight: 500;
+}
 }
 
 @keyframes App-logo-spin {

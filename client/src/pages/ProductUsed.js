@@ -43,7 +43,7 @@ function ProductUsed() {
 			) : error ? (
 				<MessageBox>{error}</MessageBox>
 			) : (
-				<div className="">
+				<div className="mb-5">
 					<div className="row">
 						<div className="col-ml-6 pb-4 pt-4">
 							<h4 className="">Products</h4>

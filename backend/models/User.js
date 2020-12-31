@@ -27,11 +27,31 @@ const Userschema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	country: {
+		type: String,
+		trim: true
+	},
+	state: {
+		type: String,
+		trim: true
+	},
+	city: {
+		type: String,
+		trim: true
+	},
+	cluster: {
+		type: String,
+		trim: true
+	},
 	account: {
 		type: String,
 		default: 'user'
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now
 	}
 });
 const User = mongoose.model('User', Userschema);
 
-export default User
+export default User;

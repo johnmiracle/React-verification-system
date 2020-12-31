@@ -26,7 +26,7 @@ function AdminUserView(props) {
 			) : error ? (
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
-				<div className="container mt-5">
+				<div className="container mt-5 mb-5">
 					<h4 className="">User List</h4>
 					<div className="table-responsive">
 						{users.length > 0 ? (
@@ -48,7 +48,7 @@ function AdminUserView(props) {
 											<td>{user.lastName}</td>
 											<td>{user.points}</td>
 											<td>
-												<Link to={'/user/' + user._id}>View user</Link>
+												<Link to={'/user/' + user._id}>View Activites</Link>
 											</td>
 										</tr>
 									))}

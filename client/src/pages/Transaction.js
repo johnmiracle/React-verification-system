@@ -26,8 +26,8 @@ function Transaction(props) {
 			) : error ? (
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
-				<div className="container mt-5">
-					<Link to="/product_verify" className="btn btn-primary btn-sm">
+				<div className="container mt-5 mb-5">
+					<Link to="/my_farms" className="btn btn-primary btn-sm">
 						Back
 					</Link>
 					<h4 className="mt-3">Transaction</h4>

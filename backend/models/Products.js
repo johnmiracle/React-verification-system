@@ -32,6 +32,10 @@ const Productschema = new mongoose.Schema({
 	points: {
 		type: Number,
 		required: [true, 'please this field is required']
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now
 	}
 });
 

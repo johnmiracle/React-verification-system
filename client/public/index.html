@@ -55,20 +55,34 @@
 			if ('serviceWorker' in navigator) {
 				window.addEventListener('load', () => {
 					console.log('CLIENT: service worker registration in progress.');
-					navigator.serviceWorker.register('./serviceworker.js').then(
-						function (registration) {
+					navigator.serviceWorker
+						.register('./serviceworker.js')
+						.then((registration) => {
 							console.log('CLIENT: service worker registration complete.');
-							button.onclick = function () {
-								registration.update();
+							registration.onupdatefound = () => {
+								const installingWorker = registration.installing;
+								installingWorker.onstatechange = () => {
+									if (installingWorker.state === 'installed') {
+										if (navigator.serviceWorker.controller) {
+											// At this point, the old content will have been purged and
+											// the fresh content will have been added to the cache.
+											// It's the perfect time to display a "New content is
+											// available; please refresh." message in your web app.
+											alert('New content is available; please refresh.');
+										} else {
+											// At this point, everything has been precached.
+											// It's the perfect time to display a
+											// "Content is cached for offline use." message.
+											console.log('Content is cached for offline use.');
+										}
+									}
+								};
 							};
-						},
-						function () {
-							console.log('CLIENT: service worker registration failure.');
-						}
-					);
+						})
+						.catch((error) => {
+							console.error('Error during service worker registration:', error);
+						});
 				});
-			} else {
-				console.log('CLIENT: service worker is not supported.');
 			}
 		</script>
 		<!-- JQuery -->
