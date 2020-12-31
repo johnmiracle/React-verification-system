@@ -33,7 +33,7 @@ function Package(props) {
 			) : error ? (
 				<MessageBox>{error}</MessageBox>
 			) : (
-				<div className="container">
+				<div className="container mb-5">
 					<div className="mt-4 mb-3">
 						<Link className="btn btn-primary btn-sm" to="/my_farms">
 							Back
@@ -85,7 +85,7 @@ function Package(props) {
 										Stocking Date:{' '}
 										<Moment format="YYYY/MM/DD" date={farm.stocking_date} />
 									</p>
-									<p className="">Expected End of Cycle: {farm.stocking_due_date} </p>
+									<p className="">Expected End of Cycle: {farm.stock_due_date} </p>
 									<p className="">Duration: {farm.duration || '0'}</p>
 									<p className="">
 										Expected Av. Weight:
