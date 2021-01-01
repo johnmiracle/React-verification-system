@@ -15,6 +15,7 @@ const self = this;
 // 	);
 // });
 self.addEventListener('install', function (event) {
+	window.swupdateReady = true;
 	console.log('WORKER: install event in progress.');
 	event.waitUntil(
 		caches
@@ -64,12 +65,11 @@ self.addEventListener('fetch', function (event) {
 			}
 			function unableToResolve() {
 				console.log('WORKER: fetch request failed in both cache and network.');
-				return fetch(event.request).catch(() => caches.match('offline.html'))
+				return fetch(event.request).catch(() => caches.match('offline.html'));
 			}
 		})
 	);
 });
-
 
 self.addEventListener('activate', function (event) {
 	console.log('WORKER: activate event in progress.');
@@ -94,5 +94,3 @@ self.addEventListener('activate', function (event) {
 			})
 	);
 });
-
-

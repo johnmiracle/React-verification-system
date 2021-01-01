@@ -24,7 +24,7 @@ function CodeVerify(props) {
 			props.history.push(redirect);
 		}
 		if (error) {
-			let redirect = '/result';
+			let redirect = '/results';
 			props.history.push(redirect);
 		}
 		return () => {

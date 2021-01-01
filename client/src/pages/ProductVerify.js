@@ -14,7 +14,7 @@ function ProductVerify() {
 				</div>
 				<div className="center">
 					<div className="row verify">
-						<div className="col-md-6">
+						<div className="col-md-6 p-3">
 							<Link to="/code_verify/">
 								<Button
 									variant="contained"
@@ -32,7 +32,7 @@ function ProductVerify() {
 								</Button>
 							</Link>
 						</div>
-						<div className="col-md-6">
+						<div className="col-md-6 p-3">
 							<Link to="/qr_scanner">
 								<Button
 									variant="contained"

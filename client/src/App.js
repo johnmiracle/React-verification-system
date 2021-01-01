@@ -26,6 +26,7 @@ import AddFarm from './pages/AddFarm';
 import MyFarms from './pages/MyFarms';
 import NewFarm from './pages/NewFarm';
 import AdminDashboard from './pages/AdminDashboard';
+import ProductVerifyFail from './pages/ProductVerifyFail';
 
 function App(props) {
 	const userSignin = useSelector((state) => state.userSignin);
@@ -197,6 +198,7 @@ function App(props) {
 						<PrivateRoute path="/qr_scanner" component={QRscan} />
 						<PrivateRoute path="/code_verify" component={CodeVerify} />
 						<PrivateRoute path="/result" component={Result} />
+						<PrivateRoute path="/results" component={ProductVerifyFail} />
 						<PrivateRoute path="/transaction" component={Transaction} />
 						<PrivateRoute path="/profile" component={Profile} />
 						<PrivateRoute path="/product_verify" component={ProductVerify} />

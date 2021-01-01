@@ -30,7 +30,7 @@ function QRscanner(props) {
 			props.history.push(redirect);
 		}
 		if (error) {
-			let redirect = '/result_fail';
+			let redirect = '/results';
 			props.history.push(redirect);
 		}
 		return () => {
