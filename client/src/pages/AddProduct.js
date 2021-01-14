@@ -9,8 +9,6 @@ import { PRODUCT_ADD_RESET } from '../constants/adminConstants';
 
 function AddProduct() {
 	const [productName, setProductName] = useState('');
-	const [batchNumber, setBatchNumber] = useState('');
-	const [serialNumber, setSerialNumber] = useState('');
 	const [point, setPoint] = useState(10);
 	const [numberOfProducts, setNumberOfProducts] = useState('');
 
@@ -21,15 +19,11 @@ function AddProduct() {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		if (
-			(productName === '' || productName === null,
-			batchNumber === '' || batchNumber === null,
-			serialNumber === '' || serialNumber === null)
-		) {
+		if (productName === '' || productName === null) {
 			alert('All field must be filled');
 			return false;
 		}
-		dispatch(addProduct(productName, batchNumber, serialNumber, point, numberOfProducts));
+		dispatch(addProduct(productName, point, numberOfProducts));
 	};
 
 	useEffect(() => {
@@ -68,26 +62,6 @@ function AddProduct() {
 												required
 											/>
 											<label htmlFor="materialLoginFormText">Product Name</label>
-										</div>
-										<div className="md-form">
-											<input
-												type="number"
-												id="materialLoginFormNumber"
-												className="form-control"
-												onChange={(e) => setBatchNumber(e.target.value)}
-												required
-											/>
-											<label htmlFor="materialLoginFormNumber">Batch Number</label>
-										</div>
-										<div className="md-form">
-											<input
-												type="number"
-												id="materialLoginFormNumber"
-												className="form-control"
-												onChange={(e) => setSerialNumber(e.target.value)}
-												required
-											/>
-											<label htmlFor="materialLoginFormNumber">Serial Number</label>
 										</div>
 										<div className="md-form">
 											<input

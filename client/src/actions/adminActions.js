@@ -22,13 +22,10 @@ import {
 	ADMIN_DASHBOARD_FAIL
 } from '../constants/adminConstants';
 
-const addProduct = (productName, batchNumber, serialNumber, point, numberOfProducts) => async (
-	dispatch,
-	getState
-) => {
+const addProduct = (productName, point, numberOfProducts) => async (dispatch, getState) => {
 	dispatch({
 		type: PRODUCT_ADD_REQUEST,
-		payload: { productName, batchNumber, serialNumber, point, numberOfProducts }
+		payload: { productName, point, numberOfProducts }
 	});
 	const {
 		userSignin: { userInfo }
@@ -36,7 +33,7 @@ const addProduct = (productName, batchNumber, serialNumber, point, numberOfProdu
 	try {
 		const { data } = await Axios.post(
 			'/api/admin/code-generator',
-			{ productName, batchNumber, serialNumber, point, numberOfProducts },
+			{ productName, point, numberOfProducts },
 			{
 				headers: {
 					Authorization: 'Bearer ' + userInfo.token

@@ -10,6 +10,7 @@ import { isAdmin, isAuth } from '../config.js';
 import qrcode from 'qrcode';
 import securePin from 'secure-pin';
 import bwipjs from 'bwip-js';
+import moment from 'moment'
 
 const adminRouter = express.Router();
 
@@ -18,11 +19,15 @@ adminRouter.post(
 	expressAsyncHandler(async function (req, res, next) {
 		try {
 			const product = req.body.productName;
-			const serial = req.body.serialNumber;
-			const batch_no = req.body.batchNumber;
 			const points = req.body.point;
 			const array_length = req.body.numberOfProducts;
-			let serialNum = serial;
+			let batch_no = moment()
+				.toISOString()
+				.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3$2$1');
+
+			let serialNum = 1000;
+
+			console.log(batch_no);
 
 			// Create Barcode for Batch Number
 			const data = await new bwipjs.toBuffer({

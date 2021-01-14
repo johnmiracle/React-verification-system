@@ -26,7 +26,16 @@ import {
 	USER_FARM_DETAIL_FAIL,
 	USER_ADDFARM_DETAILS_REQUEST,
 	USER_ADDFARM_DETAILS_SUCCESS,
-	USER_ADDFARM_DETAILS_FAIL
+	USER_ADDFARM_DETAILS_FAIL,
+	USER_LOGS_REQUEST,
+	USER_LOGS_SUCCESS,
+	USER_LOGS_FAIL,
+	USER_UPDATE_REQUEST,
+	USER_UPDATE_SUCCESS,
+	USER_UPDATE_FAIL,
+	USER_DETAIL_REQUEST,
+	USER_DETAIL_SUCCESS,
+	USER_DETAIL_FAIL
 } from '../constants/userConstants';
 
 const signin = (phone, password) => async (dispatch) => {
@@ -252,6 +261,69 @@ const userFarmDetail = (farmId) => async (dispatch, getState) => {
 	}
 };
 
+const userLog = () => async (dispatch, getState) => {
+	dispatch({ type: USER_LOGS_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.get('/api/user/profile', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_LOGS_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_LOGS_FAIL, payload: message });
+	}
+};
+
+const update = ({ userId, firstName, lastName, phone, address, state, city, cluster }) => async (
+	dispatch,
+	getState
+) => {
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	dispatch({
+		type: USER_UPDATE_REQUEST,
+		payload: { userId, firstName, lastName, phone, address, state, city, cluster }
+	});
+	try {
+		const { data } = await axios.post(
+			'/api/user/' + userId,
+			{ firstName, lastName, phone, address, state, city, cluster },
+			{
+				headers: {
+					Authorization: 'Bearer ' + userInfo.token
+				}
+			}
+		);
+		dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+		localStorage.setItem('userInfo', JSON.stringify(data));
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_UPDATE_FAIL, payload: message });
+	}
+};
+
+const detail = () => async (dispatch, getState) => {
+	dispatch({ type: USER_DETAIL_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.get('/api/user/detail', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_DETAIL_FAIL, payload: message });
+	}
+};
 export {
 	signin,
 	register,
@@ -261,5 +333,8 @@ export {
 	logout,
 	listHistoryMine,
 	listAllFarms,
-	userFarmDetail
+	userFarmDetail,
+	userLog,
+	update,
+	detail
 };

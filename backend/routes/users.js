@@ -5,7 +5,9 @@ import expressAsyncHandler from 'express-async-handler';
 import History from '../models/History.js';
 import Product from '../models/Products.js';
 import Farm from '../models/Farm.js';
+import User from '../models/User.js';
 import { isUser, isAuth } from '../config.js';
+import Userlog from '../models/Userlog.js';
 
 const userRouter = express.Router();
 
@@ -50,22 +52,30 @@ userRouter.post(
 		// product point
 		let productpoint = verifyProduct.points;
 
-		// sum of prouct point and userpoint
+		// sum of prouct point and farmpoint
 		const updatedPoint = await (farmPoint + productpoint);
 
 		// Update Farm Point
 		await Farm.updateOne({ _id: farmId }, { $set: { accured_points: updatedPoint } });
-		console.log(
-			`farm point = ` +
-				farmPoint +
-				`, product point = ` +
-				productpoint +
-				`, the total point = ` +
-				updatedPoint
-		);
 
+		// User ID
+		const user = await User.findOne({ _id: req.user._id });
+		const userPoint = user.points;
+		const updatedUserPoint = await (userPoint + 10);
+
+		// Update User Point
+		await User.updateOne({ _id: req.user._id }, { $set: { points: updatedUserPoint } });
+
+		//Log acivity
+		const userActivity = new Userlog({
+			user: req.user,
+			createdAt: new Date(),
+			activity: `Verfied product on ` + farm.farm_name
+		});
 		// Save New History
 		await newHistory.save();
+
+		await userActivity.save();
 
 		res.status(201).send(verifyProduct);
 
@@ -89,8 +99,20 @@ userRouter.post(
 			farm_capacity
 		});
 
+		let activity = `Created a new farm ( ` + farm_name + ` )`;
+
+		//Log acivity
+		const userActivity = new Userlog({
+			user: req.user,
+			createdAt: new Date(),
+			activity
+		});
+
 		// Save New History
 		await newFarm.save();
+
+		// Save User Log Activity
+		await userActivity.save();
 		res.status(201).send({ message: 'Farm Successfully Created', newFarm });
 	})
 );
@@ -110,8 +132,6 @@ userRouter.post(
 		const duration = req.body.farmDays;
 		const num_of_DOC = req.body.numOfDOC;
 
-		console.log(req.params.id);
-
 		await Farm.updateOne(
 			{ _id: req.params.id },
 			{
@@ -128,6 +148,18 @@ userRouter.post(
 				}
 			}
 		);
+
+		let activity = farm_name + ` was updated `;
+
+		//Log acivity
+		const userActivity = new Userlog({
+			user: req.user,
+			createdAt: new Date(),
+			activity
+		});
+
+		// Save User Log Activity
+		await userActivity.save();
 
 		res.status(200).send({ message: 'Farm Successfully Updated' });
 	})
@@ -172,5 +204,60 @@ userRouter.get(
 		res.status(200).send(histories);
 	})
 );
+
+userRouter.get(
+	'/profile',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const logs = await Userlog.find({ user: req.user }).sort({ createdAt: -1 }).limit(6);
+		res.status(200).send(logs);
+	})
+);
+
+userRouter.get(
+	'/detail',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		const user = await User.findOne({ _id: req.user._id });
+		let userPoint = await user.points;
+		res.status(200).send(userPoint.toString());
+	})
+);
+
+userRouter.post('/:id', isAuth, isUser, async (req, res) => {
+	const userId = req.params.id;
+	const user = await User.findById(userId);
+	if (user) {
+		user.firstName = req.body.firstName || user.firstName;
+		user.lastName = req.body.lastName || user.lastName;
+		user.phone = req.body.phone || user.phone;
+		user.address = req.body.address || user.address;
+		user.country = req.body.country || user.country;
+		user.state = req.body.state || user.state;
+		user.city = req.body.city || user.city;
+		user.cluster = req.body.cluster || user.cluster;
+		user.password = req.body.password || user.password;
+
+		await User.updateOne(
+			{ _id: userId },
+			{ $set: { firstName, lastName, phone, address, country, state, city, cluster, password } }
+		);
+		res.send({
+			_id: updatedUser.id,
+			phone: updatedUser.phone,
+			firstName: updatedUser.firstName,
+			lastName: updatedUser.lastName,
+			points: updatedUser.points,
+			state: updatedUser.state,
+			city: updatedUser.city,
+			cluster: updatedUser.cluster,
+			token: getToken(updatedUser)
+		});
+	} else {
+		res.status(404).send({ message: 'User Not Found' });
+	}
+});
 
 export default userRouter;

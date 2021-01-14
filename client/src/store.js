@@ -10,7 +10,10 @@ import {
 	userAddFarmReducer,
 	userAllFarmsReducer,
 	userFarmDetailReducer,
-	userAddFarmDetailsReducer
+	userAddFarmDetailsReducer,
+	userLogReducer,
+	userUpdateReducer,
+	userDetailReducer
 } from './reducers/userReducers';
 import { farmPackageReducer, productVerifyReducer } from './reducers/productReducers';
 import {
@@ -41,13 +44,16 @@ const reducer = combineReducers({
 	userAddFarmDetails: userAddFarmDetailsReducer,
 	userAllFarms: userAllFarmsReducer,
 	userFarmDetails: userFarmDetailReducer,
+	userUpdate: userUpdateReducer,
+	userDetail: userDetailReducer,
 	adminAddProduct: productAddReducer,
 	userHistory: userHistoryReducer,
 	adminProductList: productListReducer,
 	adminUserList: usersListReducer,
 	adminUserDetails: userDetailsReducer,
 	adminProductUsedList: usedProductListReducer,
-	adminDashBoardInfo: adminDashboardReducer
+	adminDashBoardInfo: adminDashboardReducer,
+	userLogs: userLogReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

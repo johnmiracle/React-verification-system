@@ -23,6 +23,9 @@ const Userschema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please this field is required']
 	},
+	address: {
+		type: String
+	},
 	points: {
 		type: Number,
 		default: 0

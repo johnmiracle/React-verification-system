@@ -130,7 +130,7 @@ function AddFarm(props) {
 												placeholder="Number of Stock"
 												type="number"
 												onChange={(e) => setNumOfStock(e.target.value)}
-												required={true}
+												required
 											/>
 										</div>
 
@@ -142,7 +142,7 @@ function AddFarm(props) {
 												placeholder="Stocking Date"
 												type="date"
 												onChange={(e) => setStockingDate(e.target.value)}
-												required={true}
+												required
 											/>
 										</div>
 
