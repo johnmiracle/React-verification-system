@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { register } from '../actions/userActions';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
+import { USER_REGISTER_RESET } from '../constants/userConstants';
 
 function Register(props) {
 	const [firstName, setFirstName] = useState('');
@@ -24,13 +25,14 @@ function Register(props) {
 	useEffect(() => {
 		if (userInfo) {
 			setTimeout(() => {
-				props.history.push("/location");
+				props.history.push('/location');
+				dispatch({ type: USER_REGISTER_RESET });
 			}, 2000);
 		}
 		return () => {
 			//
 		};
-	}, [userInfo, props.history]);
+	}, [userInfo, props.history, dispatch]);
 
 	return (
 		<div className="container">

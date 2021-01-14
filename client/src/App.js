@@ -206,6 +206,7 @@ function App(props) {
 						<PrivateRoute path="/farm_package/:id" component={Package} />
 						<PrivateRoute path="/my_farms" component={MyFarms} />
 						<PrivateRoute path="/add_package/:id" component={AddFarm} />
+						<PrivateRoute path="/location" component={UserLocation} />
 						<AdminRoute path="/products" component={ProductList} />
 						<AdminRoute path="/add_product" component={AddProduct} />
 						<AdminRoute path="/users" component={AdminUserView} />
@@ -214,7 +215,6 @@ function App(props) {
 						<AdminRoute path="/admin_dashboard" component={AdminDashboard} />
 						<Route path="/register" component={Register} />
 						<Route path="/" exact={true} component={Login} />
-						<Route path="/location" component={UserLocation} />
 					</Switch>
 				</main>
 

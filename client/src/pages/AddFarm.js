@@ -147,7 +147,7 @@ function AddFarm(props) {
 										</div>
 
 										<div className="form-group">
-											<label className="">How many Birds do you want to stock </label>
+											<label className="">How long do you want to raise them?</label>
 											<select
 												class="custom-select custom-select mb-3"
 												onChange={(e) => setFarmDays(e.target.value)}

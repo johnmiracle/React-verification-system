@@ -194,7 +194,7 @@ function Profile(props) {
 													NB:{' '}
 													<span>
 														To qualify for the FarmSured Benefits, you must earn
-														2000 Points
+														200 Points
 													</span>
 												</h6>
 
@@ -210,8 +210,8 @@ function Profile(props) {
 														<LoadingBox></LoadingBox>
 													) : (
 														<>
-															FarmSured Benfits:
-															{userData >= 2000 ? (
+															FarmSured Benefits Status:
+															{userData >= 200 ? (
 																<>
 																	<span class="float-right font-weight-bold green p-3">
 																		Qualified

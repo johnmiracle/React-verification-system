@@ -6,6 +6,7 @@ import passport from '../config/passport.js';
 import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 import { getToken, isUser, isAuth } from '../config.js';
+import Userlog from '../models/Userlog.js';
 
 const indexRouter = express.Router();
 
@@ -67,12 +68,21 @@ indexRouter.post(
 				phone,
 				password
 			});
+			//Log acivity
+
 			bcrypt.hash(newUser.password, 10, (err, hash) => {
 				newUser.password = hash;
 				newUser.save(function (err) {
 					if (err) {
 						console.log(err);
 					} else {
+						const userActivity = new Userlog({
+							user: newUser,
+							createdAt: new Date(),
+							activity: 'User Subscribed'
+						});
+						userActivity.save();
+
 						res.status(200).send({
 							_id: newUser.id,
 							phone: newUser.phone,

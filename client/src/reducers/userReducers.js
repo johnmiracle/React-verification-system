@@ -36,7 +36,8 @@ import {
 	USER_UPDATE_FAIL,
 	USER_DETAIL_REQUEST,
 	USER_DETAIL_SUCCESS,
-	USER_DETAIL_FAIL
+	USER_DETAIL_FAIL,
+	USER_REGISTER_RESET
 } from '../constants/userConstants';
 
 function userSigninReducer(state = {}, action) {
@@ -62,6 +63,8 @@ function userRegisterReducer(state = {}, action) {
 			return { loading: false, userInfo: action.payload };
 		case USER_REGISTER_FAIL:
 			return { loading: false, error: action.payload };
+		case USER_REGISTER_RESET:
+			return {};
 		default:
 			return state;
 	}

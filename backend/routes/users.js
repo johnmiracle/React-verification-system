@@ -148,7 +148,8 @@ userRouter.post(
 				}
 			}
 		);
-
+		const farm = await Farm.findOne({ _id: req.params.id });
+		let farm_name = farm.farm_name;
 		let activity = farm_name + ` was updated `;
 
 		//Log acivity
