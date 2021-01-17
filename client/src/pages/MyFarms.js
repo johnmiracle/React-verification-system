@@ -76,7 +76,7 @@ function MyFarms(props) {
 									</tbody>
 								</table>
 							) : (
-								<div className="center mt-5">Farm List is Empty, Add a New Farm.</div>
+								<div className="center mt-5">Farm List is Empty, Start a New Farm.</div>
 							)}
 						</div>
 					</div>

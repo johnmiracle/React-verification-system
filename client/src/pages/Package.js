@@ -80,7 +80,6 @@ function Package(props) {
 						<div className="row">
 							<div className="col-md-6">
 								<div className="info-container">
-									<p className="">Date Subscribed: 15th April, 2020</p>
 									<p className="">
 										Stocking Date:{' '}
 										<Moment format="YYYY/MM/DD" date={farm.stocking_date} />

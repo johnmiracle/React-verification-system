@@ -30,9 +30,8 @@ const Userschema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
-	country: {
-		type: String,
-		trim: true
+	image: {
+		type: String
 	},
 	state: {
 		type: String,

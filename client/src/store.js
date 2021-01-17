@@ -13,7 +13,8 @@ import {
 	userAddFarmDetailsReducer,
 	userLogReducer,
 	userUpdateReducer,
-	userDetailReducer
+	userDetailReducer,
+	userImageUploadReducer
 } from './reducers/userReducers';
 import { farmPackageReducer, productVerifyReducer } from './reducers/productReducers';
 import {
@@ -53,7 +54,8 @@ const reducer = combineReducers({
 	adminUserDetails: userDetailsReducer,
 	adminProductUsedList: usedProductListReducer,
 	adminDashBoardInfo: adminDashboardReducer,
-	userLogs: userLogReducer
+	userLogs: userLogReducer,
+	userProfileImage: userImageUploadReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

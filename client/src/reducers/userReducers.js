@@ -37,7 +37,10 @@ import {
 	USER_DETAIL_REQUEST,
 	USER_DETAIL_SUCCESS,
 	USER_DETAIL_FAIL,
-	USER_REGISTER_RESET
+	USER_REGISTER_RESET,
+	USER_IMAGEUPLOAD_REQUEST,
+	USER_IMAGEUPLOAD_SUCCESS,
+	USER_IMAGEUPLOAD_FAIL
 } from '../constants/userConstants';
 
 function userSigninReducer(state = {}, action) {
@@ -178,13 +181,26 @@ function userUpdateReducer(state = {}, action) {
 	}
 }
 
-function userDetailReducer(state = {}, action) {
+function userDetailReducer(state = { userDatas: {} }, action) {
 	switch (action.type) {
 		case USER_DETAIL_REQUEST:
 			return { loading: true };
 		case USER_DETAIL_SUCCESS:
-			return { loading: false, userData: action.payload };
+			return { loading: false, userDatas: action.payload };
 		case USER_DETAIL_FAIL:
+			return { loading: false, error: action.payload };
+		default:
+			return state;
+	}
+}
+
+function userImageUploadReducer(state = {}, action) {
+	switch (action.type) {
+		case USER_IMAGEUPLOAD_REQUEST:
+			return { loading: true };
+		case USER_IMAGEUPLOAD_SUCCESS:
+			return { loading: false, userImg: action.payload };
+		case USER_IMAGEUPLOAD_FAIL:
 			return { loading: false, error: action.payload };
 		default:
 			return state;
@@ -202,5 +218,6 @@ export {
 	userFarmDetailReducer,
 	userLogReducer,
 	userUpdateReducer,
-	userDetailReducer
+	userDetailReducer,
+	userImageUploadReducer
 };

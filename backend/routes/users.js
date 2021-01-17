@@ -8,6 +8,7 @@ import Farm from '../models/Farm.js';
 import User from '../models/User.js';
 import { isUser, isAuth } from '../config.js';
 import Userlog from '../models/Userlog.js';
+import uploadFile from '../config/multer.js';
 
 const userRouter = express.Router();
 
@@ -25,7 +26,7 @@ userRouter.post(
 
 		if (historyResult) {
 			return res.status(404).send({
-				message: 'YOUR PRODUCT HAS BEEN USED!'
+				message: 'YOUR PRODUCT HAS BEEN USED!, KINDLY RETRY'
 			});
 		}
 		if (!verifyProduct) {
@@ -166,6 +167,58 @@ userRouter.post(
 	})
 );
 
+userRouter.post(
+	'/profile_image',
+	isAuth,
+	isUser,
+	expressAsyncHandler(async function (req, res, next) {
+		// 1. set details
+		const details = {
+			destination: './public/uploads',
+			field: 'file',
+			fileLimit: 500000,
+			allowedExts: 'jpg|jpeg|png'
+		};
+
+		// 2. initialize upload
+		const upload = uploadFile(req, details);
+
+		// 3. handle upload
+		upload(req, res, async (err) => {
+			let error;
+			if (err) {
+				error = err.message;
+			} else {
+				// check if file is not uploaded
+				if (req.file == undefined) {
+					error = 'no image was uploaded';
+				}
+			}
+
+			// if error, set flash message and redirect
+			if (!!error) {
+				console.log(error);
+			}
+			let data = req.file.buffer;
+			let dataUrl = `data:image/png;base64,` + data.toString('base64');
+
+			// Update User profile image
+			await User.updateOne({ _id: req.user._id }, { $set: { image: dataUrl } });
+
+			// Log acivity
+			const userActivity = new Userlog({
+				user: req.user,
+				createdAt: new Date(),
+				activity: 'User updated profile picture'
+			});
+
+			await userActivity.save();
+
+			res.status(200).send({ message: 'Profile Picture updated successfully' });
+		});
+	})
+);
+
 userRouter.get(
 	'/all-farms',
 	isAuth,
@@ -221,9 +274,18 @@ userRouter.get(
 	isAuth,
 	isUser,
 	expressAsyncHandler(async function (req, res, next) {
-		const user = await User.findOne({ _id: req.user._id });
-		let userPoint = await user.points;
-		res.status(200).send(userPoint.toString());
+		const {
+			points,
+			image,
+			firstName,
+			lastName,
+			cluster,
+			address,
+			city,
+			state,
+			phone
+		} = await User.findOne({ _id: req.user._id });
+		res.status(200).send({ points, image, firstName, lastName, cluster, address, city, state, phone });
 	})
 );
 
@@ -235,16 +297,16 @@ userRouter.post('/:id', isAuth, isUser, async (req, res) => {
 		user.lastName = req.body.lastName || user.lastName;
 		user.phone = req.body.phone || user.phone;
 		user.address = req.body.address || user.address;
-		user.country = req.body.country || user.country;
 		user.state = req.body.state || user.state;
 		user.city = req.body.city || user.city;
 		user.cluster = req.body.cluster || user.cluster;
-		user.password = req.body.password || user.password;
+		const updatedUser = await user.save();
 
-		await User.updateOne(
-			{ _id: userId },
-			{ $set: { firstName, lastName, phone, address, country, state, city, cluster, password } }
-		);
+		console.log(req.body.cluster);
+		// await User.updateOne(
+		// 	{ _id: userId },
+		// 	{ $set: { firstName, lastName, phone, address, state, city, cluster } }
+		// );
 		res.send({
 			_id: updatedUser.id,
 			phone: updatedUser.phone,
@@ -253,8 +315,7 @@ userRouter.post('/:id', isAuth, isUser, async (req, res) => {
 			points: updatedUser.points,
 			state: updatedUser.state,
 			city: updatedUser.city,
-			cluster: updatedUser.cluster,
-			token: getToken(updatedUser)
+			cluster: updatedUser.cluster
 		});
 	} else {
 		res.status(404).send({ message: 'User Not Found' });

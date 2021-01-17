@@ -555,6 +555,10 @@
 .info_box_var_1.box_bg_f {
     background: #4adcae;
 }
+
+.image-size {
+  max-width: 80%;
+}
 @media (max-width: 425px) {
 
   .Code-Input{

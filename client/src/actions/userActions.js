@@ -35,7 +35,10 @@ import {
 	USER_UPDATE_FAIL,
 	USER_DETAIL_REQUEST,
 	USER_DETAIL_SUCCESS,
-	USER_DETAIL_FAIL
+	USER_DETAIL_FAIL,
+	USER_IMAGEUPLOAD_REQUEST,
+	USER_IMAGEUPLOAD_SUCCESS,
+	USER_IMAGEUPLOAD_FAIL
 } from '../constants/userConstants';
 
 const signin = (phone, password) => async (dispatch) => {
@@ -324,6 +327,24 @@ const detail = () => async (dispatch, getState) => {
 		dispatch({ type: USER_DETAIL_FAIL, payload: message });
 	}
 };
+
+const upload = (userImg) => async (dispatch, getState) => {
+	dispatch({ type: USER_IMAGEUPLOAD_REQUEST, payload: userImg });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await axios.post('/api/user/profile_image', userImg, {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: USER_IMAGEUPLOAD_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: USER_IMAGEUPLOAD_FAIL, payload: message });
+	}
+};
+
 export {
 	signin,
 	register,
@@ -336,5 +357,6 @@ export {
 	userFarmDetail,
 	userLog,
 	update,
-	detail
+	detail,
+	upload
 };

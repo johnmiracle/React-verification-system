@@ -24,7 +24,7 @@ function Login(props) {
 			props.history.push('/admin_dashboard');
 		}
 		if (userInfo && userInfo.account === 'user') {
-			props.history.push('/my_farms');
+			props.history.push('/profile');
 		}
 		return () => {
 			//
