@@ -26,7 +26,7 @@ userRouter.post(
 
 		if (historyResult) {
 			return res.status(404).send({
-				message: 'YOUR PRODUCT HAS BEEN USED!, KINDLY RETRY'
+				message: 'YOUR PRODUCT HAS BEEN USED!, KINDLY TRY AGAIN'
 			});
 		}
 		if (!verifyProduct) {

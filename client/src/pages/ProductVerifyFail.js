@@ -43,7 +43,7 @@ function ProductVerifyFail(props) {
 							<div id="myModal" className="">
 								<div className="modal-dialog modal-confirm">
 									<div className="modal-content">
-										{error === 'YOUR PRODUCT HAS BEEN USED!, KINDLY RETRY' ? (
+										{error === 'YOUR PRODUCT HAS BEEN USED!, KINDLY TRY AGAIN' ? (
 											<>
 												<div className="modal-header-false">
 													<div className="icon-box">
