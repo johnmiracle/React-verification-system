@@ -19,7 +19,10 @@ import {
 	USER_DETAILS_FAIL,
 	ADMIN_DASHBOARD_REQUEST,
 	ADMIN_DASHBOARD_SUCCESS,
-	ADMIN_DASHBOARD_FAIL
+	ADMIN_DASHBOARD_FAIL,
+	ADMIN_DASHBOARD_CHARTS_REQUEST,
+	ADMIN_DASHBOARD_CHARTS_SUCCESS,
+	ADMIN_DASHBOARD_CHARTS_FAIL
 } from '../constants/adminConstants';
 
 const addProduct = (productName, point, numberOfProducts) => async (dispatch, getState) => {
@@ -131,4 +134,21 @@ const dashboardForAdmin = () => async (dispatch, getState) => {
 	}
 };
 
-export { addProduct, listProducts, listUsers, userDetails, listUsedProducts, dashboardForAdmin };
+const adminCharts = () => async (dispatch, getState) => {
+	dispatch({ type: ADMIN_DASHBOARD_CHARTS_REQUEST });
+	const {
+		userSignin: { userInfo }
+	} = getState();
+	try {
+		const { data } = await Axios.get('/api/admin/admin-dashboard-charts', {
+			headers: { Authorization: `Bearer ${userInfo.token}` }
+		});
+		dispatch({ type: ADMIN_DASHBOARD_CHARTS_SUCCESS, payload: data });
+	} catch (error) {
+		const message =
+			error.response && error.response.data.message ? error.response.data.message : error.message;
+		dispatch({ type: ADMIN_DASHBOARD_CHARTS_FAIL, payload: message });
+	}
+};
+
+export { addProduct, listProducts, listUsers, userDetails, listUsedProducts, dashboardForAdmin, adminCharts };

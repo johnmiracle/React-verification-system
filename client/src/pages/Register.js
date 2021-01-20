@@ -48,7 +48,7 @@ function Register(props) {
 									{error && <MessageBox variant="danger">{error}</MessageBox>}
 									{userInfo && (
 										<MessageBox variant="success">
-											Registration is successful, Please fill in your Location.
+											Registration is successful.
 										</MessageBox>
 									)}
 									<h4 className="card-title mt-3 text-center">Create Account</h4>

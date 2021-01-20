@@ -35,6 +35,7 @@ const Userschema = new mongoose.Schema({
 	},
 	state: {
 		type: String,
+		default: 'Not Filled Yet',
 		trim: true
 	},
 	city: {

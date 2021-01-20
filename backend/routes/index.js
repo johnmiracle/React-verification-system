@@ -35,9 +35,10 @@ indexRouter.post(
 						phone: user.phone,
 						firstName: user.firstName,
 						lastName: user.lastName,
+						state: user.state,
 						account: user.account,
 						points: user.points,
-						state: user.state,
+						address: user.address,
 						city: user.city,
 						cluster: user.cluster,
 						token: getToken(user)
@@ -68,7 +69,6 @@ indexRouter.post(
 				phone,
 				password
 			});
-			//Log acivity
 
 			bcrypt.hash(newUser.password, 10, (err, hash) => {
 				newUser.password = hash;

@@ -18,6 +18,7 @@ import {
 } from './reducers/userReducers';
 import { farmPackageReducer, productVerifyReducer } from './reducers/productReducers';
 import {
+	adminChartsReducer,
 	adminDashboardReducer,
 	productAddReducer,
 	productListReducer,
@@ -55,7 +56,8 @@ const reducer = combineReducers({
 	adminProductUsedList: usedProductListReducer,
 	adminDashBoardInfo: adminDashboardReducer,
 	userLogs: userLogReducer,
-	userProfileImage: userImageUploadReducer
+	userProfileImage: userImageUploadReducer,
+	adminDashboardCharts: adminChartsReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

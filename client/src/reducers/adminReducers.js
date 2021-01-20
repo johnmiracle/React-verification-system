@@ -19,7 +19,10 @@ import {
 	USER_DETAILS_FAIL,
 	ADMIN_DASHBOARD_REQUEST,
 	ADMIN_DASHBOARD_FAIL,
-	ADMIN_DASHBOARD_SUCCESS
+	ADMIN_DASHBOARD_SUCCESS,
+	ADMIN_DASHBOARD_CHARTS_REQUEST,
+	ADMIN_DASHBOARD_CHARTS_SUCCESS,
+	ADMIN_DASHBOARD_CHARTS_FAIL
 } from '../constants/adminConstants';
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -96,6 +99,19 @@ export const adminDashboardReducer = (state = { dashboardInfo: {} }, action) => 
 		case ADMIN_DASHBOARD_SUCCESS:
 			return { loading: false, dashboardInfo: action.payload };
 		case ADMIN_DASHBOARD_FAIL:
+			return { loading: false, error: action.payload };
+		default:
+			return state;
+	}
+};
+
+export const adminChartsReducer = (state = { charts: [] }, action) => {
+	switch (action.type) {
+		case ADMIN_DASHBOARD_CHARTS_REQUEST:
+			return { loading: true };
+		case ADMIN_DASHBOARD_CHARTS_SUCCESS:
+			return { loading: false, charts: action.payload };
+		case ADMIN_DASHBOARD_CHARTS_FAIL:
 			return { loading: false, error: action.payload };
 		default:
 			return state;

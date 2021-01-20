@@ -31,7 +31,7 @@ function Profile(props) {
 	const { loading: detailLoading, userDatas } = userDetail;
 
 	const userProfileImage = useSelector((state) => state.userProfileImage);
-	const { userImg, error: uploadError } = userProfileImage;
+	const { loading: ImgLoading, userImg, error: uploadError } = userProfileImage;
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -87,11 +87,17 @@ function Profile(props) {
 									{detailLoading ? (
 										<LoadingBox></LoadingBox>
 									) : (
-										<img
-											src={userDatas.image || '//placehold.it/150'}
-											className="mx-auto img-fluid img-circle d-block image-size"
-											alt="avatar"
-										/>
+										<>
+											{ImgLoading ? (
+												<LoadingBox></LoadingBox>
+											) : (
+												<img
+													src={userDatas.image || '//placehold.it/150'}
+													className="mx-auto img-fluid img-circle d-block image-size"
+													alt="avatar"
+												/>
+											)}
+										</>
 									)}
 									<h6 className="mt-2">Upload a different photo</h6>
 									<label className="custom-file">
@@ -102,7 +108,9 @@ function Profile(props) {
 											className="custom-file-input"
 											onChange={uploadHandler}
 										/>
-										<span className="custom-file-control">Choose file</span>
+										<span className="custom-file-control btn btn-sm">Choose file</span>
+										<br />
+										<small> Image Size should not be above 2MB </small>
 									</label>
 								</div>
 								<div className="col-lg-8 order-lg-2">
@@ -168,13 +176,13 @@ function Profile(props) {
 																	<h6>
 																		<b>Location: </b>
 																	</h6>
-																	<p>
+																	<p className="mt-2">
 																		State:
-																		{userDatas.state || 'Not Filled Yet'}
+																		{userDatas.state || ' Not Filled Yet'}
 																	</p>
-																	<p>
+																	<p className="mt-2">
 																		City:
-																		{userDatas.city || 'Not Filled Yet'}
+																		{userDatas.city || ' Not Filled Yet'}
 																	</p>
 																</div>
 																<div className="col-md-4">
@@ -183,7 +191,7 @@ function Profile(props) {
 																	</h6>
 																	<p>
 																		{userDatas.cluster ||
-																			'Not Filled Yet'}
+																			' Not Filled Yet'}
 																	</p>
 																</div>
 															</>
@@ -472,7 +480,7 @@ function Profile(props) {
 														</div>
 														<div className="form-group row">
 															<label className="col-lg-3 col-form-label form-control-label"></label>
-															<div className="col-lg-5">
+															<div className="col-lg-5 mt-2">
 																<input
 																	className="form-control"
 																	type="text"
@@ -481,7 +489,7 @@ function Profile(props) {
 																	onChange={(e) => setState(e.target.value)}
 																/>
 															</div>
-															<div className="col-lg-4">
+															<div className="col-lg-4 mt-2">
 																<input
 																	className="form-control"
 																	type="text"

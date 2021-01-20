@@ -22,7 +22,7 @@ function UserLocation(props) {
 	useEffect(() => {
 		if (successLocation) {
 			setTimeout(() => {
-				props.history.push('/my_farms');
+				props.history.push('/profile');
 			}, 3000);
 		}
 		return () => {

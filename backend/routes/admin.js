@@ -10,7 +10,7 @@ import { isAdmin, isAuth } from '../config.js';
 import qrcode from 'qrcode';
 import securePin from 'secure-pin';
 import bwipjs from 'bwip-js';
-import moment from 'moment'
+import moment from 'moment';
 
 const adminRouter = express.Router();
 
@@ -161,6 +161,41 @@ adminRouter.get(
 			registeredUsersToday,
 			groupData
 		});
+	})
+);
+
+adminRouter.get(
+	'/admin-dashboard-charts',
+	isAuth,
+	isAdmin,
+	expressAsyncHandler(async function (req, res, next) {
+		const groupData = await Farm.aggregate([
+			{
+				$project: {
+					day: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } }
+				}
+			},
+			{
+				$group: {
+					_id: { createdAt: '$day' },
+					counts: { $sum: 1 }
+				}
+			},
+
+			{
+				$addFields: {
+					createdAt: '$_id.Date'
+				}
+			},
+			{ $sort: { _id: -1 } },
+			{ $limit: 10 },
+			{
+				$project: {
+					_id: false
+				}
+			}
+		]);
+		res.status(200).send(groupData);
 	})
 );
 

@@ -9,7 +9,7 @@ import MessageBox from '../components/MessageBox';
 
 function AdminDashboard(props) {
 	const adminDashBoardInfo = useSelector((state) => state.adminDashBoardInfo);
-	const { dashboardInfo, loading, error } = adminDashBoardInfo;
+	const { loading, dashboardInfo, error } = adminDashBoardInfo;
 
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -31,7 +31,6 @@ function AdminDashboard(props) {
 			]
 		}
 	};
-
 	return (
 		<div className="">
 			{loading ? (
@@ -192,6 +191,7 @@ function AdminDashboard(props) {
 								options={options}
 							/>
 						</div>
+						)}
 					</div> */}
 				</div>
 			)}

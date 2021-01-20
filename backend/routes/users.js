@@ -6,7 +6,7 @@ import History from '../models/History.js';
 import Product from '../models/Products.js';
 import Farm from '../models/Farm.js';
 import User from '../models/User.js';
-import { isUser, isAuth } from '../config.js';
+import { isUser, isAuth, getToken } from '../config.js';
 import Userlog from '../models/Userlog.js';
 import uploadFile from '../config/multer.js';
 
@@ -174,9 +174,8 @@ userRouter.post(
 	expressAsyncHandler(async function (req, res, next) {
 		// 1. set details
 		const details = {
-			destination: './public/uploads',
 			field: 'file',
-			fileLimit: 500000,
+			fileLimit: 3 * 1024 * 1024, // 2MB
 			allowedExts: 'jpg|jpeg|png'
 		};
 
@@ -188,6 +187,9 @@ userRouter.post(
 			let error;
 			if (err) {
 				error = err.message;
+				res.status(404).send({
+					message: error
+				});
 			} else {
 				// check if file is not uploaded
 				if (req.file == undefined) {
@@ -198,23 +200,24 @@ userRouter.post(
 			// if error, set flash message and redirect
 			if (!!error) {
 				console.log(error);
+			} else {
+				let data = req.file.buffer;
+				let dataUrl = `data:image/png;base64,` + data.toString('base64');
+
+				// Update User profile image
+				await User.updateOne({ _id: req.user._id }, { $set: { image: dataUrl } });
+
+				// Log acivity
+				const userActivity = new Userlog({
+					user: req.user,
+					createdAt: new Date(),
+					activity: 'User updated profile picture'
+				});
+
+				await userActivity.save();
+
+				res.status(200).send({ message: 'Profile Picture updated successfully' });
 			}
-			let data = req.file.buffer;
-			let dataUrl = `data:image/png;base64,` + data.toString('base64');
-
-			// Update User profile image
-			await User.updateOne({ _id: req.user._id }, { $set: { image: dataUrl } });
-
-			// Log acivity
-			const userActivity = new Userlog({
-				user: req.user,
-				createdAt: new Date(),
-				activity: 'User updated profile picture'
-			});
-
-			await userActivity.save();
-
-			res.status(200).send({ message: 'Profile Picture updated successfully' });
 		});
 	})
 );
@@ -275,6 +278,7 @@ userRouter.get(
 	isUser,
 	expressAsyncHandler(async function (req, res, next) {
 		const {
+			_id,
 			points,
 			image,
 			firstName,
@@ -285,7 +289,18 @@ userRouter.get(
 			state,
 			phone
 		} = await User.findOne({ _id: req.user._id });
-		res.status(200).send({ points, image, firstName, lastName, cluster, address, city, state, phone });
+		res.status(200).send({
+			_id,
+			points,
+			image,
+			firstName,
+			lastName,
+			cluster,
+			address,
+			city,
+			state,
+			phone
+		});
 	})
 );
 
@@ -300,22 +315,33 @@ userRouter.post('/:id', isAuth, isUser, async (req, res) => {
 		user.state = req.body.state || user.state;
 		user.city = req.body.city || user.city;
 		user.cluster = req.body.cluster || user.cluster;
-		const updatedUser = await user.save();
+		// const updatedUser = await user.save();
 
-		console.log(req.body.cluster);
-		// await User.updateOne(
-		// 	{ _id: userId },
-		// 	{ $set: { firstName, lastName, phone, address, state, city, cluster } }
-		// );
+		const updatedUser = await User.updateOne(
+			{ _id: userId },
+			{
+				$set: {
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+					phone: req.body.phone,
+					address: req.body.address,
+					state: req.body.state,
+					city: req.body.city,
+					cluster: req.body.cluster
+				}
+			}
+		);
+		console.log(updatedUser);
 		res.send({
-			_id: updatedUser.id,
-			phone: updatedUser.phone,
-			firstName: updatedUser.firstName,
-			lastName: updatedUser.lastName,
-			points: updatedUser.points,
-			state: updatedUser.state,
-			city: updatedUser.city,
-			cluster: updatedUser.cluster
+			_id: user.id,
+			phone: user.phone,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			points: user.points,
+			state: user.state,
+			city: user.city,
+			cluster: user.cluster,
+			account: user.account
 		});
 	} else {
 		res.status(404).send({ message: 'User Not Found' });
