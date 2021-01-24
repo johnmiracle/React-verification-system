@@ -41,8 +41,8 @@ function Register(props) {
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : (
-				<div className="">
-					<div className="container background-reg">
+				<div className="background-reg">
+					<div className="container ">
 						<div className="row mt-5 mb-5">
 							<div className="col-md-2"></div>
 							<div className="col-md-8">
