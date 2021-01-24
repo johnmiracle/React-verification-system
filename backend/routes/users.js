@@ -175,7 +175,7 @@ userRouter.post(
 		// 1. set details
 		const details = {
 			field: 'file',
-			fileLimit: 3 * 1024 * 1024, // 2MB
+			fileLimit: 5 * 1024 * 1024, // 2MB
 			allowedExts: 'jpg|jpeg|png'
 		};
 

@@ -1,5 +1,10 @@
+body, html {
+  height: 100%;
+}
+
 .App {
   text-align: center;
+  height: 100%;
 }
 
 .App-logo {
@@ -26,14 +31,28 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+/* register page */
+.background-reg{
+  background: linear-gradient(to right, #9DC88D ,#4D774E);
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: 1rem;
+}
 
-.sign-color{
-  color: #fff
+
+
+/* .sign-color{
+  color: #164A41;
+  font-size: 1rem;
+  font-family: sans-serif
 }
 
 .sign-color:hover{
-  color: #fff
-}
+  color: #164A41;
+  font-size: 1rem;
+  font-family: sans-serif
+} */
 
 .detail{
   background: #20a020;
@@ -78,13 +97,37 @@
   box-shadow: none;
 }
 
+.navbar-toggler-icon{
+  background-color: #9DC88D !important
+}
+
+.nav-link{
+  color: #164A41 !important;
+  font-size: 1rem;
+  font-family: sans-serif
+}
+
+.nav-link:hover{
+  color: #164A41 !important;
+  font-size: 1rem;
+  font-family: sans-serif
+}
+.backgroundColor{
+  background-image: linear-gradient(to right, #9DC88D ,#4D774E);
+  padding-bottom: 13rem;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   grid-area: footer;
-  background-color: #203040;
+  background-color: #164A41;
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -344,6 +387,11 @@
 .circular-bar{
   width:10% !important
 }
+
+.profile-box .container{
+  margin-top: 5rem
+}
+
 /* Progress Bar */
 .containerStyles{
 		width: 100%;
@@ -415,6 +463,7 @@
 /* Login */
 .log-blk {
   border: 1px solid grey;
+  background: #fff;
   border-radius: 5px;
   padding: 30px;
   margin: auto;

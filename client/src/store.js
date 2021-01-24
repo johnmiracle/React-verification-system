@@ -28,6 +28,9 @@ import {
 } from './reducers/adminReducers';
 
 const initialState = {
+	userRegister: {
+		userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+	},
 	userSignin: {
 		userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
 	},

@@ -53,7 +53,7 @@ function UserLocation(props) {
 										</center>
 										<h4 className="card-title mt-3 text-center">Location</h4>
 										<form onSubmit={submitHandler}>
-											<div className="form-group input-group" id="name">
+											<div className="form-group input-group">
 												<div className="input-group-prepend">
 													<span className="input-group-text">
 														<i className="fa fa-location"></i>

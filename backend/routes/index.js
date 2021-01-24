@@ -56,6 +56,9 @@ indexRouter.post(
 		const lastName = req.body.lastName;
 		const phone = req.body.phone;
 		const password = req.body.password;
+		const state = req.body.state;
+		const city = req.body.city;
+		const cluster = req.body.cluster;
 
 		let user = await User.findOne({ phone: req.body.phone });
 		if (user) {
@@ -67,7 +70,10 @@ indexRouter.post(
 				firstName,
 				lastName,
 				phone,
-				password
+				password,
+				state,
+				city,
+				cluster
 			});
 
 			bcrypt.hash(newUser.password, 10, (err, hash) => {
@@ -84,13 +90,7 @@ indexRouter.post(
 						userActivity.save();
 
 						res.status(200).send({
-							_id: newUser.id,
-							phone: newUser.phone,
-							firstName: newUser.firstName,
-							lastName: newUser.lastName,
-							account: newUser.account,
-							points: newUser.points,
-							token: getToken(newUser)
+							message: 'Registation Complete, Kindly Login'
 						});
 					}
 				});

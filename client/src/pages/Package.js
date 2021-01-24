@@ -84,7 +84,10 @@ function Package(props) {
 										Stocking Date:{' '}
 										<Moment format="YYYY/MM/DD" date={farm.stocking_date} />
 									</p>
-									<p className="">Expected End of Cycle: {farm.stock_due_date} </p>
+									<p className="">
+										Expected End of Cycle:{' '}
+										<Moment format="YYYY/MM/DD" date={farm.stock_due_date} />
+									</p>
 									<p className="">Duration: {farm.duration || '0'}</p>
 									<p className="">
 										Expected Av. Weight:
@@ -99,20 +102,22 @@ function Package(props) {
 								</div>
 							</div>
 							<div className="col-md-6">
-								<div className="info-contain">
+								<div className="info-contain pb-5">
 									<p className="">Stocking Qty.: {farm.num_bird_stocked || '0'} Birds</p>
 									<p className="">Mortality: 0 Birds</p>
 									<p className="">Total: {farm.num_bird_stocked || '0'} Birds</p>
 								</div>
 							</div>
-							<div className="col-md-12 mt-3 standard">
-								<h4 className="">
-									<i className=""></i> Expected Standared
-								</h4>
-								<p className=""> - Total Bags of Feed: {farm.num_of_feeds || '0'} Bags</p>
-								<p className=""> - Drugs & Vaccine: 0</p>
-								<p className=""> - Other Activities: 0</p>
-								<p className=""> - Farm Equipment: 0</p>
+							<div className="col-md-12 mt-3">
+								<div className="standard">
+									<h4 className="">
+										<i className=""></i> Expected Standared
+									</h4>
+									<p className=""> - Total Bags of Feed: {farm.num_of_feeds || '0'} Bags</p>
+									<p className=""> - Drugs & Vaccine: 0</p>
+									<p className=""> - Other Activities: 0</p>
+									<p className=""> - Farm Equipment: 0</p>
+								</div>
 							</div>
 						</div>
 					</div>

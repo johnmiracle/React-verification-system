@@ -27,7 +27,7 @@ function MyFarms(props) {
 				) : error ? (
 					<MessageBox variant="danger">{error}</MessageBox>
 				) : (
-					<div className="mt-5">
+					<div className="container mt-5">
 						<div className="row pt-4">
 							<div className="col-ml-6">
 								<h4 className="">My Farms</h4>

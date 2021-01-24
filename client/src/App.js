@@ -40,7 +40,7 @@ function App(props) {
 		<Router>
 			<div className="grid-container">
 				<div className="header">
-					<nav className="mb-1 navbar navbar-expand-lg navbar-dark info-color">
+					<nav className="navbar navbar-expand-lg navbar-dark">
 						{userInfo && userInfo.account === 'user' ? (
 							<div>
 								<Link className="navbar-brand" to="/my_farms">
@@ -134,6 +134,25 @@ function App(props) {
 										</li>
 									</div>
 								)}
+								{userInfo && userInfo.account === 'user' && (
+									<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+										<li class="nav-item">
+											<Link className="nav-link" to="/my_farms">
+												My Farms
+											</Link>
+										</li>
+										<li class="nav-item">
+											<Link className="nav-link" to="/transaction">
+												Transaction
+											</Link>
+										</li>
+										<li class="nav-item">
+											<Link className="nav-link" to="/profile">
+												Profile
+											</Link>
+										</li>
+									</ul>
+								)}
 							</ul>
 							<ul className="navbar-nav ml-auto">
 								{userInfo ? (
@@ -154,12 +173,6 @@ function App(props) {
 												<div>
 													<Link className="dropdown-item" to="/profile">
 														Profile
-													</Link>
-													<Link className="dropdown-item" to="/my_farms">
-														My Farms
-													</Link>
-													<Link className="dropdown-item" to="/transaction">
-														Transaction
 													</Link>
 													<a
 														className="dropdown-item"
@@ -184,7 +197,7 @@ function App(props) {
 									</li>
 								) : (
 									<li className="nav-item">
-										<Link to="/" className="sign-color">
+										<Link to="/" className="sign-color nav-link">
 											Sign In
 										</Link>
 									</li>
@@ -218,7 +231,7 @@ function App(props) {
 					</Switch>
 				</main>
 
-				<footer className="footer mt-5">
+				<footer className="footer">
 					<div className="">All right reserved. Powered by AgDyna</div>
 				</footer>
 			</div>

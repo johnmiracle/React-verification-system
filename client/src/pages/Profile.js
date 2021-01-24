@@ -73,14 +73,14 @@ function Profile(props) {
 
 	return (
 		<>
-			<div className="container mt-5 mb-5 ">
-				{loading ? (
-					<LoadingBox></LoadingBox>
-				) : error ? (
-					<MessageBox variant="danger">{error}</MessageBox>
-				) : (
-					<div>
-						<div className="container">
+			{loading ? (
+				<LoadingBox></LoadingBox>
+			) : error ? (
+				<MessageBox variant="danger">{error}</MessageBox>
+			) : (
+				<div className="profile-box mb-5 ">
+					<div className="container ">
+						<div className="container-fluid">
 							{uploadError && <MessageBox variant="danger">{uploadError}</MessageBox>}
 							<div className="row my-2">
 								<div className="col-lg-4 order-lg-1 text-center">
@@ -540,8 +540,8 @@ function Profile(props) {
 							</div>
 						</div>
 					</div>
-				)}
-			</div>
+				</div>
+			)}
 		</>
 	);
 }

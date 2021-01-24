@@ -62,17 +62,20 @@ const logout = () => (dispatch) => {
 	dispatch({ type: USER_SIGNOUT });
 };
 
-const register = (firstName, lastName, phone, password) => async (dispatch) => {
+const register = (firstName, lastName, phone, password, state, city, cluster) => async (dispatch) => {
 	dispatch({
 		type: USER_REGISTER_REQUEST,
-		payload: { firstName, lastName, phone, password }
+		payload: { firstName, lastName, phone, password, state, city, cluster }
 	});
 	try {
 		const { data } = await axios.post('/api/register', {
 			firstName,
 			lastName,
 			phone,
-			password
+			password,
+			state,
+			city,
+			cluster
 		});
 		dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
 		localStorage.setItem('userInfo', JSON.stringify(data));

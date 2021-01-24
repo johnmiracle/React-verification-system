@@ -31,61 +31,59 @@ function Login(props) {
 		};
 	}, [userInfo, props.history]);
 	return (
-		<div>
+		<>
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : (
-				<div className="container mt-5 mb-5">
-					<div className="row">
-						<div className="col-md-3"></div>
-						<div className="col-md-6">
-							<form className="log-blk" onSubmit={submitHandler}>
-								<h2 className="text m-2">Login</h2>
-								{error && <MessageBox variant="danger">{error}</MessageBox>}
-								<div className="form-group">
-									<label htmlFor="exampleInputNumber">Phone Number</label>
-									<input
-										type="number"
-										className="form-control"
-										id="exampleInputNumber"
-										onChange={(e) => setPhone(e.target.value)}
-										placeholder="Enter Phone Number"
-										required
-									/>
-								</div>
-								<div className="form-group">
-									<label htmlFor="exampleInputPassword1">Password</label>
-									<input
-										type="password"
-										className="form-control"
-										id="exampleInputPassword1"
-										onChange={(e) => setPassword(e.target.value)}
-										placeholder="Password"
-										required
-									/>
-								</div>
-								<button
-									type="submit"
-									onClick={submitHandler}
-									className="btn btn-primary btn-block"
-								>
-									SIGN IN
-								</button>
-								<center className="mt-5 mb-2">
-									<Link to="#" className="log-ml ml-r">
-										Forgotten Password
-									</Link>
-								</center>
-								<center className="log-top">
-									Dont have an account? <Link to="/register">Sign Up</Link>
-								</center>
-							</form>
+				<div className="backgroundColor">
+					<div className="container">
+						<div className="row">
+							<div className="col-md-3"></div>
+							<div className="col-md-6">
+								<form className="log-blk" onSubmit={submitHandler}>
+									<h2 className="text m-2">Login</h2>
+									{error && <MessageBox variant="danger">{error}</MessageBox>}
+									<div className="form-group">
+										<label htmlFor="exampleInputNumber">Phone Number</label>
+										<input
+											type="number"
+											className="form-control"
+											id="exampleInputNumber"
+											onChange={(e) => setPhone(e.target.value)}
+											placeholder="Enter Phone Number"
+											required
+										/>
+									</div>
+									<div className="form-group">
+										<label htmlFor="exampleInputPassword1">Password</label>
+										<input
+											type="password"
+											className="form-control"
+											id="exampleInputPassword1"
+											onChange={(e) => setPassword(e.target.value)}
+											placeholder="Password"
+											required
+										/>
+									</div>
+									<button type="submit" className="btn btn-success btn-block">
+										SIGN IN
+									</button>
+									<center className="mt-5 mb-2">
+										<Link to="#" className="log-ml ml-r">
+											Forgotten Password
+										</Link>
+									</center>
+									<center className="log-top">
+										Dont have an account? <Link to="/register">Sign Up</Link>
+									</center>
+								</form>
+							</div>
+							<div className="col-md-3"></div>
 						</div>
-						<div className="col-md-3"></div>
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }
 
