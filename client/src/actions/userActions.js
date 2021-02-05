@@ -12,9 +12,6 @@ import {
 	USER_HISTORY_REQUEST,
 	USER_HISTORY_SUCCESS,
 	USER_HISTORY_FAIL,
-	USER_LOCATION_REQUEST,
-	USER_LOCATION_SUCCESS,
-	USER_LOCATION_FAIL,
 	USER_ADDFARM_REQUEST,
 	USER_ADDFARM_SUCCESS,
 	USER_ADDFARM_FAIL,
@@ -82,38 +79,6 @@ const register = (firstName, lastName, phone, password, state, city, cluster) =>
 	} catch (error) {
 		dispatch({
 			type: USER_REGISTER_FAIL,
-			payload:
-				error.response && error.response.data.message ? error.response.data.message : error.message
-		});
-	}
-};
-
-const location = (state, city, cluster) => async (dispatch, getState) => {
-	dispatch({
-		type: USER_LOCATION_REQUEST,
-		payload: { state, city, cluster }
-	});
-	const {
-		userSignin: { userInfo }
-	} = getState();
-	try {
-		const { data } = await axios.post(
-			'/api/location',
-			{
-				state,
-				city,
-				cluster
-			},
-			{
-				headers: {
-					Authorization: 'Bearer ' + userInfo.token
-				}
-			}
-		);
-		dispatch({ type: USER_LOCATION_SUCCESS, payload: data });
-	} catch (error) {
-		dispatch({
-			type: USER_LOCATION_FAIL,
 			payload:
 				error.response && error.response.data.message ? error.response.data.message : error.message
 		});
@@ -351,7 +316,6 @@ const upload = (userImg) => async (dispatch, getState) => {
 export {
 	signin,
 	register,
-	location,
 	newFarm,
 	newFarmDetails,
 	logout,

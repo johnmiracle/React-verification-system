@@ -1,12 +1,10 @@
-/** @format */
-
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import History from '../models/History.js';
 import Product from '../models/Products.js';
 import Farm from '../models/Farm.js';
 import User from '../models/User.js';
-import { isUser, isAuth, getToken } from '../config.js';
+import { isUser, isAuth } from '../config.js';
 import Userlog from '../models/Userlog.js';
 import uploadFile from '../config/multer.js';
 
@@ -331,7 +329,6 @@ userRouter.post('/:id', isAuth, isUser, async (req, res) => {
 				}
 			}
 		);
-		console.log(updatedUser);
 		res.send({
 			_id: user.id,
 			phone: user.phone,
@@ -339,9 +336,9 @@ userRouter.post('/:id', isAuth, isUser, async (req, res) => {
 			lastName: user.lastName,
 			points: user.points,
 			state: user.state,
+			address: user.address,
 			city: user.city,
-			cluster: user.cluster,
-			account: user.account
+			cluster: user.cluster
 		});
 	} else {
 		res.status(404).send({ message: 'User Not Found' });

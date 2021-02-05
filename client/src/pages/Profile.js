@@ -8,8 +8,15 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 function Profile(props) {
+	const [open, setOpen] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [phone, setPhone] = useState('');
@@ -17,6 +24,22 @@ function Profile(props) {
 	const [state, setState] = useState('');
 	const [city, setCity] = useState('');
 	const [cluster, setCluster] = useState('');
+
+	const handleClickOpen = (userDatas) => {
+		setOpen(true);
+		console.log(userDatas.firstName);
+		setFirstName(userDatas.firstName);
+		setLastName(userDatas.lastName);
+		setPhone(userDatas.phone);
+		setAddress(userDatas.address);
+		setState(userDatas.state);
+		setCity(userDatas.city);
+		setCluster(userDatas.cluster);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 
 	const userSignin = useSelector((state) => state.userSignin);
 	const { userInfo } = userSignin;
@@ -46,22 +69,18 @@ function Profile(props) {
 	};
 
 	const userUpdate = useSelector((state) => state.userUpdate);
-	const { loading: loadingUpdate, success, error: UpdateError } = userUpdate;
+	const { loading: loadingUpdate, success: updateSuccessful, error: UpdateError } = userUpdate;
 
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (userImg) {
 			//
 		}
-		if (userInfo) {
-			console.log(userInfo.firstName);
-			setFirstName(userInfo.firstName);
-			setLastName(userInfo.lastName);
-			setPhone(userInfo.phone);
-			setAddress(userInfo.address);
-			setState(userInfo.state);
-			setCity(userInfo.city);
-			setCluster(userInfo.cluster);
+		if (updateSuccessful) {
+			setOpen(false);
+			setTimeout(() => {
+				dispatch({ type: USER_UPDATE_RESET });
+			}, 5000);
 		}
 		dispatch(userLog());
 		dispatch(listAllFarms());
@@ -69,7 +88,7 @@ function Profile(props) {
 		return () => {
 			//
 		};
-	}, [dispatch, userInfo, userImg]);
+	}, [dispatch, userImg, updateSuccessful]);
 
 	return (
 		<>
@@ -80,6 +99,14 @@ function Profile(props) {
 			) : (
 				<div className="profile-box mb-5 ">
 					<div className="container ">
+						{updateSuccessful && (
+							<MessageBox variant="success">Profile Updated Successfully.</MessageBox>
+						)}
+						{UpdateError && (
+							<div>
+								<MessageBox variant="danger">{error}</MessageBox>
+							</div>
+						)}
 						<div className="container-fluid">
 							{uploadError && <MessageBox variant="danger">{uploadError}</MessageBox>}
 							<div className="row my-2">
@@ -138,20 +165,24 @@ function Profile(props) {
 												My Farms
 											</Link>
 										</li>
-										<li className="nav-item">
-											<Link
-												href=""
-												data-target="#edit"
-												data-toggle="tab"
-												className="nav-link"
-											>
-												other info
-											</Link>
-										</li>
 									</ul>
 									<div className="tab-content py-4">
 										<div className="tab-pane active" id="profile">
-											<h5 className="mb-3">User Profile</h5>
+											<div className="row pt-1 pb-3">
+												<div className="col-6">
+													<h5 className="mb-3">User Profile</h5>
+												</div>
+												<div className="col-6">
+													<Button
+														variant="outlined"
+														color="success"
+														className=""
+														onClick={() => handleClickOpen(userDatas)}
+													>
+														Edit Profile
+													</Button>
+												</div>
+											</div>
 											<div className="row">
 												<div className="col-md-12">
 													<div className="row">
@@ -177,11 +208,11 @@ function Profile(props) {
 																		<b>Location: </b>
 																	</h6>
 																	<p className="mt-2">
-																		State:
+																		State:{' '}
 																		{userDatas.state || ' Not Filled Yet'}
 																	</p>
 																	<p className="mt-2">
-																		City:
+																		City:{' '}
 																		{userDatas.city || ' Not Filled Yet'}
 																	</p>
 																</div>
@@ -402,138 +433,147 @@ function Profile(props) {
 												)}
 											</div>
 										</div>
-										<div className="tab-pane" id="edit">
-											{loadingUpdate ? (
-												<LoadingBox></LoadingBox>
-											) : UpdateError ? (
-												<div>
-													<MessageBox variant="danger">{error}</MessageBox>
-												</div>
-											) : (
-												<>
-													{success && <div>Profile Updated Successfully.</div>}
-													<form onSubmit={submitHandler}>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label">
-																First name
-															</label>
-															<div className="col-lg-9">
-																<input
-																	className="form-control"
-																	value={firstName}
-																	type="firstname"
-																	name="firstname"
-																	id="first_name"
-																	onChange={(e) =>
-																		setFirstName(e.target.value)
-																	}
-																/>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label">
-																Last name
-															</label>
-															<div className="col-lg-9">
-																<input
-																	className="form-control"
-																	value={lastName}
-																	type="lastname"
-																	name="lastname"
-																	id="last_name"
-																	onChange={(e) =>
-																		setLastName(e.target.value)
-																	}
-																/>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label">
-																Phone
-															</label>
-															<div className="col-lg-9">
-																<input
-																	className="form-control"
-																	value={phone}
-																	type="phone"
-																	name="phone"
-																	id="phone"
-																	onChange={(e) => setPhone(e.target.value)}
-																/>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label">
-																Address
-															</label>
-															<div className="col-lg-9">
-																<input
-																	className="form-control"
-																	type="text"
-																	value={address}
-																	placeholder="Address"
-																	onChange={(e) =>
-																		setAddress(e.target.value)
-																	}
-																/>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label"></label>
-															<div className="col-lg-5 mt-2">
-																<input
-																	className="form-control"
-																	type="text"
-																	value={state}
-																	placeholder="State"
-																	onChange={(e) => setState(e.target.value)}
-																/>
-															</div>
-															<div className="col-lg-4 mt-2">
-																<input
-																	className="form-control"
-																	type="text"
-																	value={city}
-																	placeholder="City"
-																	onChange={(e) => setCity(e.target.value)}
-																/>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label">
-																Cluster
-															</label>
-															<div className="col-lg-9">
-																<input
-																	className="form-control"
-																	type="Cluster"
-																	id="Cluster"
-																	name="Cluster"
-																	value={cluster}
-																	onChange={(e) =>
-																		setCluster(e.target.value)
-																	}
-																></input>
-															</div>
-														</div>
-														<div className="form-group row">
-															<label className="col-lg-3 col-form-label form-control-label"></label>
-															<div className="col-lg-9">
-																<input
-																	type="reset"
-																	className="btn btn-secondary"
-																	value="Cancel"
-																/>
-																<input
-																	type="submit"
-																	className="btn btn-primary"
-																	value="Save Changes"
-																/>
-															</div>
-														</div>
-													</form>
-												</>
-											)}
+										<div className="tab-pane">
+											<Dialog
+												open={open}
+												onClose={handleClose}
+												aria-labelledby="form-dialog-title"
+											>
+												{loadingUpdate ? (
+													<LoadingBox></LoadingBox>
+												) : (
+													<>
+														<DialogTitle id="form-dialog-title">
+															Edit Profile
+														</DialogTitle>
+														<DialogContent>
+															<form onSubmit={submitHandler}>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label">
+																		First name
+																	</label>
+																	<div className="col-lg-9">
+																		<input
+																			className="form-control"
+																			value={firstName}
+																			type="firstname"
+																			name="firstname"
+																			id="first_name"
+																			onChange={(e) =>
+																				setFirstName(e.target.value)
+																			}
+																		/>
+																	</div>
+																</div>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label">
+																		Last name
+																	</label>
+																	<div className="col-lg-9">
+																		<input
+																			className="form-control"
+																			value={lastName}
+																			type="lastname"
+																			name="lastname"
+																			id="last_name"
+																			onChange={(e) =>
+																				setLastName(e.target.value)
+																			}
+																		/>
+																	</div>
+																</div>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label">
+																		Phone
+																	</label>
+																	<div className="col-lg-9">
+																		<input
+																			className="form-control"
+																			value={phone}
+																			type="phone"
+																			name="phone"
+																			id="phone"
+																			onChange={(e) =>
+																				setPhone(e.target.value)
+																			}
+																		/>
+																	</div>
+																</div>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label">
+																		Address
+																	</label>
+																	<div className="col-lg-9">
+																		<input
+																			className="form-control"
+																			type="text"
+																			value={address}
+																			placeholder="Address"
+																			onChange={(e) =>
+																				setAddress(e.target.value)
+																			}
+																		/>
+																	</div>
+																</div>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label"></label>
+																	<div className="col-lg-5 mt-2">
+																		<input
+																			className="form-control"
+																			type="text"
+																			value={state}
+																			placeholder="State"
+																			onChange={(e) =>
+																				setState(e.target.value)
+																			}
+																		/>
+																	</div>
+																	<div className="col-lg-4 mt-2">
+																		<input
+																			className="form-control"
+																			type="text"
+																			value={city}
+																			placeholder="City"
+																			onChange={(e) =>
+																				setCity(e.target.value)
+																			}
+																		/>
+																	</div>
+																</div>
+																<div className="form-group row">
+																	<label className="col-lg-3 col-form-label form-control-label">
+																		Cluster
+																	</label>
+																	<div className="col-lg-9">
+																		<input
+																			className="form-control"
+																			type="Cluster"
+																			id="Cluster"
+																			name="Cluster"
+																			value={cluster}
+																			onChange={(e) =>
+																				setCluster(e.target.value)
+																			}
+																		></input>
+																	</div>
+																</div>
+
+																<DialogActions>
+																	<Button
+																		onClick={handleClose}
+																		color="primary"
+																	>
+																		Cancel
+																	</Button>
+																	<Button type="submit" color="primary">
+																		Update
+																	</Button>
+																</DialogActions>
+															</form>
+														</DialogContent>
+													</>
+												)}
+											</Dialog>
 										</div>
 									</div>
 								</div>

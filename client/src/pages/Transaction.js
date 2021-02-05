@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -20,7 +18,7 @@ function Transaction(props) {
 	}, [dispatch]);
 
 	return (
-		<div>
+		<div className="pb-2">
 			{loading ? (
 				<LoadingBox></LoadingBox>
 			) : error ? (

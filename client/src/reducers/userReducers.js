@@ -11,9 +11,6 @@ import {
 	USER_HISTORY_SUCCESS,
 	USER_HISTORY_FAIL,
 	USER_SIGNOUT,
-	USER_LOCATION_REQUEST,
-	USER_LOCATION_SUCCESS,
-	USER_LOCATION_FAIL,
 	USER_ADDFARM_REQUEST,
 	USER_ADDFARM_SUCCESS,
 	USER_ADDFARM_FAIL,
@@ -34,6 +31,7 @@ import {
 	USER_UPDATE_REQUEST,
 	USER_UPDATE_SUCCESS,
 	USER_UPDATE_FAIL,
+	USER_UPDATE_RESET,
 	USER_DETAIL_REQUEST,
 	USER_DETAIL_SUCCESS,
 	USER_DETAIL_FAIL,
@@ -68,19 +66,6 @@ function userRegisterReducer(state = {}, action) {
 			return { loading: false, error: action.payload };
 		case USER_REGISTER_RESET:
 			return {};
-		default:
-			return state;
-	}
-}
-
-function userLocationReducer(state = {}, action) {
-	switch (action.type) {
-		case USER_LOCATION_REQUEST:
-			return { loading: true };
-		case USER_LOCATION_SUCCESS:
-			return { loading: false, userLocationInfo: action.payload, success: true };
-		case USER_LOCATION_FAIL:
-			return { loading: false, error: action.payload };
 		default:
 			return state;
 	}
@@ -173,9 +158,11 @@ function userUpdateReducer(state = {}, action) {
 		case USER_UPDATE_REQUEST:
 			return { loading: true };
 		case USER_UPDATE_SUCCESS:
-			return { loading: false, userInfo: action.payload };
+			return { loading: false, userInfo: action.payload, success: true };
 		case USER_UPDATE_FAIL:
 			return { loading: false, error: action.payload };
+		case USER_UPDATE_RESET:
+			return {};
 		default:
 			return state;
 	}
@@ -212,7 +199,6 @@ export {
 	userRegisterReducer,
 	userAddFarmReducer,
 	userAddFarmDetailsReducer,
-	userLocationReducer,
 	userHistoryReducer,
 	userAllFarmsReducer,
 	userFarmDetailReducer,
