@@ -80,7 +80,7 @@ function Profile(props) {
 			setOpen(false);
 			setTimeout(() => {
 				dispatch({ type: USER_UPDATE_RESET });
-			}, 5000);
+			}, 7000);
 		}
 		dispatch(userLog());
 		dispatch(listAllFarms());
