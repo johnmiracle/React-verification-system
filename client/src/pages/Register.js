@@ -30,7 +30,7 @@ function Register(props) {
 			setTimeout(() => {
 				props.history.push('/');
 				dispatch({ type: USER_REGISTER_RESET });
-			}, 2000);
+			}, 1000);
 		}
 		return () => {
 			//

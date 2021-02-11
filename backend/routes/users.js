@@ -1,3 +1,5 @@
+/** @format */
+
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import History from '../models/History.js';
@@ -6,7 +8,7 @@ import Farm from '../models/Farm.js';
 import User from '../models/User.js';
 import { isUser, isAuth } from '../config.js';
 import Userlog from '../models/Userlog.js';
-import uploadFile from '../config/multer.js';
+// import uploadFile from '../config/multer.js';
 
 const userRouter = express.Router();
 
@@ -170,53 +172,21 @@ userRouter.post(
 	isAuth,
 	isUser,
 	expressAsyncHandler(async function (req, res, next) {
-		// 1. set details
-		const details = {
-			field: 'file',
-			fileLimit: 5 * 1024 * 1024, // 2MB
-			allowedExts: 'jpg|jpeg|png'
-		};
+		let dataUrl = req.body.image64;
 
-		// 2. initialize upload
-		const upload = uploadFile(req, details);
+		// Update User profile image
+		await User.updateOne({ _id: req.user._id }, { $set: { image: dataUrl } });
 
-		// 3. handle upload
-		upload(req, res, async (err) => {
-			let error;
-			if (err) {
-				error = err.message;
-				res.status(404).send({
-					message: error
-				});
-			} else {
-				// check if file is not uploaded
-				if (req.file == undefined) {
-					error = 'no image was uploaded';
-				}
-			}
-
-			// if error, set flash message and redirect
-			if (!!error) {
-				console.log(error);
-			} else {
-				let data = req.file.buffer;
-				let dataUrl = `data:image/png;base64,` + data.toString('base64');
-
-				// Update User profile image
-				await User.updateOne({ _id: req.user._id }, { $set: { image: dataUrl } });
-
-				// Log acivity
-				const userActivity = new Userlog({
-					user: req.user,
-					createdAt: new Date(),
-					activity: 'User updated profile picture'
-				});
-
-				await userActivity.save();
-
-				res.status(200).send({ message: 'Profile Picture updated successfully' });
-			}
+		// Log acivity
+		const userActivity = new Userlog({
+			user: req.user,
+			createdAt: new Date(),
+			activity: 'User updated profile picture'
 		});
+
+		await userActivity.save();
+
+		res.status(200).send({ message: 'Profile Picture updated successfully' });
 	})
 );
 

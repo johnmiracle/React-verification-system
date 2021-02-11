@@ -389,7 +389,7 @@ body, html {
 }
 
 .profile-box .container{
-  margin-top: 5rem
+  margin-top: 2rem
 }
 
 /* Progress Bar */
@@ -606,8 +606,9 @@ body, html {
 }
 
 .image-size {
-  max-width: 80%;
+  width: 100%;
 }
+
 @media (max-width: 425px) {
 
   .Code-Input{

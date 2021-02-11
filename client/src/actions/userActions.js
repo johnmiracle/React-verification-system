@@ -296,15 +296,19 @@ const detail = () => async (dispatch, getState) => {
 	}
 };
 
-const upload = (userImg) => async (dispatch, getState) => {
-	dispatch({ type: USER_IMAGEUPLOAD_REQUEST, payload: userImg });
+const upload = (image64) => async (dispatch, getState) => {
+	dispatch({ type: USER_IMAGEUPLOAD_REQUEST, payload: { image64 } });
 	const {
 		userSignin: { userInfo }
 	} = getState();
 	try {
-		const { data } = await axios.post('/api/user/profile_image', userImg, {
-			headers: { Authorization: `Bearer ${userInfo.token}` }
-		});
+		const { data } = await axios.post(
+			'/api/user/profile_image',
+			{ image64 },
+			{
+				headers: { Authorization: `Bearer ${userInfo.token}` }
+			}
+		);
 		dispatch({ type: USER_IMAGEUPLOAD_SUCCESS, payload: data });
 	} catch (error) {
 		const message =

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { detail, listAllFarms, update, upload, userLog } from '../actions/userActions';
 import 'react-circular-progressbar/dist/styles.css';
@@ -14,8 +14,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
-function Profile(props) {
+function Profile(canvas) {
 	const [open, setOpen] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
@@ -54,18 +56,11 @@ function Profile(props) {
 	const { loading: detailLoading, userDatas } = userDetail;
 
 	const userProfileImage = useSelector((state) => state.userProfileImage);
-	const { loading: ImgLoading, userImg, error: uploadError } = userProfileImage;
+	const { loading: ImgLoading, userImg, success: imgSuccess, error: uploadError } = userProfileImage;
 
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(update({ userId: userInfo._id, firstName, lastName, phone, address, state, city, cluster }));
-	};
-
-	const uploadHandler = (e) => {
-		const file = e.target.files[0];
-		const userImg = new FormData();
-		userImg.append('file', file);
-		dispatch(upload(userImg));
 	};
 
 	const userUpdate = useSelector((state) => state.userUpdate);
@@ -74,7 +69,7 @@ function Profile(props) {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (userImg) {
-			//
+			setImgOpen(false);
 		}
 		if (updateSuccessful) {
 			setOpen(false);
@@ -90,6 +85,73 @@ function Profile(props) {
 		};
 	}, [dispatch, userImg, updateSuccessful]);
 
+	const [imgopen, setImgOpen] = useState(false);
+	const [upImg, setUpImg] = useState();
+	const imgRef = useRef(null);
+	const previewCanvasRef = useRef(null);
+	const [crop, setCrop] = useState({ aspect: 1 });
+	const [completedCrop, setCompletedCrop] = useState(null);
+	const [image64, setImageBase64] = useState('');
+
+	const onSelectFile = (e) => {
+		setImgOpen(true);
+		if (e.target.files && e.target.files.length > 0) {
+			const reader = new FileReader();
+			reader.addEventListener('load', () => setUpImg(reader.result));
+			reader.readAsDataURL(e.target.files[0]);
+		}
+	};
+
+	const onLoad = useCallback((img) => {
+		imgRef.current = img;
+	}, []);
+
+	const handleImgClose = () => {
+		setImgOpen(false);
+	};
+
+	useEffect(() => {
+		if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+			return;
+		}
+
+		const image = imgRef.current;
+		const canvas = previewCanvasRef.current;
+		const crop = completedCrop;
+
+		const scaleX = image.naturalWidth / image.width;
+		const scaleY = image.naturalHeight / image.height;
+		const ctx = canvas.getContext('2d');
+		const pixelRatio = window.devicePixelRatio;
+
+		canvas.width = crop.width * pixelRatio;
+		canvas.height = crop.height * pixelRatio;
+
+		ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+		ctx.imageSmoothingQuality = 'high';
+
+		ctx.drawImage(
+			image,
+			crop.x * scaleX,
+			crop.y * scaleY,
+			crop.width * scaleX,
+			crop.height * scaleY,
+			0,
+			0,
+			crop.width,
+			crop.height
+		);
+		if (completedCrop) {
+			// As Base64 string
+			setImageBase64(canvas.toDataURL('image/jpeg'));
+		}
+	}, [completedCrop]);
+
+	const uploadHandler = (e) => {
+		setImgOpen(false);
+		dispatch(upload(image64));
+	};
+
 	return (
 		<>
 			{loading ? (
@@ -97,48 +159,104 @@ function Profile(props) {
 			) : error ? (
 				<MessageBox variant="danger">{error}</MessageBox>
 			) : (
-				<div className="profile-box mb-5 ">
-					<div className="container ">
+				<div className="profile-box">
+					<div className="container">
 						{updateSuccessful && (
 							<MessageBox variant="success">Profile Updated Successfully.</MessageBox>
+						)}
+						{imgSuccess && (
+							<MessageBox variant="success">Profile Image Upload Successfully.</MessageBox>
 						)}
 						{UpdateError && (
 							<div>
 								<MessageBox variant="danger">{error}</MessageBox>
 							</div>
 						)}
-						<div className="container-fluid">
+						<div className="container-fluid pb-3">
 							{uploadError && <MessageBox variant="danger">{uploadError}</MessageBox>}
 							<div className="row my-2">
 								<div className="col-lg-4 order-lg-1 text-center">
-									{detailLoading ? (
-										<LoadingBox></LoadingBox>
-									) : (
-										<>
-											{ImgLoading ? (
-												<LoadingBox></LoadingBox>
-											) : (
-												<img
-													src={userDatas.image || '//placehold.it/150'}
-													className="mx-auto img-fluid img-circle d-block image-size"
-													alt="avatar"
-												/>
-											)}
-										</>
-									)}
-									<h6 className="mt-2">Upload a different photo</h6>
-									<label className="custom-file">
-										<input
-											type="file"
-											id="file"
-											name="file"
-											className="custom-file-input"
-											onChange={uploadHandler}
-										/>
-										<span className="custom-file-control btn btn-sm">Choose file</span>
-										<br />
-										<small> Image Size should not be above 2MB </small>
-									</label>
+									<div className="container">
+										{detailLoading ? (
+											<LoadingBox></LoadingBox>
+										) : (
+											<>
+												{ImgLoading ? (
+													<LoadingBox></LoadingBox>
+												) : (
+													<>
+														<img
+															src={userDatas.image || '//placehold.it/150'}
+															className="mx-auto img-fluid img-circle d-block image-size"
+															alt="avatar"
+														/>
+														<label className="custom-file">
+															<input
+																type="file"
+																id="file"
+																name="file"
+																accept="image/*"
+																className="custom-file-input"
+																onChange={onSelectFile}
+															/>
+															<span className="custom-file-control btn btn-sm btn-danger btn-block">
+																Choose file
+															</span>
+															<br />
+															<small>
+																{' '}
+																Image Size should not be above 2MB{' '}
+															</small>
+														</label>
+														<div hidden>
+															<canvas
+																ref={previewCanvasRef}
+																// Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+																style={{
+																	width: Math.round(
+																		completedCrop?.width ?? 0
+																	),
+																	height: Math.round(
+																		completedCrop?.height ?? 0
+																	)
+																}}
+															/>
+														</div>
+													</>
+												)}
+											</>
+										)}
+										{upImg && (
+											<Dialog
+												title="Crop the image"
+												open={imgopen}
+												onClose={handleImgClose}
+											>
+												<DialogTitle id="form-dialog-title">
+													Crop Profile Image
+												</DialogTitle>
+												<DialogContent>
+													<form onSubmit={uploadHandler}>
+														<ReactCrop
+															src={upImg}
+															crop={crop}
+															onImageLoaded={onLoad}
+															onChange={(c) => setCrop(c)}
+															onComplete={(c) => setCompletedCrop(c)}
+														/>
+														<DialogActions>
+															<Button onClick={handleImgClose} color="primary">
+																Cancel
+															</Button>
+															<Button type="submit" color="primary">
+																Upload
+															</Button>
+														</DialogActions>
+													</form>
+												</DialogContent>
+											</Dialog>
+										)}
+									</div>
 								</div>
 								<div className="col-lg-8 order-lg-2">
 									<ul className="nav nav-tabs">
@@ -173,14 +291,14 @@ function Profile(props) {
 													<h5 className="mb-3">User Profile</h5>
 												</div>
 												<div className="col-6">
-													<Button
+													<button
 														variant="outlined"
 														color="success"
-														className=""
+														className="btn btn-sm btn-success"
 														onClick={() => handleClickOpen(userDatas)}
 													>
 														Edit Profile
-													</Button>
+													</button>
 												</div>
 											</div>
 											<div className="row">

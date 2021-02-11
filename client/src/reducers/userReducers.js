@@ -186,7 +186,7 @@ function userImageUploadReducer(state = {}, action) {
 		case USER_IMAGEUPLOAD_REQUEST:
 			return { loading: true };
 		case USER_IMAGEUPLOAD_SUCCESS:
-			return { loading: false, userImg: action.payload };
+			return { loading: false, userImg: action.payload, success: true };
 		case USER_IMAGEUPLOAD_FAIL:
 			return { loading: false, error: action.payload };
 		default:

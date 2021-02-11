@@ -48,7 +48,7 @@ function App(props) {
 											src="/farmsured!.png"
 											alt="FarmSured"
 											className=""
-											style={{ width: 120 }}
+											style={{ width: 160 }}
 										/>
 									</Link>
 								</div>
@@ -59,7 +59,7 @@ function App(props) {
 											src="/farmsured!.png"
 											alt="FarmSured"
 											className=""
-											style={{ width: 120 }}
+											style={{ width: 160 }}
 										/>
 									</Link>
 								</div>
@@ -70,7 +70,7 @@ function App(props) {
 											src="/farmsured!.png"
 											alt="FarmSured"
 											className=""
-											style={{ width: 120 }}
+											style={{ width: 160 }}
 										/>
 									</Link>
 								</div>
