@@ -16,6 +16,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 function Profile(canvas) {
 	const [open, setOpen] = useState(false);
@@ -89,7 +91,12 @@ function Profile(canvas) {
 	const [upImg, setUpImg] = useState();
 	const imgRef = useRef(null);
 	const previewCanvasRef = useRef(null);
-	const [crop, setCrop] = useState({ aspect: 1 });
+	const [crop, setCrop] = useState({
+		aspect: 1,
+		unit: 'px', // default, can be 'px' or '%'
+		x: 130,
+		y: 100
+	});
 	const [completedCrop, setCompletedCrop] = useState(null);
 	const [image64, setImageBase64] = useState('');
 
@@ -151,6 +158,9 @@ function Profile(canvas) {
 		setImgOpen(false);
 		dispatch(upload(image64));
 	};
+
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	return (
 		<>
@@ -226,36 +236,41 @@ function Profile(canvas) {
 												)}
 											</>
 										)}
-										{upImg && (
-											<Dialog
-												title="Crop the image"
-												open={imgopen}
-												onClose={handleImgClose}
-											>
-												<DialogTitle id="form-dialog-title">
-													Crop Profile Image
-												</DialogTitle>
-												<DialogContent>
-													<form onSubmit={uploadHandler}>
-														<ReactCrop
-															src={upImg}
-															crop={crop}
-															onImageLoaded={onLoad}
-															onChange={(c) => setCrop(c)}
-															onComplete={(c) => setCompletedCrop(c)}
-														/>
-														<DialogActions>
-															<Button onClick={handleImgClose} color="primary">
-																Cancel
-															</Button>
-															<Button type="submit" color="primary">
-																Upload
-															</Button>
-														</DialogActions>
-													</form>
-												</DialogContent>
-											</Dialog>
-										)}
+										<div className="container">
+											{upImg && (
+												<Dialog
+													fullScreen={fullScreen}
+													open={imgopen}
+													onClose={handleImgClose}
+												>
+													<DialogTitle id="form-dialog-title">
+														Crop Profile Image
+													</DialogTitle>
+													<DialogContent>
+														<form onSubmit={uploadHandler}>
+															<ReactCrop
+																src={upImg}
+																crop={crop}
+																onImageLoaded={onLoad}
+																onChange={(c) => setCrop(c)}
+																onComplete={(c) => setCompletedCrop(c)}
+															/>
+															<DialogActions>
+																<Button
+																	onClick={handleImgClose}
+																	color="primary"
+																>
+																	Cancel
+																</Button>
+																<Button type="submit" color="primary">
+																	Upload
+																</Button>
+															</DialogActions>
+														</form>
+													</DialogContent>
+												</Dialog>
+											)}
+										</div>
 									</div>
 								</div>
 								<div className="col-lg-8 order-lg-2">
