@@ -39,15 +39,5 @@ A simple React application to scan Quick Response code (QR code)  and input.
     $ npm i react-qr-reader
     ```
 
-- __Preview__
-
-  Home Page
-
-  ![./img/Home.png](./img/Home.png)
-
-  QR Scanner Page
-  
-  ![./img/QRscanner.png](./img/QRscanner.png)
-
 <hr>
 
