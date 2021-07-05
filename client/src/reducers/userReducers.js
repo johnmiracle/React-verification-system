@@ -38,7 +38,15 @@ import {
 	USER_REGISTER_RESET,
 	USER_IMAGEUPLOAD_REQUEST,
 	USER_IMAGEUPLOAD_SUCCESS,
-	USER_IMAGEUPLOAD_FAIL
+	USER_IMAGEUPLOAD_FAIL,
+	USER_PASSWORD_RESET_REQUEST,
+	USER_PASSWORD_RESET_SUCCESS,
+	USER_PASSWORD_RESET_FAIL,
+	USER_PASSWORD_RESET,
+	USER_PASSWORD_CODE_RESET_REQUEST,
+	USER_PASSWORD_CODE_RESET_SUCCESS,
+	USER_PASSWORD_CODE_RESET_FAIL,
+	USER_PASSWORD_CODE_RESET
 } from '../constants/userConstants';
 
 function userSigninReducer(state = {}, action) {
@@ -65,6 +73,51 @@ function userRegisterReducer(state = {}, action) {
 		case USER_REGISTER_FAIL:
 			return { loading: false, error: action.payload };
 		case USER_REGISTER_RESET:
+			return {};
+		default:
+			return state;
+	}
+}
+
+function userPasswordResetReducer(state = {}, action) {
+	switch (action.type) {
+		case USER_PASSWORD_RESET_REQUEST:
+			return { loading: true };
+		case USER_PASSWORD_RESET_SUCCESS:
+			return { loading: false, passwordReset: action.payload };
+		case USER_PASSWORD_RESET_FAIL:
+			return { loading: false, error: action.payload };
+		case USER_PASSWORD_RESET:
+			return {};
+		default:
+			return state;
+	}
+}
+
+function userPasswordCodeVerifyReducer(state = {}, action) {
+	switch (action.type) {
+		case USER_PASSWORD_CODE_RESET_REQUEST:
+			return { loading: true };
+		case USER_PASSWORD_CODE_RESET_SUCCESS:
+			return { loading: false, codeVerify: action.payload };
+		case USER_PASSWORD_CODE_RESET_FAIL:
+			return { loading: false, error: action.payload };
+		case USER_PASSWORD_CODE_RESET:
+			return {};
+		default:
+			return state;
+	}
+}
+
+function userPasswordReducer(state = {}, action) {
+	switch (action.type) {
+		case USER_PASSWORD_CODE_RESET_REQUEST:
+			return { loading: true };
+		case USER_PASSWORD_CODE_RESET_SUCCESS:
+			return { loading: false, codeVerify: action.payload };
+		case USER_PASSWORD_CODE_RESET_FAIL:
+			return { loading: false, error: action.payload };
+		case USER_PASSWORD_CODE_RESET:
 			return {};
 		default:
 			return state;
@@ -197,6 +250,9 @@ function userImageUploadReducer(state = {}, action) {
 export {
 	userSigninReducer,
 	userRegisterReducer,
+	userPasswordResetReducer,
+	userPasswordCodeVerifyReducer,
+	userPasswordReducer,
 	userAddFarmReducer,
 	userAddFarmDetailsReducer,
 	userHistoryReducer,

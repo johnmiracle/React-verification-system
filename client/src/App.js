@@ -26,6 +26,11 @@ import MyFarms from './pages/MyFarms';
 import NewFarm from './pages/NewFarm';
 import AdminDashboard from './pages/AdminDashboard';
 import ProductVerifyFail from './pages/ProductVerifyFail';
+import PasswordReset from './pages/PasswordReset';
+import PasswordCodeVerify from './pages/PasswordCodeVerify';
+// import Input from './pages/Input';
+import ResetPassword from './pages/ResetPassword';
+
 
 function App(props) {
 	const userSignin = useSelector((state) => state.userSignin);
@@ -44,34 +49,19 @@ function App(props) {
 							{userInfo && userInfo.account === 'user' ? (
 								<div>
 									<Link className="navbar-brand" to="/my_farms">
-										<img
-											src="/farmsured!.png"
-											alt="FarmSured"
-											className=""
-											style={{ width: 160 }}
-										/>
+										<img src="/farmsured!.png" alt="FarmSured" className="" style={{ width: 160 }} />
 									</Link>
 								</div>
 							) : userInfo && userInfo.account === 'admin' ? (
 								<div>
 									<Link className="navbar-brand" to="/admin_dashboard">
-										<img
-											src="/farmsured!.png"
-											alt="FarmSured"
-											className=""
-											style={{ width: 160 }}
-										/>
+										<img src="/farmsured!.png" alt="FarmSured" className="" style={{ width: 160 }} />
 									</Link>
 								</div>
 							) : (
 								<div>
 									<Link className="navbar-brand" to="/">
-										<img
-											src="/farmsured!.png"
-											alt="FarmSured"
-											className=""
-											style={{ width: 160 }}
-										/>
+										<img src="/farmsured!.png" alt="FarmSured" className="" style={{ width: 160 }} />
 									</Link>
 								</div>
 							)}
@@ -91,18 +81,10 @@ function App(props) {
 									{userInfo && userInfo.account === 'admin' && (
 										<div>
 											<li className="nav-item dropdown">
-												<Link
-													className="nav-link dropdown-toggle"
-													id="navbarDropdownMenuLink-4"
-													data-toggle="dropdown"
-													aria-expanded="false"
-												>
+												<Link className="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-expanded="false">
 													<i className="fas fa-list"></i> Products
 												</Link>
-												<div
-													className="dropdown-menu dropdown-menu-left dropdown-info"
-													aria-labelledby="navbarDropdownMenuLink-4"
-												>
+												<div className="dropdown-menu dropdown-menu-left dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
 													<Link className="dropdown-item" to="/add_product">
 														New Product
 													</Link>
@@ -115,18 +97,10 @@ function App(props) {
 												</div>
 											</li>
 											<li className="nav-item dropdown">
-												<Link
-													className="nav-link dropdown-toggle"
-													id="navbarDropdownMenuLink-4"
-													data-toggle="dropdown"
-													aria-expanded="false"
-												>
+												<Link className="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-expanded="false">
 													<i className="fas fa-user"></i> Users
 												</Link>
-												<div
-													className="dropdown-menu dropdown-menu-right dropdown-info"
-													aria-labelledby="navbarDropdownMenuLink-4"
-												>
+												<div className="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
 													<Link className="dropdown-item" to="/users">
 														All Users
 													</Link>
@@ -157,38 +131,25 @@ function App(props) {
 								<ul className="navbar-nav ml-auto">
 									{userInfo ? (
 										<li className="nav-item dropdown">
-											<button
-												className="nav-link dropdown-toggle btn-primary-outline"
-												id="navbarDropdownMenuLink-4"
-												data-toggle="dropdown"
-												aria-expanded="false"
-											>
+											<button className="nav-link dropdown-toggle btn-primary-outline" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-expanded="false">
 												<i className="fa fa-user"></i>
 											</button>
-											<div
-												className="dropdown-menu dropdown-menu-right dropdown-info"
-												aria-labelledby="navbarDropdownMenuLink-4"
-											>
+											<div className="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
 												{userInfo.account === 'user' ? (
 													<div>
-														<a href="#" className="dropdown-item">
+														<a href="##" className="dropdown-item">
 															Welcome {userInfo.firstName}
 														</a>
-														<a
-															className="dropdown-item"
-															href={signoutHandler}
-															onClick={signoutHandler}
-														>
+														<a className="dropdown-item" href={signoutHandler} onClick={signoutHandler}>
 															Log out
 														</a>
 													</div>
 												) : (
 													<div>
-														<a
-															className="dropdown-item"
-															href={signoutHandler}
-															onClick={signoutHandler}
-														>
+														<a href="##" className="dropdown-item">
+															Welcome {userInfo.firstName}
+														</a>
+														<a className="dropdown-item" href={signoutHandler} onClick={signoutHandler}>
 															Log out
 														</a>
 													</div>
@@ -228,6 +189,9 @@ function App(props) {
 						<AdminRoute path="/admin_dashboard" component={AdminDashboard} />
 						<Route path="/register" component={Register} />
 						<Route path="/" exact={true} component={Login} />
+						<Route path="/forgot-password" component={PasswordReset} />
+						<Route path="/reset_code_verify" component={PasswordCodeVerify} />
+						<Route path="/reset-password" component={ResetPassword} />
 					</Switch>
 				</main>
 

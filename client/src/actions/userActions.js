@@ -35,7 +35,16 @@ import {
 	USER_DETAIL_FAIL,
 	USER_IMAGEUPLOAD_REQUEST,
 	USER_IMAGEUPLOAD_SUCCESS,
-	USER_IMAGEUPLOAD_FAIL
+	USER_IMAGEUPLOAD_FAIL,
+	USER_PASSWORD_RESET_REQUEST,
+	USER_PASSWORD_RESET_SUCCESS,
+	USER_PASSWORD_RESET_FAIL,
+	USER_PASSWORD_CODE_RESET_FAIL,
+	USER_PASSWORD_CODE_RESET_REQUEST,
+	USER_PASSWORD_CODE_RESET_SUCCESS,
+	USER_PASSWORDRESET_REQUEST,
+	USER_PASSWORDRESET_SUCCESS,
+	USER_PASSWORDRESET_FAIL
 } from '../constants/userConstants';
 
 const signin = (phone, password) => async (dispatch) => {
@@ -47,8 +56,7 @@ const signin = (phone, password) => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: USER_SIGNIN_FAIL,
-			payload:
-				error.response && error.response.data.message ? error.response.data.message : error.message
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
 		});
 	}
 };
@@ -79,8 +87,46 @@ const register = (firstName, lastName, phone, password, state, city, cluster) =>
 	} catch (error) {
 		dispatch({
 			type: USER_REGISTER_FAIL,
-			payload:
-				error.response && error.response.data.message ? error.response.data.message : error.message
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const passwordreset = (phone) => async (dispatch) => {
+	dispatch({ type: USER_PASSWORD_RESET_REQUEST, payload: phone });
+	try {
+		const { data } = await axios.post('/api/password_reset', { phone });
+		dispatch({ type: USER_PASSWORD_RESET_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_PASSWORD_RESET_FAIL,
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const passwordverifycode = (codeNum, requestId) => async (dispatch) => {
+	dispatch({ type: USER_PASSWORD_CODE_RESET_REQUEST, payload: { codeNum, requestId } });
+	try {
+		const { data } = await axios.post('/api/password_code_reset', { codeNum, requestId });
+		dispatch({ type: USER_PASSWORD_CODE_RESET_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_PASSWORD_CODE_RESET_FAIL,
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
+		});
+	}
+};
+
+const resetPassword = (password, phone) => async (dispatch) => {
+	dispatch({ type: USER_PASSWORDRESET_REQUEST, payload: { password, phone } });
+	try {
+		const { data } = await axios.post('/api/password-reset', { password, phone });
+		dispatch({ type: USER_PASSWORDRESET_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_PASSWORDRESET_FAIL,
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
 		});
 	}
 };
@@ -115,24 +161,12 @@ const newFarm = (farmName, farmSize, farmCapacity) => async (dispatch, getState)
 	} catch (error) {
 		dispatch({
 			type: USER_ADDFARM_FAIL,
-			payload:
-				error.response && error.response.data.message ? error.response.data.message : error.message
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
 		});
 	}
 };
 
-const newFarmDetails = (
-	farmId,
-	farmType,
-	poultryType,
-	numOfStock,
-	farmDays,
-	farmDueDay,
-	numOfDOC,
-	numOfFeed,
-	stockingDate,
-	expectedPoints
-) => async (dispatch, getState) => {
+const newFarmDetails = (farmId, farmType, poultryType, numOfStock, farmDays, farmDueDay, numOfDOC, numOfFeed, stockingDate, expectedPoints) => async (dispatch, getState) => {
 	dispatch({
 		type: USER_ADDFARM_DETAILS_REQUEST,
 		payload: {
@@ -175,8 +209,7 @@ const newFarmDetails = (
 	} catch (error) {
 		dispatch({
 			type: USER_ADDFARM_DETAILS_FAIL,
-			payload:
-				error.response && error.response.data.message ? error.response.data.message : error.message
+			payload: error.response && error.response.data.message ? error.response.data.message : error.message
 		});
 	}
 };
@@ -192,8 +225,7 @@ const listHistoryMine = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_HISTORY_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_HISTORY_FAIL, payload: message });
 	}
 };
@@ -209,8 +241,7 @@ const listAllFarms = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_FARMS_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_FARMS_FAIL, payload: message });
 	}
 };
@@ -226,8 +257,7 @@ const userFarmDetail = (farmId) => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_FARM_DETAIL_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_FARM_DETAIL_FAIL, payload: message });
 	}
 };
@@ -243,16 +273,12 @@ const userLog = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_LOGS_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_LOGS_FAIL, payload: message });
 	}
 };
 
-const update = ({ userId, firstName, lastName, phone, address, state, city, cluster }) => async (
-	dispatch,
-	getState
-) => {
+const update = ({ userId, firstName, lastName, phone, address, state, city, cluster }) => async (dispatch, getState) => {
 	const {
 		userSignin: { userInfo }
 	} = getState();
@@ -273,8 +299,7 @@ const update = ({ userId, firstName, lastName, phone, address, state, city, clus
 		dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
 		localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_UPDATE_FAIL, payload: message });
 	}
 };
@@ -290,8 +315,7 @@ const detail = () => async (dispatch, getState) => {
 		});
 		dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_DETAIL_FAIL, payload: message });
 	}
 };
@@ -311,23 +335,9 @@ const upload = (image64) => async (dispatch, getState) => {
 		);
 		dispatch({ type: USER_IMAGEUPLOAD_SUCCESS, payload: data });
 	} catch (error) {
-		const message =
-			error.response && error.response.data.message ? error.response.data.message : error.message;
+		const message = error.response && error.response.data.message ? error.response.data.message : error.message;
 		dispatch({ type: USER_IMAGEUPLOAD_FAIL, payload: message });
 	}
 };
 
-export {
-	signin,
-	register,
-	newFarm,
-	newFarmDetails,
-	logout,
-	listHistoryMine,
-	listAllFarms,
-	userFarmDetail,
-	userLog,
-	update,
-	detail,
-	upload
-};
+export { signin, register, newFarm, newFarmDetails, logout, passwordreset, passwordverifycode, resetPassword, listHistoryMine, listAllFarms, userFarmDetail, userLog, update, detail, upload };

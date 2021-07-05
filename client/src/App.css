@@ -2,6 +2,120 @@ body, html {
   height: 100%;
 }
 
+/*****/
+#wrapper {
+  font-family: Lato;
+  font-size: 1.2rem;
+  text-align: center;
+  box-sizing: border-box;
+  color: #333;
+}
+#wrapper #dialog {
+  border: solid 1px #ccc;
+  margin: 10px auto;
+  padding: 20px 30px;
+  display: inline-block;
+  box-shadow: 0 0 4px #ccc;
+  background-color: #FAF8F8;
+  overflow: hidden;
+  position: relative;
+  max-width: 500px;
+}
+#wrapper #dialog h5 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+ font-weight:500;
+  padding: 0;
+  line-height: 1.25;
+}
+#wrapper #dialog span {
+  font-size: 90%;
+}
+#wrapper #dialog #form {
+  max-width: 300px;
+  margin: 30px auto 0;
+}
+#wrapper #dialog #form input {
+  margin: 0 4px;
+  text-align: center;
+  font-size: 30px;
+  border: solid 1px #ccc;
+  box-shadow: 0 0 5px #ccc inset;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  border-radius: 3px;
+}
+#wrapper #dialog #form input:focus {
+  border-color: purple;
+  box-shadow: 0 0 5px purple inset;
+}
+#wrapper #dialog #form input::-moz-selection {
+  background: transparent;
+}
+#wrapper #dialog #form input::selection {
+  background: transparent;
+}
+#wrapper #dialog #form button {
+  margin: 30px 0 50px;
+  width: 100%;
+  padding: 6px;
+  background-color: #B85FC6;
+  border: none;
+  text-transform: uppercase;
+}
+#wrapper #dialog button.close {
+  border: solid 2px;
+  border-radius: 30px;
+  line-height: 19px;
+  font-size: 120%;
+  width: 22px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+#wrapper #dialog div {
+  position: relative;
+  z-index: 1;
+}
+#wrapper #dialog img {
+  position: absolute;
+  bottom: -70px;
+  right: -63px;
+}
+/*******/
+.Image{
+
+  height: auto;
+  padding-top: 5rem
+}
+
+.passcontainer{
+  padding-top: 7rem;
+}
+
+/* ******* */
+.display {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  width: 32px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  position: relative;
+}
+.display:last-child {
+  border-right: none;
+}
+
+.wrap {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  position: relative;
+  display: flex;
+}
+/* ***** */
+
 .App {
   text-align: center;
   height: 100%;
@@ -283,10 +397,10 @@ body, html {
   color: red
 }
 
-.modal-body h4, h5{
+/* .modal-body h4, h5{
   color: green;
   font-weight: 300
-}
+} */
 
 .center{
   /* Center vertically and horizontally */
@@ -642,6 +756,14 @@ body, html {
 .comply-box{
   font-size: 1rem;
   font-weight: 500;
+}
+
+#wrapper #dialog #form input {
+  font-size: 23px;
+}
+
+.Image {
+  display: none
 }
 }
 

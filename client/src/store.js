@@ -13,7 +13,10 @@ import {
 	userLogReducer,
 	userUpdateReducer,
 	userDetailReducer,
-	userImageUploadReducer
+	userImageUploadReducer,
+	userPasswordResetReducer,
+	userPasswordCodeVerifyReducer,
+	userPasswordReducer
 } from './reducers/userReducers';
 import { farmPackageReducer, productVerifyReducer } from './reducers/productReducers';
 import {
@@ -58,7 +61,10 @@ const reducer = combineReducers({
 	adminDashBoardInfo: adminDashboardReducer,
 	userLogs: userLogReducer,
 	userProfileImage: userImageUploadReducer,
-	adminDashboardCharts: adminChartsReducer
+	adminDashboardCharts: adminChartsReducer,
+	userPasswordReset: userPasswordResetReducer,
+	userCodeVerify: userPasswordCodeVerifyReducer,
+	userResetPassword: userPasswordReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -16,7 +16,6 @@ function ProductUsed() {
 		{ label: 'Serial Number', key: 'serial' },
 		{ label: 'Batch No', key: 'batch_no' },
 		{ label: 'Pin Code', key: 'pin_code' },
-		// { label: 'User ID', key: `${product.user.phone}` },
 		{ label: 'Date', key: "Date" }
 	];
 
